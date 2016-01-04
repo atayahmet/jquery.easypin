@@ -217,8 +217,12 @@
 			// active Y position save to dependency container
 			$.fn.easypin.di('$markerBorderY', markerBorderY.toFixed(3));
 
+			var params = new Array();
+
+			params.push(e);
+			params.push();
 			// run animate function
-			$.fn.easypin.call(setAnimate, ['',
+			$.fn.easypin.call(setAnimate,
 					function() {
 					
 						// context animate
@@ -253,7 +257,7 @@
 							);
 						});
 					}
-				]
+				
 			);
 
 			var draggable = $(setClass(markerClass));
@@ -319,7 +323,7 @@
 	 * @param {[object]} $markerContainer [active element instance]
 	 * @param {[int]} $markerBorderY [pin active position]
 	 */
-	var setAnimate = function($markerContainer, $markerBorderY, params) {
+	var setAnimate = function($markerContainer, $markerBorderY, callback) {
 		
 		// marker animate
 		$($markerContainer).animate(
@@ -330,7 +334,7 @@
 			{
 				duration: 'slow',
 				easing: 'easeOutElastic',
-				complete: params[1] // callback 
+				complete: callback // callback 
 			}
 		);
 	};
