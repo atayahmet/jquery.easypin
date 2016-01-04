@@ -217,10 +217,6 @@
 			// active Y position save to dependency container
 			$.fn.easypin.di('$markerBorderY', markerBorderY.toFixed(3));
 
-			var params = new Array();
-
-			params.push(e);
-			params.push();
 			// run animate function
 			$.fn.easypin.call(setAnimate,
 					function() {
@@ -257,7 +253,6 @@
 							);
 						});
 					}
-				
 			);
 
 			var draggable = $(setClass(markerClass));
@@ -378,7 +373,6 @@
 			func.apply(null, dependsArgs);
 		}
 	};
-
 
 	$.fn.easypin.defaults = {
 
