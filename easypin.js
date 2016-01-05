@@ -211,15 +211,16 @@
 			// marker container append to pin parent container
 			$(parentElement).append(markerContainer);
 
-			// marker element save to dependency container
-			$.fn.easypin.di('$markerContainer', markerContainer);
-			
-			// active Y position save to dependency container
-			$.fn.easypin.di('$markerBorderY', markerBorderY.toFixed(3));
-
-			// run animate function
-			$.fn.easypin.call(setAnimate,
-					function() {
+			// marker animate
+			$(markerContainer).animate(
+				{
+					opacity: 1, 
+					top: setPx(markerBorderY)
+				},
+				{
+					duration: 'slow',
+					easing: 'easeOutElastic',
+					complete: function() {
 					
 						// context animate
 						$(contextMenu).animate(
@@ -253,8 +254,10 @@
 							);
 						});
 					}
+				}
 			);
 
+			
 			var draggable = $(setClass(markerClass));
 
 	        // binding methods mousedown and mousemove
@@ -310,28 +313,6 @@
 		});
 
 		return this;
-	};
-
-	/**
-	 * Set animation function
-	 * 
-	 * @param {[object]} $markerContainer [active element instance]
-	 * @param {[int]} $markerBorderY [pin active position]
-	 */
-	var setAnimate = function($markerContainer, $markerBorderY, callback) {
-		
-		// marker animate
-		$($markerContainer).animate(
-			{
-				opacity: 1, 
-				top: setPx($markerBorderY)
-			},
-			{
-				duration: 'slow',
-				easing: 'easeOutElastic',
-				complete: callback // callback 
-			}
-		);
 	};
 
 	$.fn.easypin.config = function(attr) {
@@ -419,7 +400,3 @@
 	};
 
 }(jQuery));
-
-
-
-	
