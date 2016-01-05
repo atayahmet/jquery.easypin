@@ -5,7 +5,7 @@
 
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/jquery.easing/js/jquery.easing.min.js"></script>
-        <script type="text/javascript" src="jquery-easypin.js"></script>
+        <script type="text/javascript" src="jquery.easypin.js"></script>
 
         <style>
             html, body {
@@ -88,7 +88,14 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('.pin').easypin({animate: false});
+        $('.pin').easypin({
+            complete: function(x, y) {
+                console.log(x,y);
+            },
+            drag: function(x, y) {
+                console.log(x, y);
+            }
+        });
 
     });
 </script>
