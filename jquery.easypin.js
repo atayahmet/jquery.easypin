@@ -314,7 +314,7 @@
 	            	}
 
 	            	var absX = relX.toFixed(3)-markerWidthHalf;
-	            	var absY = relY.toFixed(3)-markerHeightHalf;
+	            	var absY = parseInt(relY.toFixed(3))+markerHeightHalf;
 	            	
 	            	// drag event
 					$.fn.easypin.defaults.drag(absX, absY);
