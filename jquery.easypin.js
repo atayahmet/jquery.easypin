@@ -17,34 +17,38 @@
 
 		this.each(function(i) {
 
+			// create parent element and add than target image after
 			var containerElement = $(this)
 				.after($('<div/>', {'class': parentClass}))
 				.appendTo(setClass(parentClass)+':last')
 				.css('position', 'absolute')
 				.css('z-index', imageZindex);
 
-
+			// add class to target image
 			$(this).addClass('easypin-target');
 
+			// get targetimage sizes
 			var imageWidth = $(this).width();
 			var imageHeight = $(this).height();
 
+			// set target image sizes to parent container
 			containerElement
 				.parent()
 				.attr($.fn.easypin.config('widthAttribute'), imageWidth)
 				.attr($.fn.easypin.config('heightAttribute'), imageHeight)
+				// and set style width, height and position
 				.css({
 					width: setPx(imageWidth),
 					height: setPx(imageHeight),
 					position: $.fn.easypin.config('parentPosition'),
 					border: setPx(dashWidth)+' dashed #383838'
 				});
-
 		});
 
 		// hover event
 		var parentElement = $(setClass(parentClass));
 
+		// on hover parent element then create opacity
 		$(parentElement).hover(function() {
 
 			$(this)
@@ -66,19 +70,20 @@
 				    opacity: 0.4,
 				}, 800);
 
+		// on mouseleave then remove opacity
 		},function() {
 			$(this)
 				// cross to children object
 				.children(setClass(hoverClass))
 				.animate({
 				    opacity: 0,
-				}, 
+				},
 				'fast', // how fast we are animating
     			'swing', // the type of easing
 				function() {
 			   		$(this).remove();
 				}
-			);	
+			);
 
 		})
 		.append($('<div/>', {'class': pinMapClass})
@@ -88,39 +93,54 @@
 				'z-index': pinMapZindex
 			})
 		)
+		// set mousedown event on parent element
 		.bind('mousedown', function(e) {
-			
+
+			// only allow key code one
 			if(e.which != 1) return;
 
+			// get parent element instance
 			var parentElement = e.currentTarget;
+
+			// get target image sizes
 			var imageWidth = $('img'+setClass('easypin-target'), parentElement).width();
 			var imageHeight = $('img'+setClass('easypin-target'), parentElement).height();
 
 			// pin map class sized
-			$(setClass(pinMapClass), parentElement).css({
-				width: setPx(imageWidth),
-				height: setPx(imageHeight)
-			});
+			$(setClass(pinMapClass), parentElement)
+				.css({
+					width: setPx(imageWidth),
+					height: setPx(imageHeight)
+				});
 
+			// get config variable
 			var src = $.fn.easypin.defaults.markerSrc;
 			var markerWidth = $.fn.easypin.defaults.markerWidth;
 			var markerHeight = $.fn.easypin.defaults.markerHeight == 'auto' ? markerWidth : $.fn.easypin.defaults.markerHeight;
 			var markerClass = $.fn.easypin.defaults.markerClass;
 			var markerContainerZindex = $.fn.easypin.defaults.markerContainerZindex;
 
+			// canvas border width
 			var dashWidth = $.fn.easypin.defaults.dashWidth;
+
+			// get x, y balance value
 			var posYBalance = $.fn.easypin.defaults.posYBalance;
 			var posXBalance = $.fn.easypin.defaults.posXBalance;
 
+			// get current target image instance
 			var targetImage = $('img'+setClass('easypin-target'), parentElement);
+
+			// set cursor position coordinate
 			var imagePositionY = targetImage.offset().top - (dashWidth-posYBalance);
 			var imagePositionX = targetImage.offset().left - (dashWidth-posXBalance);
 			var clickPosX = (e.pageX-imagePositionX);
 			var clickPosY = (e.pageY-imagePositionY);
 
+			// get marker half size (width/height)
 			var markerWidthHalf = (markerWidth/2);
 	        var markerHeightHalf = (markerHeight/2);
 
+			// set canvas border position
 			var markerBorderX = clickPosX-(markerWidth/2);
 			var markerBorderY = clickPosY-(markerHeight/2);
 
@@ -220,10 +240,10 @@
 	        	createPopup();
 	        });
 
-
-
+			// marker tools append to marker container
 	        $(markerContainer).append(tools);
 
+			// set cursor x,y position
 	        var xPosition = markerBorderX.toFixed(3);
 	        var yPosition = markerBorderY.toFixed(3);
 
@@ -233,14 +253,14 @@
 			// marker animate
 			$(markerContainer).animate(
 				{
-					opacity: 1, 
+					opacity: 1,
 					top: setPx(markerBorderY)
 				},
 				{
 					duration: 'slow',
 					easing: 'easeOutElastic',
 					complete: function() {
-					
+
 						// tools animate
 						$(tools).animate(
 							{
@@ -315,15 +335,18 @@
 
 	            	var absX = relX.toFixed(3)-markerWidthHalf;
 	            	var absY = parseInt(relY.toFixed(3))+markerHeightHalf;
-	            	
+
+					// on move marker then check tool container position
+					checkToolsPosition(absY, imageHeight, markerContainer)
+
 	            	// drag event
 					$.fn.easypin.defaults.drag(absX, absY);
 
 	                $(markerContainer).css({
-	                	position: 'absolute', 
+	                	position: 'absolute',
 	                	top: setPx(relY),
 	                	left: setPx(relX),
-	                	marginTop: -(markerHeight/2), 
+	                	marginTop: -(markerHeight/2),
 	                	marginLeft: -(markerWidth/2),
 	               	})
 	               	.attr($.fn.easypin.config('xAttribute'), absX)
@@ -331,7 +354,7 @@
 	            });
 	        });
 
-	        // unbinding the events and removing  
+	        // unbinding the events and removing
 	        $(draggable).bind('mouseup', function () {
 	            $(draggable).unbind('mousemove');
 	        });
@@ -339,6 +362,22 @@
 		});
 
 		return this;
+	};
+
+	var checkToolsPosition = function(absY, imageHeight, markerContainer) {
+
+		if(absY+10 > imageHeight) {
+			$('.easy-tools', markerContainer).animate(
+				{
+					'top': setPx(-13)
+				},
+				{
+					duration: 'slow',
+					easing: 'easeOutElastic'
+				}
+			)
+		}
+
 	};
 
 	$.fn.easypin.config = function(attr) {
@@ -365,9 +404,9 @@
 			clientParm = clientParm.replace(/,+/g,',');
 			clientParm = clientParm.replace(/(^,)/, '');
 			clientParm = clientParm.split(/,/g);
-			
+
 			expectParm = depends.match(/(\$[a-zA-Z]+)/g);
- 
+
 			var dependsArgs = new Array();
 
 			for(var i in expectParm) {
@@ -409,7 +448,7 @@
 		markerContainerZindex: 4,
 		markerBorderColor: '#FFFF00',
 		downPoint: 10
-	
+
 	};
 
 	$.fn.easypin.container = {};
