@@ -204,7 +204,7 @@
 	        				'background-position-x': '3px'
 	        			}).hover(function() {
 	        				$(this)
-	        					.css('background-color', '#D116F1')
+	        					.css('background-color', 'black')
 	        					.css('opacity', '.6');
 	        			},function() {
 	        				$(this).css('background-color', 'inherit');
@@ -225,7 +225,7 @@
 	        				'background-position-x': '3px'
 	        			}).hover(function() {
 	        				$(this)
-	        					.css('background-color', '#D116F1')
+	        					.css('background-color', 'black')
 	        					.css('opacity', '.6');
 	        			},function() {
 	        				$(this).css('background-color', 'inherit');
@@ -236,6 +236,7 @@
 	        });
 
 	        $(markerContainer).on('click', '.easy-edit', function(e){
+
 	        	// creates popup and return instance
 	        	createPopup();
 	        });
@@ -249,6 +250,13 @@
 
 			// marker container append to pin parent container and run callback function
 			$(parentElement).append(markerContainer, $.fn.easypin.defaults.complete(absX, absY));
+
+			// calculate tools position for animate	
+			if((markerBorderY+markerHeight+10) > imageHeight) {
+				var toolsPosition = -13;
+			}else {
+				var toolsPosition = markerHeight+2;
+			}
 
 			// marker animate
 			$(markerContainer).animate(
@@ -265,7 +273,7 @@
 						$(tools).animate(
 							{
 								'opacity': '.4',
-								'top': setPx(markerHeight+2)
+								'top': setPx(toolsPosition)
 							},
 							{
 								duration: 'slow',
@@ -366,7 +374,10 @@
 
 	var checkToolsPosition = function(absY, imageHeight, markerContainer) {
 
-		if(absY+10 > imageHeight) {
+		var markerHeight = $(markerContainer).height();
+		var yBottom = absY+10;
+
+		if(yBottom > imageHeight && yBottom == imageHeight+1) {
 			$('.easy-tools', markerContainer).animate(
 				{
 					'top': setPx(-13)
@@ -375,9 +386,20 @@
 					duration: 'slow',
 					easing: 'easeOutElastic'
 				}
-			)
+			);
 		}
 
+		else if((absY-markerHeight)-10 == -1) {
+			$('.easy-tools', markerContainer).animate(
+				{
+					'top': setPx(markerHeight+2)
+				},
+				{
+					duration: 'slow',
+					easing: 'easeOutElastic'
+				}
+			);
+		}
 	};
 
 	$.fn.easypin.config = function(attr) {
