@@ -17,6 +17,12 @@
 
 		this.each(function(i) {
 
+			// get targetimage sizes
+			var imageWidth = $(this).width();
+			var imageHeight = $(this).height();
+
+			if(imageHeight > 0) {
+				
 			// create parent element and add than target image after
 			var containerElement = $(this)
 				.after($('<div/>', {'class': parentClass}))
@@ -26,10 +32,6 @@
 
 			// add class to target image
 			$(this).addClass('easypin-target');
-
-			// get targetimage sizes
-			var imageWidth = $(this).width();
-			var imageHeight = $(this).height();
 
 			// set target image sizes to parent container
 			containerElement
@@ -43,6 +45,7 @@
 					position: $.fn.easypin.config('parentPosition'),
 					border: setPx(dashWidth)+' dashed #383838'
 				});
+			}
 		});
 
 		// hover event
