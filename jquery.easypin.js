@@ -248,7 +248,6 @@
 	        });
 
 	        $(markerContainer).on('click', '.easy-edit', function(e){
-
 	        	// creates popup and return instance
 	        	createPopup(e);
 	        });
@@ -462,6 +461,8 @@
 
        	complete: function() {},
        	drag: function() {},
+       	contextmenu: function() {},
+       	modalWidth: '200px',
 		widthAttribute: 'data-width',
        	heightAttribute: 'data-height',
        	xAttribute: 'data-x',
@@ -519,7 +520,10 @@
 	var createPopup = function(elem) {
 
 		var parentElement = $(elem.target).parent().parent().parent('.pinParent');
+		var widthAttr = $.fn.easypin.defaults.widthAttribute;
+		var heightAttr = $.fn.easypin.defaults.heightAttribute;
 
+		// create modal base layer
 		var opacityLayer = $('<div/>')
 			.addClass('popupOpacityLayer')
 			.css({
@@ -531,21 +535,92 @@
 				'z-index': 14
 			});
 
+		// append to parent container
 		$(parentElement)
 			.append(opacityLayer)
 
+			// cross to child element
 			.children(setClass($.fn.easypin.defaults.hoverClass))
-				.hide()
+				.hide() // hover class hide
 
+			// back to parent element
 			.parent()
+
+			// base layer animate
 			.children(setClass($.fn.easypin.defaults.popupOpacityLayer))
 				.animate({
 					opacity: 0.4,
-				}, 800)
-				.click(function() {
-					closePopup(parentElement);
-				});
+				}, 800);
 
+		var width = parseInt($(parentElement).attr(widthAttr));
+		var height = parseInt($(parentElement).attr(heightAttr));
+		
+		// create modal parent element
+		var modalParent = $('<div/>')
+			.addClass('modalParent')
+			.css({
+				'width': '100%',
+				'height': '100%',
+				'position': 'absolute',
+				'z-index': 15
+			})
+			.click(function(e) {
+
+				if($(e.target). is('div.modalParent')) {
+					closePopup(parentElement);
+				}
+
+				e.stopPropagation();
+			});
+
+		// create modal body element
+		var modalContext = $('<div/>')
+			.addClass('modalContext')
+			.css({
+				'background-color': '#fff',
+				'width': $.fn.easypin.defaults.modalWidth,
+				'height': 'auto',
+				'opacity': '0',
+				'position': 'absolute',
+				'padding': '10px',
+				'-webkit-box-shadow': '10px 13px 5px 0px rgba(0,0,0,0.75)',
+				'-moz-box-shadow': '10px 13px 5px 0px rgba(0,0,0,0.75)',
+				'box-shadow': '10px 13px 5px 0px rgba(0,0,0,0.75)',
+				'-webkit-border-radius': '5px',
+				'-moz-border-radius': '5px',
+				'border-radius': '5px',
+				'cursor': 'move'
+			})
+			.append($.fn.easypin.defaults.contextmenu())
+			.appendTo(modalParent); // modal body append to modal parent element
+
+		var modalHeight = $(modalContext).height();
+		var modalWidth = $(modalContext).width();
+
+		// modal body hide by position
+		$(modalContext)
+			.css('top', -(modalHeight+5)+'px')
+			.css('left', (width/2)-(modalWidth/2)-10+'px');
+
+		// modal parent element append to parent element
+		$('.popupOpacityLayer', parentElement).after(modalParent);
+
+		// animate modal body
+		$(modalContext).animate(
+				{
+					'top': (height/2)-($(modalContext).height()/2)-10+'px',
+					'opacity': '1'
+				},
+				{
+					duration: 'slow',
+					easing: 'easeOutElastic'
+				}
+			);
+
+		$('.easy-submit', modalContext)
+			.click(function() {
+				alert('hello');
+			});
 	};
 
 	var closePopup = function(parentElement) {
@@ -564,6 +639,26 @@
 			);
 
 		// close modal window
+		//$('.modalParent', parentElement).remove();
+
+		var modalHeight = $('.modalContext', parentElement).height();
+		var modalWidth = $('.modalContext', parentElement).width();
+
+		// animate modal body
+		$('.modalContext', parentElement).animate(
+				{
+					'top': -(modalHeight+50)+'px',
+					'opacity': '0',
+					'z-index': 0
+				},
+				{
+					duration: 'slow',
+					easing: 'easeOutElastic',
+					complete: function() {
+						$('.modalParent', parentElement).remove();
+					}
+				}
+			);
 	};
 
 }(jQuery));
