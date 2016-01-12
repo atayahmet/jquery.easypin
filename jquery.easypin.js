@@ -22,7 +22,7 @@
 			var imageHeight = $(this).height();
 
 			if(imageHeight > 0) {
-				
+
 			// create parent element and add than target image after
 			var containerElement = $(this)
 				.after($('<div/>', {'class': parentClass}))
@@ -54,24 +54,27 @@
 		// on hover parent element then create opacity
 		$(parentElement).hover(function() {
 
-			$(this)
-				.prepend(
-					$('<div/>', {'class': hoverClass})
-						.css({
-							width: '100%',
-							height: '100%',
-							position: 'absolute',
-							opacity: 0,
-							'z-index': hoverLayerZindex,
-							'background-color': 'black',
-							cursor: 'copy'
-						})
-				)
-				// cross to children object
-				.children(setClass(hoverClass))
-				.animate({
-				    opacity: 0.4,
-				}, 800);
+			// if popup is open stop hover animate
+			if(! is_open('popup', $(this))) {
+				$(this)
+					.prepend(
+						$('<div/>', {'class': hoverClass})
+							.css({
+								width: '100%',
+								height: '100%',
+								position: 'absolute',
+								opacity: 0,
+								'z-index': hoverLayerZindex,
+								'background-color': 'black',
+								cursor: 'copy'
+							})
+					)
+					// cross to children object
+					.children(setClass(hoverClass))
+						.animate({
+						    opacity: 0.2,
+						}, 800);
+			}
 
 		// on mouseleave then remove opacity
 		},function() {
@@ -98,6 +101,12 @@
 		)
 		// set mousedown event on parent element
 		.bind('mousedown', function(e) {
+
+			// if cliced event is not parent and hover class stop propagation
+			if(! $(e.target).is(setClass(parentClass)) && !$(e.target).is(setClass(hoverClass))) {
+				e.stopPropagation();
+				return;
+			}
 
 			// only allow key code one
 			if(e.which != 1) return;
@@ -241,7 +250,7 @@
 	        $(markerContainer).on('click', '.easy-edit', function(e){
 
 	        	// creates popup and return instance
-	        	createPopup();
+	        	createPopup(e);
 	        });
 
 			// marker tools append to marker container
@@ -252,9 +261,13 @@
 	        var yPosition = markerBorderY.toFixed(3);
 
 			// marker container append to pin parent container and run callback function
-			$(parentElement).append(markerContainer, $.fn.easypin.defaults.complete(absX, absY));
+			if(is_open('popup', parentElement)) {
+				$(parentElement).prepend(markerContainer, $.fn.easypin.defaults.complete(absX, absY));
+			}else{
+				$(parentElement).append(markerContainer, $.fn.easypin.defaults.complete(absX, absY));
+			}
 
-			// calculate tools position for animate	
+			// calculate tools position for animate
 			if((markerBorderY+markerHeight+10) > imageHeight) {
 				var toolsPosition = -13;
 			}else {
@@ -461,6 +474,7 @@
 		hoverClass: 'hoverClass',
 		pinMapClass: 'pinCanvas',
        	parentPosition: 'relative',
+		popupOpacityLayer: 'popupOpacityLayer',
 		markerWidth: 32,
 		markerHeight: 'auto',
 		animate: false,
@@ -491,8 +505,65 @@
 		return $.fn.easypin.defaults.markerSrc;
 	};
 
+	var is_open = function(type, parentElement) {
+
+		if(type == 'popup') {
+
+			var className = setClass($.fn.easypin.defaults.popupOpacityLayer);
+			return $(className, parentElement).size() > 0;
+
+		}
+
+	};
+	
 	var createPopup = function(elem) {
 
+		var parentElement = $(elem.target).parent().parent().parent('.pinParent');
+
+		var opacityLayer = $('<div/>')
+			.addClass('popupOpacityLayer')
+			.css({
+				'width': '100%',
+				'height': '100%',
+				'background-color': 'black',
+				'position': 'absolute',
+				'opacity': '.0',
+				'z-index': 14
+			});
+
+		$(parentElement)
+			.append(opacityLayer)
+
+			.children(setClass($.fn.easypin.defaults.hoverClass))
+				.hide()
+
+			.parent()
+			.children(setClass($.fn.easypin.defaults.popupOpacityLayer))
+				.animate({
+					opacity: 0.4,
+				}, 800)
+				.click(function() {
+					closePopup(parentElement);
+				});
+
+	};
+
+	var closePopup = function(parentElement) {
+
+		// close opacity layer
+		$(setClass($.fn.easypin.defaults.popupOpacityLayer), parentElement)
+			.animate(
+				{
+					opacity:0
+				},
+				'fast', // how fast we are animating
+				'swing', // the type of easing
+				function() {
+					$(this).remove();
+				}
+			);
+
+		// close modal window
 	};
 
 }(jQuery));
