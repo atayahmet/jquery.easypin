@@ -516,7 +516,7 @@
 		}
 
 	};
-	
+
 	var createPopup = function(elem) {
 
 		var parentElement = $(elem.target).parent().parent().parent('.pinParent');
@@ -554,7 +554,7 @@
 
 		var width = parseInt($(parentElement).attr(widthAttr));
 		var height = parseInt($(parentElement).attr(heightAttr));
-		
+
 		// create modal parent element
 		var modalParent = $('<div/>')
 			.addClass('modalParent')
@@ -572,6 +572,9 @@
 
 				e.stopPropagation();
 			});
+
+        // clonning modal content
+        var modalContent = $('.easy-modal').clone();
 
 		// create modal body element
 		var modalContext = $('<div/>')
@@ -591,8 +594,9 @@
 				'border-radius': '5px',
 				'cursor': 'move'
 			})
-			.append($.fn.easypin.defaults.contextmenu())
+			.append($(modalContent).show())
 			.appendTo(modalParent); // modal body append to modal parent element
+
 
 		var modalHeight = $(modalContext).height();
 		var modalWidth = $(modalContext).width();
@@ -605,6 +609,25 @@
 		// modal parent element append to parent element
 		$('.popupOpacityLayer', parentElement).after(modalParent);
 
+        // without onhover action (close modal)
+        keyBinder(27, function() {
+            if(is_open('popup', parentElement)) {
+                closePopup(parentElement);
+                $(document.body).unbind('keydown');
+            }
+        });
+
+        // on hover action (close modal)
+        $(parentElement).hover(function() {
+            if($(this).is(':hover') && is_open('popup', parentElement)) {
+                keyBinder(27, function() {
+                    closePopup(parentElement);
+                });
+            }
+        },function() {
+            $(document).unbind('keydown');
+        });
+
 		// animate modal body
 		$(modalContext).animate(
 				{
@@ -615,7 +638,31 @@
 					duration: 'slow',
 					easing: 'easeOutElastic'
 				}
-			);
+			)
+            .bind('mousedown', function(e) {
+
+                if(! $(e.target).is('div.easy-modal') && !$(e.target).is('div.modalContext')) {
+                    e.stopPropagation();
+                    return;
+                }
+
+                var pinParent = $(e.currentTarget).parent().parent();
+                var downPageY = e.pageY-$(e.currentTarget).offset().top;
+                var downPageX = e.pageX-$(e.currentTarget).offset().left;
+
+                $(pinParent).bind('mousemove', function(e) {
+
+                    $(modalContext).css({
+	                	position: 'absolute',
+	                	top: setPx((e.pageY-parentElement.offset().top)-downPageY),
+	                	left: setPx((e.pageX-parentElement.offset().left)-downPageX)
+	               	});
+                });
+            })
+            .bind('mouseup', function(e) {
+                var pinParent = $(e.currentTarget).parent().parent();
+                $(pinParent).unbind('mousemove');
+            });
 
 		$('.easy-submit', modalContext)
 			.click(function() {
@@ -660,5 +707,18 @@
 				}
 			);
 	};
+
+    var keyBinder = function(expectCode, callback) {
+
+        $(document).bind('keydown', function(e) {
+
+            if(e.which == expectCode) {
+
+                callback.apply(null);
+
+                $(this).unbind('keydown');
+            }
+        });
+    };
 
 }(jQuery));

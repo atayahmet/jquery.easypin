@@ -82,18 +82,31 @@
     <div id="#ep6">{{ep6}}</div>
 </div>
 
+<div class="easy-modal" style="display:none;">
+    <input type="text">
+    <br />
+    <br>
+    <input type="text">
+    <br />
+    <br />
+    <input type="text">
+    <input type="text">
+    <br />
+    <br />
+    <input type="text">
+    <input type="text">
+    <a class="easy-submit" href="javascript:;">Tamam</a>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function(){
 
         $('.pin').easypin({
             complete: function(x, y) {
-                console.log(x,y);
+                //console.log(x,y);
             },
             drag: function(x, y) {
-                console.log(x, y);
-            },
-            contextmenu: function() {
-                return '<div><input type="text"><br /><br><input type="text"><br /><br /><input type="text"><input type="text"><br /><br /><input type="text"><input type="text"><a class="easy-submit" href="javascript:;">Tamam</a></div>';
+                //console.log(x, y);
             }
         });
 
