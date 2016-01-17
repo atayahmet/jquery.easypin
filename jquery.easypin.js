@@ -25,7 +25,10 @@
 
 			// create parent element and add than target image after
 			var containerElement = $(this)
-				.after($('<div/>', {'class': parentClass}))
+				.after(
+                    $('<div/>', {'class': parentClass})
+                        .attr('data-index', setIndex(setClass(parentClass), document.body))
+                )
 				.appendTo(setClass(parentClass)+':last')
 				.css('position', 'absolute')
 				.css('z-index', imageZindex);
@@ -101,8 +104,7 @@
 		)
 		// set mousedown event on parent element
 		.bind('mousedown', function(e) {
-
-			// if cliced event is not parent and hover class stop propagation
+			// if clicked event is not parent and hover class stop propagation
 			if(! $(e.target).is(setClass(parentClass)) && !$(e.target).is(setClass(hoverClass))) {
 				e.stopPropagation();
 				return;
@@ -113,6 +115,16 @@
 
 			// get parent element instance
 			var parentElement = e.currentTarget;
+
+            // get total marker
+            var totalMarker = $('.easy-marker', parentElement).size();
+            var limit = parseInt($.fn.easypin.defaults.limit);
+
+            // check the limit
+            if(limit != 0 && totalMarker >= limit) {
+                $.fn.easypin.defaults.exceeded('limit exceeded');
+                return;
+            }
 
 			// get target image sizes
 			var imageWidth = $('img'+setClass('easypin-target'), parentElement).width();
@@ -188,7 +200,8 @@
 				.attr($.fn.easypin.config('xAttribute'), absX)
 				.attr($.fn.easypin.config('yAttribute'), absY)
 				.attr($.fn.easypin.config('widthAttribute'), imageWidth)
-				.attr($.fn.easypin.config('heightAttribute'), imageHeight);
+				.attr($.fn.easypin.config('heightAttribute'), imageHeight)
+                .attr('data-index', setIndex('.easy-marker', parentElement));
 
 			var tools = $('<div/>', {'class': 'easy-tools'})
 	        	.css({
@@ -244,12 +257,21 @@
 	        			});
 	        	});
 
-	        $(markerContainer).on('click', '.easy-delete', function(e){
+            // remove marker
+	        $(markerContainer).on('click', '.easy-delete', function(e) {
+
+                var markerIndex = $(markerContainer).attr('data-index');
+                var parentIndex = $(parentElement).attr('data-index');
+
+                dataRemove(parentIndex, markerIndex);
+
+                $(e.currentTarget).closest('.easy-marker').remove();
 	        });
 
-	        $(markerContainer).on('click', '.easy-edit', function(e){
+            // set the marker content
+	        $(markerContainer).on('click', '.easy-edit', function(e) {
 	        	// creates popup and return instance
-	        	createPopup(e);
+	        	createPopup(e, markerContainer);
 	        });
 
 			// marker tools append to marker container
@@ -261,9 +283,9 @@
 
 			// marker container append to pin parent container and run callback function
 			if(is_open('popup', parentElement)) {
-				$(parentElement).prepend(markerContainer, $.fn.easypin.defaults.complete(absX, absY));
+				$(parentElement).prepend(markerContainer, $.fn.easypin.defaults.drop(absX, absY, markerContainer));
 			}else{
-				$(parentElement).append(markerContainer, $.fn.easypin.defaults.complete(absX, absY));
+				$(parentElement).append(markerContainer, $.fn.easypin.defaults.drop(absX, absY, markerContainer));
 			}
 
 			// calculate tools position for animate
@@ -328,14 +350,16 @@
 
 				if(e.which != 1) return;
 
-	            $(draggable).bind('mousemove', function (e) {
+                var markerInstance = e.currentTarget;
 
-	            	var parentElement = $(e.currentTarget).parent();
-	            	var markerContainer = $(e.currentTarget);
+	            $(parentElement).bind('mousemove', function (e) {
+
+	            	var parentElement = $(markerInstance).parent();
+	            	var markerContainer = $(markerInstance);
+
 	            	var targetImage = $('img.easypin-target', parentElement)
 	            	var markerWidthHalf = (markerWidth/2);
 	            	var markerHeightHalf = (markerHeight/2);
-
 	            	liveY = e.pageY-targetImage.offset().top;
 	            	liveX = e.pageX-targetImage.offset().left;
 
@@ -363,7 +387,7 @@
 					checkToolsPosition(absY, imageHeight, markerContainer)
 
 	            	// drag event
-					$.fn.easypin.defaults.drag(absX, absY);
+					$.fn.easypin.defaults.drag(absX, absY, markerContainer);
 
 	                $(markerContainer).css({
 	                	position: 'absolute',
@@ -379,7 +403,7 @@
 
 	        // unbinding the events and removing
 	        $(draggable).bind('mouseup', function () {
-	            $(draggable).unbind('mousemove');
+	            $(parentElement).unbind('mousemove');
 	        });
 
 		});
@@ -459,9 +483,10 @@
 
 	$.fn.easypin.defaults = {
 
-       	complete: function() {},
+        limit: 0,
+        exceeded: function() {},
+       	drop: function() {},
        	drag: function() {},
-       	contextmenu: function() {},
        	modalWidth: '200px',
 		widthAttribute: 'data-width',
        	heightAttribute: 'data-height',
@@ -517,9 +542,11 @@
 
 	};
 
-	var createPopup = function(elem) {
+	var createPopup = function(elem, markerContainer) {
 
-		var parentElement = $(elem.target).parent().parent().parent('.pinParent');
+		var parentElement = $(elem.target).closest('.pinParent');
+        var parentIndex = $(parentElement).attr('data-index');
+        var targetImage = $('.easypin-target', parentElement);
 		var widthAttr = $.fn.easypin.defaults.widthAttribute;
 		var heightAttr = $.fn.easypin.defaults.heightAttribute;
 
@@ -574,7 +601,7 @@
 			});
 
         // clonning modal content
-        var modalContent = $('.easy-modal').clone();
+        var modalContent = $('.easy-modal:last').clone();
 
 		// create modal body element
 		var modalContext = $('<div/>')
@@ -641,12 +668,14 @@
 			)
             .bind('mousedown', function(e) {
 
-                if(! $(e.target).is('div.easy-modal') && !$(e.target).is('div.modalContext')) {
+                // if mouse down event is not either easy-modal, or modalContext
+                // or modal form stop modal move
+                if(! $(e.target).is('div.easy-modal') && !$(e.target).is('div.modalContext') && !$(e.target).is('form')) {
                     e.stopPropagation();
                     return;
                 }
 
-                var pinParent = $(e.currentTarget).parent().parent();
+                var pinParent = $(e.currentTarget).closest('.pinParent');
                 var downPageY = e.pageY-$(e.currentTarget).offset().top;
                 var downPageX = e.pageX-$(e.currentTarget).offset().left;
 
@@ -660,16 +689,265 @@
                 });
             })
             .bind('mouseup', function(e) {
-                var pinParent = $(e.currentTarget).parent().parent();
+                var pinParent = $(e.currentTarget).closest('.pinParent');
                 $(pinParent).unbind('mousemove');
             });
 
 		$('.easy-submit', modalContext)
 			.click(function() {
-				alert('hello');
+
+                var lat = $(markerContainer).attr($.fn.easypin.defaults.xAttribute);
+                var long = $(markerContainer).attr($.fn.easypin.defaults.yAttribute);
+                var ImgWidth = $(markerContainer).attr($.fn.easypin.defaults.widthAttribute);
+                var ImgHeight = $(markerContainer).attr($.fn.easypin.defaults.heightAttribute);
+                var markerIndex = $(markerContainer).attr('data-index');
+
+                // check the form exists
+                var formExists = $('form', modalContext).size() > 0;
+
+                if(formExists) {
+                    var modalBody = $('form', modalContext); // form instance
+                }else{
+                    var modalBody = $('.easy-modal', modalContext); // current modal instance
+                }
+
+                // run callback function
+                var result = $.fn.easypin.defaults.done(modalBody);
+
+                if(typeof(result) == 'boolean') {
+
+                    if(result == true) {
+
+                        closePopup(parentElement);
+                    }
+
+                }else{
+                    closePopup(parentElement);
+                }
+
+                var formData = getFormData(modalBody, function(data) {
+
+                    data['canvas'] = new Object();
+
+                    data.canvas['src'] = $(targetImage).attr('src');
+                    data.canvas['lat'] = lat;
+                    data.canvas['long'] = long;
+                    data.canvas['width'] = ImgWidth;
+                    data.canvas['height'] = ImgHeight;
+
+                    return data;
+                });
+
+                dataInsert(parentIndex, markerIndex, formData);
+
 			});
 	};
 
+    var dataInsert = function(parentIndex, markerIndex, data) {
+
+        if(!localStorage) {
+            storageInsert(parentIndex, markerIndex, data);
+        }else{
+            inputInsert(parentIndex, markerIndex, data);
+        }
+    };
+
+    // local storage
+    var storageInsert = function(parentIndex, markerIndex, data) {
+
+        var items = localStorage.getItem('easypin');
+
+        if(! items) {
+            var items = new Object();
+        }else{
+            try {
+                var items = JSON.parse(items);
+            }catch(e) {
+                var items = new Object();
+            }
+        }
+
+        var items = setNestedObject(parentIndex, markerIndex, items);
+
+        items[parentIndex][markerIndex] = data;
+
+        localStorage.setItem('easypin', toJsonString(items));
+    };
+
+    // stores in hidden field
+    var inputInsert = function(parentIndex, markerIndex, data) {
+
+        var items = $('input[name="easypin-store"]').val();
+
+        if(! items) {
+            var items = new Object();
+        }else{
+            try {
+                var items = JSON.parse(decodeURIComponent(items));
+            }catch(e) {
+                var items = new Object();
+            }
+        }
+
+        var items = setNestedObject(parentIndex, markerIndex, items);
+
+        items[parentIndex][markerIndex] = data;
+
+        if($('input[name="easypin-store"]').size() < 1) {
+            $(setClass($.fn.easypin.defaults.parentClass)+':first').before('<input type="hidden" name="easypin-store" value="'+encodeURIComponent(toJsonString(items))+'" />');
+        }else{
+            $('input[name="easypin-store"]').val(encodeURIComponent(toJsonString(items)));
+        }
+    };
+
+    /*
+     * Remove data container function
+     *
+     * @param parentIndex int
+     * @oaram markerIndex int
+     */
+    var dataRemove = function(parentIndex, markerIndex) {
+
+        if(!localStorage) {
+            removeFromStorage(parentIndex, markerIndex);
+        }else{
+            removeFromInput(parentIndex, markerIndex);
+        }
+
+    };
+
+    var removeFromInput = function(parentIndex, markerIndex) {
+
+        var items = $('input[name="easypin-store"]').val();
+        if(items) {
+            console.log(items);
+
+            try {
+                var items = JSON.parse(decodeURIComponent(items));
+
+                items = removeHelper(parentIndex, markerIndex, items)
+
+                if($('input[name="easypin-store"]').size() < 1) {
+                    $(setClass($.fn.easypin.defaults.parentClass)+':first').before('<input type="hidden" name="easypin-store" value="'+encodeURIComponent(toJsonString(items))+'" />');
+                }else{
+                    $('input[name="easypin-store"]').val(encodeURIComponent(toJsonString(items)));
+                }
+
+            } catch (e) {}
+
+        }
+
+    };
+
+    /*
+     * Remove from local storage
+     *
+     * @param parentIndex int
+     * @oaram markerIndex int
+     */
+    var removeFromStorage = function(parentIndex, markerIndex) {
+
+        var items = localStorage.getItem('easypin');
+
+        if(items) {
+
+            try {
+                var items = JSON.parse(items);
+
+                localStorage.setItem('easypin', toJsonString(removeHelper(parentIndex, markerIndex, items)));
+
+            }catch(e) {}
+
+        }
+
+    };
+
+    var removeHelper = function(parentIndex, markerIndex, items) {
+
+        if(parentIndex && !markerIndex) {
+
+            if(typeof(items[parentIndex]) != 'undefined') {
+                delete items[parentIndex];
+            }
+
+        }
+
+        if(parentIndex && markerIndex) {
+
+            if(typeof(items[parentIndex][markerIndex]) != 'undefined') {
+                delete items[parentIndex][markerIndex];
+
+                if(sizeof(items[parentIndex]) < 1) {
+                    delete items[parentIndex];
+                }
+            }
+
+        }
+
+        return items;
+    };
+
+    // set nested object
+    var setNestedObject = function(parentIndex, markerIndex, items) {
+
+        if(typeof(items[parentIndex]) == 'undefined') {
+            items[parentIndex] = new Object();
+        }
+
+        if(typeof(items[parentIndex][markerIndex]) == 'undefined') {
+            items[parentIndex][markerIndex] = new Object();
+        }
+
+        return items;
+    };
+
+    // get values of current modal
+    var getFormData = function(element, callback) {
+
+        var elements = new Object();
+
+        $('input, select, textarea', element).each(function() {
+
+            var elementType = $(this).attr('type');
+            var elementName = $(this).attr('name');
+
+            if(elementType == 'radio') {
+
+                var checked = $(this).filter(":checked").val();
+
+                if(typeof(checked) != 'undefined' && typeof(elements[elementName]) == 'undefined') {
+                    elements[elementName] = checked;
+                }
+            }
+
+            else if(elementType == 'checkbox') {
+
+                if($(this).is(':checked')) {
+                    elements[elementName] = $(this).val();
+                }
+            }
+            else{
+                elements[elementName] = $(this).val();
+            }
+
+        });
+
+        if(typeof(callback) == 'function') {
+
+            var args = new Array();
+            args.push(elements);
+            return callback.apply(null, args);
+
+        }
+
+        return elements;
+    };
+
+    var toJsonString = function(data) {
+        return JSON.stringify(data);
+    };
+
+    // modal close
 	var closePopup = function(parentElement) {
 
 		// close opacity layer
@@ -684,9 +962,6 @@
 					$(this).remove();
 				}
 			);
-
-		// close modal window
-		//$('.modalParent', parentElement).remove();
 
 		var modalHeight = $('.modalContext', parentElement).height();
 		var modalWidth = $('.modalContext', parentElement).width();
@@ -719,6 +994,29 @@
                 $(this).unbind('keydown');
             }
         });
+    };
+
+    var setIndex = function(selector, parent) {
+
+        var index = $(selector+':last', parent).attr('data-index');
+
+        if(typeof(index) == 'undefined') {
+            return '0';
+        }
+
+        return parseInt(index)+1;
+    };
+
+    var sizeof = function(data) {
+        if(typeof(data) == 'object') {
+            var j = 0;
+
+            for(var i in data) {
+                j++;
+            }
+
+            return j;
+        }
     };
 
 }(jQuery));

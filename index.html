@@ -69,44 +69,72 @@
 
     </div>
 
+    <div class="epShow" style="display:none;">
+        <div id="#ep0">{{ep0}}</div>
+        <div id="#ep1">{{ep1}}</div>
+        <div id="#ep2">{{ep2}}</div>
+        <div id="#ep3">{{ep3}}</div>
+        <div id="#ep4">{{ep4}}</div>
+        <div id="#ep5">{{ep5}}</div>
+        <div id="#ep6">{{ep6}}</div>
+    </div>
+
+    <div class="easy-modal" style="display:none;">
+        <form>
+            <input name="firstname" type="text">
+            <br />
+            <br>
+            <input name="surname" type="text">
+            <br />
+            <br />
+            <input type="checkbox" name="check1" value="music"> Music
+            <input type="checkbox" name="check2" value="cinema"> Cinema
+            <br />
+            <br />
+            <select name="city">
+                <option value="istanbul">Istanbul</option>
+                <option value="ankara">Ankara</option>
+                <option value="izmir">İzmir</option>
+                <option value="bursa">Bursa</option>
+            </select>
+            <br />
+            <br />
+            <label>
+            <input type="radio" name="genre" value="male" /> Male
+            </label>
+
+            <label>
+            <input type="radio" name="genre" value="female" /> Female
+            </label>
+            <br />
+            <br />
+            <textarea name="description"></textarea>
+            <br />
+            <br />
+            <a class="easy-submit" href="javascript:;">Tamam</a>
+        </form>
+    </div>
     </body>
 </html>
-
-<div class="epShow" style="display:none;">
-    <div id="#ep0">{{ep0}}</div>
-    <div id="#ep1">{{ep1}}</div>
-    <div id="#ep2">{{ep2}}</div>
-    <div id="#ep3">{{ep3}}</div>
-    <div id="#ep4">{{ep4}}</div>
-    <div id="#ep5">{{ep5}}</div>
-    <div id="#ep6">{{ep6}}</div>
-</div>
-
-<div class="easy-modal" style="display:none;">
-    <input type="text">
-    <br />
-    <br>
-    <input type="text">
-    <br />
-    <br />
-    <input type="text">
-    <input type="text">
-    <br />
-    <br />
-    <input type="text">
-    <input type="text">
-    <a class="easy-submit" href="javascript:;">Tamam</a>
-</div>
 
 <script type="text/javascript">
     $(document).ready(function(){
 
         $('.pin').easypin({
-            complete: function(x, y) {
-                //console.log(x,y);
+            limit: 0,
+            exceeded: function(type) {
+                console.log(type);
             },
-            drag: function(x, y) {
-                //console.log(x, y);
+            drop: function(x, y, element) {
+                //console.log(x,y, element);
+            },
+            drag: function(x, y, element) {
+                //console.log(x, y, element);
+            },
+            done: function(element) {
+
+                //console.log(element);
+                return false;
             }
         });
 
