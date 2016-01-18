@@ -441,6 +441,59 @@
 		}
 	};
 
+    var getEventData = function(namespace) {
+
+        switch (namespace) {
+            case "get.coordinates":
+                    if(localStorage) {
+                        return JSON.parse(localStorage.getItem('easypin'));
+                    }else {
+                        try {
+                            return JSON.parse(decodeURIComponent($('input[name="easypin-store"]').val()));
+                        } catch (e) {
+                            return null;
+                        }
+                    }
+                break;
+            default:
+                return null;
+
+        }
+
+    };
+
+    $.fn.easypin.event = function(namespace, closure) {
+        $.fn.easypin.di(namespace, closure);
+    };
+
+    $.fn.easypin.fire = function(namespace, params, callback) {
+
+        if(typeof($.fn.easypin.container[namespace]) != 'undefined') {
+
+            if(typeof(params) == 'function') {
+                callback = params;
+                params = null;
+            }else{
+                params = params || null;
+                callback = callback || null;
+            }
+
+            if(typeof(callback) == 'function') {
+                var callbackArgs = new Array();
+                callbackArgs.push(getEventData(namespace));
+                var eventReturn = callback.apply(null, callbackArgs);
+            }else {
+                var eventReturn = getEventData(namespace);
+            }
+
+            var dependsArgs = new Array();
+            dependsArgs.push(eventReturn);
+            dependsArgs.push(params);
+			$.fn.easypin.container[namespace].apply(null, dependsArgs);
+
+        }
+    };
+
 	$.fn.easypin.config = function(attr) {
 		return $.fn.easypin.defaults[attr];
 	};
@@ -745,7 +798,7 @@
 
     var dataInsert = function(parentIndex, markerIndex, data) {
 
-        if(!localStorage) {
+        if(localStorage) {
             storageInsert(parentIndex, markerIndex, data);
         }else{
             inputInsert(parentIndex, markerIndex, data);
@@ -800,15 +853,15 @@
         }
     };
 
-    /*
+    /**
      * Remove data container function
      *
      * @param parentIndex int
-     * @oaram markerIndex int
+     * @param markerIndex int
      */
     var dataRemove = function(parentIndex, markerIndex) {
 
-        if(!localStorage) {
+        if(localStorage) {
             removeFromStorage(parentIndex, markerIndex);
         }else{
             removeFromInput(parentIndex, markerIndex);
@@ -816,6 +869,12 @@
 
     };
 
+    /**
+     * Remove data on input hidden field
+     * @param  {[int]} parentIndex [parent container index]
+     * @param  {[int]} markerIndex [marker container index]
+     * @return {[void]}
+     */
     var removeFromInput = function(parentIndex, markerIndex) {
 
         var items = $('input[name="easypin-store"]').val();
@@ -839,11 +898,12 @@
 
     };
 
-    /*
+    /**
      * Remove from local storage
      *
      * @param parentIndex int
-     * @oaram markerIndex int
+     * @param markerIndex int
+     * @return void
      */
     var removeFromStorage = function(parentIndex, markerIndex) {
 
@@ -862,6 +922,14 @@
 
     };
 
+    /**
+     * Remove process from data object
+     *
+     * @param  {[int]} parentIndex [parent container index]
+     * @param  {[int]} markerIndex [marker container index]
+     * @param  {[object]} items       [data object]
+     * @return {[object]}
+     */
     var removeHelper = function(parentIndex, markerIndex, items) {
 
         if(parentIndex && !markerIndex) {

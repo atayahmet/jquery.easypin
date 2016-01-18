@@ -100,11 +100,11 @@
             <br />
             <br />
             <label>
-            <input type="radio" name="genre" value="male" /> Male
+                <input type="radio" name="genre" value="male" /> Male
             </label>
 
             <label>
-            <input type="radio" name="genre" value="female" /> Female
+                <input type="radio" name="genre" value="female" /> Female
             </label>
             <br />
             <br />
@@ -114,13 +114,14 @@
             <a class="easy-submit" href="javascript:;">Tamam</a>
         </form>
     </div>
+    <input class="test" type="button" value="Click" />
     </body>
 </html>
 
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $('.pin').easypin({
+        var instance = $('.pin').easypin({
             limit: 0,
             exceeded: function(type) {
                 console.log(type);
@@ -134,8 +135,18 @@
             done: function(element) {
 
                 //console.log(element);
-                return false;
+                return true;
             }
+        });
+
+        instance.easypin.event( "get.coordinates", function( data, params ) {
+            console.log( data, params);
+        });
+
+        $( ".test" ).click(function( event ) {
+            instance.easypin.fire( "get.coordinates", {t:1, r:2, y:3}, function(data) {
+                return JSON.stringify(data);
+            });
         });
 
     });
