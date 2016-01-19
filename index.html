@@ -44,9 +44,9 @@
     <div class="xx"></div>
     <div class="xx"></div>
     <div class="xx"></div>
+    <img src="11495.jpg" class="pin" />
 
         <div style="position:relative;left:50px;">
-            <img src="11495.jpg" class="pin" />
             <br />
        <div style="width:1px;height:80px;">&nbsp;</div>
         <img src="world-map.gif" class="pin" width="800" />
@@ -79,7 +79,7 @@
         <div id="#ep6">{{ep6}}</div>
     </div>
 
-    <div class="easy-modal" style="display:none;">
+    <div class="easy-modal" style="display:none;" modal-position="free">
         <form>
             <input name="firstname" type="text">
             <br />
@@ -121,7 +121,8 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        var instance = $('.pin').easypin({
+        var $easyInstance = $('.pin').easypin({
+            popover: ['firstname'],
             limit: 0,
             exceeded: function(type) {
                 console.log(type);
@@ -139,12 +140,16 @@
             }
         });
 
-        instance.easypin.event( "get.coordinates", function( data, params ) {
+        $easyInstance.easypin.event( "get.coordinates", function($instance, data, params ) {
+
+            $instance.clear();
+
             console.log( data, params);
+
         });
 
         $( ".test" ).click(function( event ) {
-            instance.easypin.fire( "get.coordinates", {t:1, r:2, y:3}, function(data) {
+            $easyInstance.easypin.fire( "get.coordinates", {t:1, r:2, y:3}, function(data) {
                 return JSON.stringify(data);
             });
         });

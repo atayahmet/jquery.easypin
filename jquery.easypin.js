@@ -4,6 +4,10 @@
 
 		options = options || {};
 
+        if(localStorage) {
+            localStorage.removeItem('easypin');
+        }
+
 		var parentClass = $.fn.easypin.defaults.parentClass;
 		var pinMapClass = $.fn.easypin.defaults.pinMapClass;
 		var hoverClass = $.fn.easypin.defaults.hoverClass;
@@ -257,11 +261,11 @@
 	        			});
 	        	});
 
+            var markerIndex = $(markerContainer).attr('data-index');
+            var parentIndex = $(parentElement).attr('data-index');
+
             // remove marker
 	        $(markerContainer).on('click', '.easy-delete', function(e) {
-
-                var markerIndex = $(markerContainer).attr('data-index');
-                var parentIndex = $(parentElement).attr('data-index');
 
                 dataRemove(parentIndex, markerIndex);
 
@@ -271,7 +275,10 @@
             // set the marker content
 	        $(markerContainer).on('click', '.easy-edit', function(e) {
 	        	// creates popup and return instance
-	        	createPopup(e, markerContainer);
+	        	var modalInstance = createPopup(e, markerContainer);
+
+                // data set to input fields
+                setDataToFields(parentIndex, markerIndex, modalInstance);
 	        });
 
 			// marker tools append to marker container
@@ -408,6 +415,9 @@
 
 		});
 
+        // object instance add to container
+        $.fn.easypin.di('instance', $.fn.easypin);
+
 		return this;
 	};
 
@@ -462,6 +472,14 @@
 
     };
 
+    $.fn.easypin.clear = function() {
+        if(localStorage) {
+            localStorage.removeItem('easypin');
+        }else {
+            $('input[name="easypin-store"]').val('');
+        }
+    };
+
     $.fn.easypin.event = function(namespace, closure) {
         $.fn.easypin.di(namespace, closure);
     };
@@ -487,6 +505,7 @@
             }
 
             var dependsArgs = new Array();
+            dependsArgs.push($.fn.easypin.container['instance']);
             dependsArgs.push(eventReturn);
             dependsArgs.push(params);
 			$.fn.easypin.container[namespace].apply(null, dependsArgs);
@@ -681,10 +700,27 @@
 		var modalHeight = $(modalContext).height();
 		var modalWidth = $(modalContext).width();
 
+        var parentLeft = $(elem.target).closest(setClass($.fn.easypin.defaults.parentClass)).offset().left;
+        var markerLeft = $(elem.target).offset().left;
+        var clickPos = (markerLeft - parentLeft);
+
+        // modal position process
+        if($(modalContent).attr('modal-position') == 'free') {
+
+            if((clickPos-100) < modalWidth) {
+                var modalLeftPosition = clickPos+$(markerContainer).width()+50;
+            }else{
+                console.log('sss');
+                var modalLeftPosition = clickPos-modalWidth-100;
+            }
+        }else{
+            var modalLeftPosition = (width/2)-(modalWidth/2)-10;
+        }
+
 		// modal body hide by position
 		$(modalContext)
 			.css('top', -(modalHeight+5)+'px')
-			.css('left', (width/2)-(modalWidth/2)-10+'px');
+			.css('left', modalLeftPosition+'px');
 
 		// modal parent element append to parent element
 		$('.popupOpacityLayer', parentElement).after(modalParent);
@@ -735,10 +771,11 @@
                 $(pinParent).bind('mousemove', function(e) {
 
                     $(modalContext).css({
-	                	position: 'absolute',
-	                	top: setPx((e.pageY-parentElement.offset().top)-downPageY),
-	                	left: setPx((e.pageX-parentElement.offset().left)-downPageX)
-	               	});
+                        position: 'absolute',
+                        top: setPx((e.pageY-parentElement.offset().top)-downPageY),
+                        left: setPx((e.pageX-parentElement.offset().left)-downPageX)
+                    });
+
                 });
             })
             .bind('mouseup', function(e) {
@@ -794,6 +831,8 @@
                 dataInsert(parentIndex, markerIndex, formData);
 
 			});
+
+            return modalContext;
 	};
 
     var dataInsert = function(parentIndex, markerIndex, data) {
@@ -956,6 +995,13 @@
     };
 
     // set nested object
+    /**
+     * Set nested object
+     * @param  int parentIndex parent container index
+     * @param  int markerIndex marker ocntainer index
+     * @param  int items       data object
+     * @return object
+     */
     var setNestedObject = function(parentIndex, markerIndex, items) {
 
         if(typeof(items[parentIndex]) == 'undefined') {
@@ -967,6 +1013,36 @@
         }
 
         return items;
+    };
+
+    var getItem = function(parentIndex, markerIndex) {
+
+        parentIndex = parseInt(parentIndex);
+        markerIndex = parseInt(markerIndex);
+
+        if(localStorage) {
+            var items = localStorage.getItem('easypin');
+
+            try {
+                items = JSON.parse(items);
+            } catch (e) {
+                items = {};
+            }
+        }else{
+            var items = $('input[name="easypin-store"]').val();
+
+            try {
+                items = JSON.parse(decodeURIComponent(items));
+            } catch (e) {
+                items = {};
+            }
+        }
+
+        try {
+            return items[parentIndex][markerIndex];
+        } catch (e) {
+            return null;
+        }
     };
 
     // get values of current modal
@@ -1084,6 +1160,49 @@
             }
 
             return j;
+        }
+    };
+
+    /**
+     * Set to input fields all data
+     * @param  int parentIndex   parent container index
+     * @param  int markerIndex   marker container index
+     * @param  object modalInstance current modal instance
+     * @return void
+     */
+    var setDataToFields = function(parentIndex, markerIndex, modalInstance) {
+
+        var item = getItem(parentIndex, markerIndex);
+
+        if(typeof(item) == 'object') {
+
+            for(var i in item) {
+
+                var element = $('[name="'+i+'"]', modalInstance);
+                var type = $(element).prop('type');
+
+                if(type == 'text' || type == 'hidden') {
+                    $(element).attr('value', item[i]);
+                }
+
+                else if(type == 'checkbox') {
+                    $(element).attr('checked', true);
+                }
+
+                else if(type == 'radio') {
+                    $('[value="'+item[i]+'"]', modalInstance).attr('checked', true);
+                }
+
+                else if(type == 'textarea') {
+                    $(element).val(item[i]);
+                }
+
+                else if(type == 'select-one') {
+                    $(element).val(item[i]).prop('selected', true);
+                }
+
+            }
+
         }
     };
 
