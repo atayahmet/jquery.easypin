@@ -710,7 +710,6 @@
             if((clickPos-100) < modalWidth) {
                 var modalLeftPosition = clickPos+$(markerContainer).width()+50;
             }else{
-                console.log('sss');
                 var modalLeftPosition = clickPos-modalWidth-100;
             }
         }else{
@@ -829,6 +828,8 @@
                 });
 
                 dataInsert(parentIndex, markerIndex, formData);
+
+                createPopover(markerContainer, formData);
 
 			});
 
@@ -1204,6 +1205,45 @@
             }
 
         }
+    };
+
+    var createPopover = function(markerContainer, formData) {
+
+        var arrow = $('<div/>')
+            .css({
+                width: 0,
+            	height: 0,
+            	'border-left': '10px solid transparent',
+            	'border-right': '10px solid transparent',
+            	'border-top': '10px solid #000',
+                position: 'absolute',
+                bottom: '-50px',
+                left: '58px'
+            });
+
+        var tooltipContainer = $('<div/>')
+            .addClass('popover')
+            .css('position', 'absolute')
+            .css('display','inline')
+            .css('top', '-51px')
+            .css('left', '-51px')
+
+        var span = $('<span/>')
+            .text('Helloooo')
+            .css({
+                position: 'absolute',
+                width:'140px',
+                color: '#FFFFFF',
+                background: '#000000',
+                height: '40px',
+                'line-height': '40px',
+                'text-align': 'center',
+                //visibility: 'hidden',
+                'border-radius': '9px'
+            });
+
+        $(tooltipContainer).append(span).append(arrow);
+        $(markerContainer).prepend(tooltipContainer);
     };
 
 }(jQuery));
