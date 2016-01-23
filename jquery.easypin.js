@@ -19,404 +19,431 @@
 		// set default options values and became user side
 		$.extend($.fn.easypin.defaults, options );
 
-		this.each(function(i) {
+        var willPinningElements = this;
+        var loadedImgNum = 0;
+        var total = $(this).length;
 
-			// get targetimage sizes
-			var imageWidth = $(this).width();
-			var imageHeight = $(this).height();
+        // hide all images
+        willPinningElements.each(function(i) {
+            $(this).css('opacity', 0);
+        });
 
-			if(imageHeight > 0) {
+        $(this).on('load', function() {
 
-			// create parent element and add than target image after
-			var containerElement = $(this)
-				.after(
-                    $('<div/>', {'class': parentClass})
-                        .attr('data-index', setIndex(setClass(parentClass), document.body))
-                )
-				.appendTo(setClass(parentClass)+':last')
-				.css('position', 'absolute')
-				.css('z-index', imageZindex);
+            loadedImgNum += 1;
 
-			// add class to target image
-			$(this).addClass('easypin-target');
+            // show loaded image
+            $(this).animate(
+                {
+                    'opacity': '1'
+                },
+                {
+                    duration: 'fast',
+                    easing: 'easeInQuad'
+                }
+            );
 
-			// set target image sizes to parent container
-			containerElement
-				.parent()
-				.attr($.fn.easypin.config('widthAttribute'), imageWidth)
-				.attr($.fn.easypin.config('heightAttribute'), imageHeight)
-				// and set style width, height and position
-				.css({
-					width: setPx(imageWidth),
-					height: setPx(imageHeight),
-					position: $.fn.easypin.config('parentPosition'),
-					border: setPx(dashWidth)+' dashed #383838'
-				});
-			}
-		});
+            if (loadedImgNum == total) {
 
-		// hover event
-		var parentElement = $(setClass(parentClass));
+                willPinningElements.each(function(i) {
 
-		// on hover parent element then create opacity
-		$(parentElement).hover(function() {
+        			// get targetimage sizes
+        			var imageWidth = $(this).width();
+        			var imageHeight = $(this).height();
 
-			// if popup is open stop hover animate
-			if(! is_open('popup', $(this))) {
-				$(this)
-					.prepend(
-						$('<div/>', {'class': hoverClass})
-							.css({
-								width: '100%',
-								height: '100%',
-								position: 'absolute',
-								opacity: 0,
-								'z-index': hoverLayerZindex,
-								'background-color': 'black',
-								cursor: 'copy'
-							})
-					)
-					// cross to children object
-					.children(setClass(hoverClass))
-						.animate({
-						    opacity: 0.2,
-						}, 800);
-			}
+        			if(imageHeight > 0) {
 
-		// on mouseleave then remove opacity
-		},function() {
-			$(this)
-				// cross to children object
-				.children(setClass(hoverClass))
-				.animate({
-				    opacity: 0,
-				},
-				'fast', // how fast we are animating
-    			'swing', // the type of easing
-				function() {
-			   		$(this).remove();
-				}
-			);
+        			// create parent element and add than target image after
+        			var containerElement = $(this)
+        				.after(
+                            $('<div/>', {'class': parentClass})
+                                .attr('data-index', setIndex(setClass(parentClass), document.body))
+                        )
+        				.appendTo(setClass(parentClass)+':last')
+        				.css('position', 'absolute')
+        				.css('z-index', imageZindex);
 
-		})
-		.append($('<div/>', {'class': pinMapClass})
-			// child element
-			.css({
-				position: 'absolute',
-				'z-index': pinMapZindex
-			})
-		)
-		// set mousedown event on parent element
-		.bind('mousedown', function(e) {
-			// if clicked event is not parent and hover class stop propagation
-			if(! $(e.target).is(setClass(parentClass)) && !$(e.target).is(setClass(hoverClass))) {
-				e.stopPropagation();
-				return;
-			}
+        			// add class to target image
+        			$(this).addClass('easypin-target');
 
-			// only allow key code one
-			if(e.which != 1) return;
+        			// set target image sizes to parent container
+        			containerElement
+        				.parent()
+        				.attr($.fn.easypin.config('widthAttribute'), imageWidth)
+        				.attr($.fn.easypin.config('heightAttribute'), imageHeight)
+        				// and set style width, height and position
+        				.css({
+        					width: setPx(imageWidth),
+        					height: setPx(imageHeight),
+        					position: $.fn.easypin.config('parentPosition'),
+        					border: setPx(dashWidth)+' dashed #383838'
+        				});
+        			}
+        		});
 
-			// get parent element instance
-			var parentElement = e.currentTarget;
+                // hover event
+        		var parentElement = $(setClass(parentClass));
 
-            // get total marker
-            var totalMarker = $('.easy-marker', parentElement).size();
-            var limit = parseInt($.fn.easypin.defaults.limit);
+        		// on hover parent element then create opacity
+        		$(parentElement).hover(function() {
+        			// if popup is open stop hover animate
+        			if(! is_open('popup', $(this))) {
+        				$(this)
+        					.prepend(
+        						$('<div/>', {'class': hoverClass})
+        							.css({
+        								width: '100%',
+        								height: '100%',
+        								position: 'absolute',
+        								opacity: 0,
+        								'z-index': hoverLayerZindex,
+        								'background-color': 'black',
+        								cursor: 'copy'
+        							})
+        					)
+        					// cross to children object
+        					.children(setClass(hoverClass))
+        						.animate({
+        						    opacity: 0.2,
+        						}, 800);
+        			}
 
-            // check the limit
-            if(limit != 0 && totalMarker >= limit) {
-                $.fn.easypin.defaults.exceeded('limit exceeded');
-                return;
+        		// on mouseleave then remove opacity
+        		},function() {
+        			$(this)
+        				// cross to children object
+        				.children(setClass(hoverClass))
+        				.animate({
+        				    opacity: 0,
+        				},
+        				'fast', // how fast we are animating
+            			'swing', // the type of easing
+        				function() {
+        			   		$(this).remove();
+        				}
+        			);
+
+        		})
+        		.append($('<div/>', {'class': pinMapClass})
+        			// child element
+        			.css({
+        				position: 'absolute',
+        				'z-index': pinMapZindex
+        			})
+        		)
+        		// set mousedown event on parent element
+        		.bind('mousedown', function(e) {
+        			// if clicked event is not parent and hover class stop propagation
+        			if(! $(e.target).is(setClass(parentClass)) && !$(e.target).is(setClass(hoverClass))) {
+        				e.stopPropagation();
+        				return;
+        			}
+
+        			// only allow key code one
+        			if(e.which != 1) return;
+
+        			// get parent element instance
+        			var parentElement = e.currentTarget;
+
+                    // get total marker
+                    var totalMarker = $('.easy-marker', parentElement).size();
+                    var limit = parseInt($.fn.easypin.defaults.limit);
+
+                    // check the limit
+                    if(limit != 0 && totalMarker >= limit) {
+                        $.fn.easypin.defaults.exceeded('limit exceeded');
+                        return;
+                    }
+
+        			// get target image sizes
+        			var imageWidth = $('img'+setClass('easypin-target'), parentElement).width();
+        			var imageHeight = $('img'+setClass('easypin-target'), parentElement).height();
+
+        			// pin map class sized
+        			$(setClass(pinMapClass), parentElement)
+        				.css({
+        					width: setPx(imageWidth),
+        					height: setPx(imageHeight)
+        				});
+
+        			// get config variable
+        			var src = $.fn.easypin.defaults.markerSrc;
+        			var markerWidth = $.fn.easypin.defaults.markerWidth;
+        			var markerHeight = $.fn.easypin.defaults.markerHeight == 'auto' ? markerWidth : $.fn.easypin.defaults.markerHeight;
+        			var markerClass = $.fn.easypin.defaults.markerClass;
+        			var markerContainerZindex = $.fn.easypin.defaults.markerContainerZindex;
+
+        			// canvas border width
+        			var dashWidth = $.fn.easypin.defaults.dashWidth;
+
+        			// get x, y balance value
+        			var posYBalance = $.fn.easypin.defaults.posYBalance;
+        			var posXBalance = $.fn.easypin.defaults.posXBalance;
+
+        			// get current target image instance
+        			var targetImage = $('img'+setClass('easypin-target'), parentElement);
+
+        			// set cursor position coordinate
+        			var imagePositionY = targetImage.offset().top - (dashWidth-posYBalance);
+        			var imagePositionX = targetImage.offset().left - (dashWidth-posXBalance);
+        			var clickPosX = (e.pageX-imagePositionX);
+        			var clickPosY = (e.pageY-imagePositionY);
+
+        			// get marker half size (width/height)
+        			var markerWidthHalf = (markerWidth/2);
+        	        var markerHeightHalf = (markerHeight/2);
+
+        			// set canvas border position
+        			var markerBorderX = clickPosX-(markerWidth/2);
+        			var markerBorderY = clickPosY-(markerHeight/2);
+
+        			if(markerBorderX < 0) {
+        				markerBorderX = 0;
+        			}
+        			else if(clickPosX+markerWidthHalf > imageWidth) {
+        				markerBorderX = imageWidth-markerWidth;
+        			}
+
+        			if(markerBorderY < 0) {
+        				markerBorderY = 0;
+        			}
+        			else if(clickPosY+markerHeightHalf > imageHeight) {
+        				markerBorderY = imageHeight-markerHeight;
+        			}
+
+        			var absX = markerBorderX.toFixed(3)-markerWidthHalf;
+        			var absY = markerBorderY.toFixed(3)-markerHeightHalf;
+
+        			// create marker container
+        			var markerContainer = $('<div/>', {'class': markerClass})
+        				.css('left', setPx(markerBorderX))
+        				.css('top', setPx(markerBorderY-15))
+        				.css('width', markerWidth)
+        				.css('height', markerHeight)
+        				.css('position', 'absolute')
+        				.css('opacity', 0)
+        				.css('z-index', markerContainerZindex+10)
+        				.css('background-image', 'url('+src+')')
+        				.css('background-size', setPx(markerWidth))
+        				.css('cursor', 'move')
+        				.attr($.fn.easypin.config('xAttribute'), absX)
+        				.attr($.fn.easypin.config('yAttribute'), absY)
+        				.attr($.fn.easypin.config('widthAttribute'), imageWidth)
+        				.attr($.fn.easypin.config('heightAttribute'), imageHeight)
+                        .attr('data-index', setIndex('.easy-marker', parentElement));
+
+        			var tools = $('<div/>', {'class': 'easy-tools'})
+        	        	.css({
+        	        		'width': setPx(markerWidth),
+        	        		'height': '10px',
+        	        		'position': 'absolute',
+        	        		'background-color': '#868585',
+        	        		'left': '-1px',
+        	        		'top': setPx((markerHeight+2)-5),
+        	        		'opacity': '0'
+
+        	        	})
+        	        	.append(function() { // edit button create
+        	        		return $('<a/>', {'class': 'easy-edit'})
+        	        			.css({
+        	        				'display': 'inline-block',
+        	        				'width': setPx(markerWidth/2),
+        	        				'height': '10px',
+        	        				'position': 'absolute',
+        	        				'left': '0px',
+        	        				'background-image': 'url('+$.fn.easypin.defaults.editSrc+')',
+        	        				'background-repeat': 'no-repeat',
+        	        				'background-size': '8px',
+        	        				'background-position-y': '1px',
+        	        				'background-position-x': '3px'
+        	        			}).hover(function() {
+        	        				$(this)
+        	        					.css('background-color', 'black')
+        	        					.css('opacity', '.6');
+        	        			},function() {
+        	        				$(this).css('background-color', 'inherit');
+        	        			});
+        	        	})
+        	        	.append(function() { // delete button
+        	        		return $('<a/>', {'class': 'easy-delete'})
+        	        			.css({
+        	        				'display': 'inline-block',
+        	        				'width': setPx(markerWidth/2),
+        	        				'height': '10px',
+        	        				'position': 'absolute',
+        	        				'right': '0px',
+        	        				'background-image': 'url('+$.fn.easypin.defaults.deleteSrc+')',
+        	        				'background-repeat': 'no-repeat',
+        	        				'background-size': '8px',
+        	        				'background-position-y': '1px',
+        	        				'background-position-x': '3px'
+        	        			}).hover(function() {
+        	        				$(this)
+        	        					.css('background-color', 'black')
+        	        					.css('opacity', '.6');
+        	        			},function() {
+        	        				$(this).css('background-color', 'inherit');
+        	        			});
+        	        	});
+
+                    var markerIndex = $(markerContainer).attr('data-index');
+                    var parentIndex = $(parentElement).attr('data-index');
+
+                    // remove marker
+        	        $(markerContainer).on('click', '.easy-delete', function(e) {
+
+                        dataRemove(parentIndex, markerIndex);
+
+                        $(e.currentTarget).closest('.easy-marker').remove();
+        	        });
+
+                    // set the marker content
+        	        $(markerContainer).on('click', '.easy-edit', function(e) {
+        	        	// creates popup and return instance
+        	        	var modalInstance = createPopup(e, markerContainer);
+
+                        // data set to input fields
+                        setDataToFields(parentIndex, markerIndex, modalInstance);
+        	        });
+
+        			// marker tools append to marker container
+        	        $(markerContainer).append(tools);
+
+        			// set cursor x,y position
+        	        var xPosition = markerBorderX.toFixed(3);
+        	        var yPosition = markerBorderY.toFixed(3);
+
+        			// marker container append to pin parent container and run callback function
+        			if(is_open('popup', parentElement)) {
+        				$(parentElement).prepend(markerContainer, $.fn.easypin.defaults.drop(absX, absY, markerContainer));
+        			}else{
+        				$(parentElement).append(markerContainer, $.fn.easypin.defaults.drop(absX, absY, markerContainer));
+        			}
+
+        			// calculate tools position for animate
+        			if((markerBorderY+markerHeight+10) > imageHeight) {
+        				var toolsPosition = -13;
+        			}else {
+        				var toolsPosition = markerHeight+2;
+        			}
+
+        			// marker animate
+        			$(markerContainer).animate(
+        				{
+        					opacity: 1,
+        					top: setPx(markerBorderY)
+        				},
+        				{
+        					duration: 'slow',
+        					easing: 'easeOutElastic',
+        					complete: function() {
+
+        						// tools animate
+        						$(tools).animate(
+        							{
+        								'opacity': '.4',
+        								'top': setPx(toolsPosition)
+        							},
+        							{
+        								duration: 'slow',
+        								easing: 'easeOutElastic'
+        							}
+        						).hover(function() {
+        							$(this).animate(
+        								{
+        									'opacity': '1'
+        								},
+        								{
+        									duration: 'slow',
+        									easing: 'easeInOutQuint'
+        								}
+        							).css('cursor', 'pointer');
+        						},function() {
+        							$(this).animate(
+        								{
+        									'opacity': '.4'
+        								},
+        								{
+        									duration: 'slow',
+        									easing: 'easeInOutQuint'
+        								}
+        							);
+        						});
+        					}
+        				}
+        			);
+
+        			var draggable = $(setClass(markerClass));
+
+        	        // binding methods mousedown and mousemove
+        	        $(draggable).bind('mousedown', function (e) {
+
+        	        	e.stopPropagation();
+
+        				if(e.which != 1) return;
+
+                        var markerInstance = e.currentTarget;
+
+        	            $(parentElement).bind('mousemove', function (e) {
+
+        	            	var parentElement = $(markerInstance).parent();
+        	            	var markerContainer = $(markerInstance);
+
+        	            	var targetImage = $('img.easypin-target', parentElement)
+        	            	var markerWidthHalf = (markerWidth/2);
+        	            	var markerHeightHalf = (markerHeight/2);
+        	            	liveY = e.pageY-targetImage.offset().top;
+        	            	liveX = e.pageX-targetImage.offset().left;
+
+        	            	var relY = liveY;
+        	            	var relX = liveX;
+
+        	            	if(liveY - markerHeightHalf < 0) {
+        	            		var relY = markerHeightHalf;
+        	            	}
+        	            	else if(liveY + markerHeightHalf > imageHeight) {
+        	            		var relY = imageHeight-markerHeightHalf;
+        	            	}
+
+        	            	if(liveX - markerWidthHalf < 0) {
+        	            		var relX = markerWidthHalf;
+        	            	}
+        	            	else if(liveX + markerWidthHalf > imageWidth) {
+        	            		var relX = imageWidth-markerWidthHalf;
+        	            	}
+
+        	            	var absX = relX.toFixed(3)-markerWidthHalf;
+        	            	var absY = parseInt(relY.toFixed(3))+markerHeightHalf;
+
+        					// on move marker then check tool container position
+        					checkToolsPosition(absY, imageHeight, markerContainer)
+
+        	            	// drag event
+        					$.fn.easypin.defaults.drag(absX, absY, markerContainer);
+
+        	                $(markerContainer).css({
+        	                	position: 'absolute',
+        	                	top: setPx(relY),
+        	                	left: setPx(relX),
+        	                	marginTop: -(markerHeight/2),
+        	                	marginLeft: -(markerWidth/2),
+        	               	})
+        	               	.attr($.fn.easypin.config('xAttribute'), absX)
+        					.attr($.fn.easypin.config('yAttribute'), absY);
+        	            });
+        	        });
+
+        	        // unbinding the events and removing
+        	        $(draggable).bind('mouseup', function () {
+        	            $(parentElement).unbind('mousemove');
+        	        });
+
+        		});
+
+                // object instance add to container
+                $.fn.easypin.di('instance', $.fn.easypin);
             }
-
-			// get target image sizes
-			var imageWidth = $('img'+setClass('easypin-target'), parentElement).width();
-			var imageHeight = $('img'+setClass('easypin-target'), parentElement).height();
-
-			// pin map class sized
-			$(setClass(pinMapClass), parentElement)
-				.css({
-					width: setPx(imageWidth),
-					height: setPx(imageHeight)
-				});
-
-			// get config variable
-			var src = $.fn.easypin.defaults.markerSrc;
-			var markerWidth = $.fn.easypin.defaults.markerWidth;
-			var markerHeight = $.fn.easypin.defaults.markerHeight == 'auto' ? markerWidth : $.fn.easypin.defaults.markerHeight;
-			var markerClass = $.fn.easypin.defaults.markerClass;
-			var markerContainerZindex = $.fn.easypin.defaults.markerContainerZindex;
-
-			// canvas border width
-			var dashWidth = $.fn.easypin.defaults.dashWidth;
-
-			// get x, y balance value
-			var posYBalance = $.fn.easypin.defaults.posYBalance;
-			var posXBalance = $.fn.easypin.defaults.posXBalance;
-
-			// get current target image instance
-			var targetImage = $('img'+setClass('easypin-target'), parentElement);
-
-			// set cursor position coordinate
-			var imagePositionY = targetImage.offset().top - (dashWidth-posYBalance);
-			var imagePositionX = targetImage.offset().left - (dashWidth-posXBalance);
-			var clickPosX = (e.pageX-imagePositionX);
-			var clickPosY = (e.pageY-imagePositionY);
-
-			// get marker half size (width/height)
-			var markerWidthHalf = (markerWidth/2);
-	        var markerHeightHalf = (markerHeight/2);
-
-			// set canvas border position
-			var markerBorderX = clickPosX-(markerWidth/2);
-			var markerBorderY = clickPosY-(markerHeight/2);
-
-			if(markerBorderX < 0) {
-				markerBorderX = 0;
-			}
-			else if(clickPosX+markerWidthHalf > imageWidth) {
-				markerBorderX = imageWidth-markerWidth;
-			}
-
-			if(markerBorderY < 0) {
-				markerBorderY = 0;
-			}
-			else if(clickPosY+markerHeightHalf > imageHeight) {
-				markerBorderY = imageHeight-markerHeight;
-			}
-
-			var absX = markerBorderX.toFixed(3)-markerWidthHalf;
-			var absY = markerBorderY.toFixed(3)-markerHeightHalf;
-
-			// create marker container
-			var markerContainer = $('<div/>', {'class': markerClass})
-				.css('left', setPx(markerBorderX))
-				.css('top', setPx(markerBorderY-15))
-				.css('width', markerWidth)
-				.css('height', markerHeight)
-				.css('position', 'absolute')
-				.css('opacity', 0)
-				.css('z-index', markerContainerZindex+10)
-				.css('background-image', 'url('+src+')')
-				.css('background-size', setPx(markerWidth))
-				.css('cursor', 'move')
-				.attr($.fn.easypin.config('xAttribute'), absX)
-				.attr($.fn.easypin.config('yAttribute'), absY)
-				.attr($.fn.easypin.config('widthAttribute'), imageWidth)
-				.attr($.fn.easypin.config('heightAttribute'), imageHeight)
-                .attr('data-index', setIndex('.easy-marker', parentElement));
-
-			var tools = $('<div/>', {'class': 'easy-tools'})
-	        	.css({
-	        		'width': setPx(markerWidth),
-	        		'height': '10px',
-	        		'position': 'absolute',
-	        		'background-color': '#868585',
-	        		'left': '-1px',
-	        		'top': setPx((markerHeight+2)-5),
-	        		'opacity': '0'
-
-	        	})
-	        	.append(function() { // edit button create
-	        		return $('<a/>', {'class': 'easy-edit'})
-	        			.css({
-	        				'display': 'inline-block',
-	        				'width': setPx(markerWidth/2),
-	        				'height': '10px',
-	        				'position': 'absolute',
-	        				'left': '0px',
-	        				'background-image': 'url('+$.fn.easypin.defaults.editSrc+')',
-	        				'background-repeat': 'no-repeat',
-	        				'background-size': '8px',
-	        				'background-position-y': '1px',
-	        				'background-position-x': '3px'
-	        			}).hover(function() {
-	        				$(this)
-	        					.css('background-color', 'black')
-	        					.css('opacity', '.6');
-	        			},function() {
-	        				$(this).css('background-color', 'inherit');
-	        			});
-	        	})
-	        	.append(function() { // delete button
-	        		return $('<a/>', {'class': 'easy-delete'})
-	        			.css({
-	        				'display': 'inline-block',
-	        				'width': setPx(markerWidth/2),
-	        				'height': '10px',
-	        				'position': 'absolute',
-	        				'right': '0px',
-	        				'background-image': 'url('+$.fn.easypin.defaults.deleteSrc+')',
-	        				'background-repeat': 'no-repeat',
-	        				'background-size': '8px',
-	        				'background-position-y': '1px',
-	        				'background-position-x': '3px'
-	        			}).hover(function() {
-	        				$(this)
-	        					.css('background-color', 'black')
-	        					.css('opacity', '.6');
-	        			},function() {
-	        				$(this).css('background-color', 'inherit');
-	        			});
-	        	});
-
-            var markerIndex = $(markerContainer).attr('data-index');
-            var parentIndex = $(parentElement).attr('data-index');
-
-            // remove marker
-	        $(markerContainer).on('click', '.easy-delete', function(e) {
-
-                dataRemove(parentIndex, markerIndex);
-
-                $(e.currentTarget).closest('.easy-marker').remove();
-	        });
-
-            // set the marker content
-	        $(markerContainer).on('click', '.easy-edit', function(e) {
-	        	// creates popup and return instance
-	        	var modalInstance = createPopup(e, markerContainer);
-
-                // data set to input fields
-                setDataToFields(parentIndex, markerIndex, modalInstance);
-	        });
-
-			// marker tools append to marker container
-	        $(markerContainer).append(tools);
-
-			// set cursor x,y position
-	        var xPosition = markerBorderX.toFixed(3);
-	        var yPosition = markerBorderY.toFixed(3);
-
-			// marker container append to pin parent container and run callback function
-			if(is_open('popup', parentElement)) {
-				$(parentElement).prepend(markerContainer, $.fn.easypin.defaults.drop(absX, absY, markerContainer));
-			}else{
-				$(parentElement).append(markerContainer, $.fn.easypin.defaults.drop(absX, absY, markerContainer));
-			}
-
-			// calculate tools position for animate
-			if((markerBorderY+markerHeight+10) > imageHeight) {
-				var toolsPosition = -13;
-			}else {
-				var toolsPosition = markerHeight+2;
-			}
-
-			// marker animate
-			$(markerContainer).animate(
-				{
-					opacity: 1,
-					top: setPx(markerBorderY)
-				},
-				{
-					duration: 'slow',
-					easing: 'easeOutElastic',
-					complete: function() {
-
-						// tools animate
-						$(tools).animate(
-							{
-								'opacity': '.4',
-								'top': setPx(toolsPosition)
-							},
-							{
-								duration: 'slow',
-								easing: 'easeOutElastic'
-							}
-						).hover(function() {
-							$(this).animate(
-								{
-									'opacity': '1'
-								},
-								{
-									duration: 'slow',
-									easing: 'easeInOutQuint'
-								}
-							).css('cursor', 'pointer');
-						},function() {
-							$(this).animate(
-								{
-									'opacity': '.4'
-								},
-								{
-									duration: 'slow',
-									easing: 'easeInOutQuint'
-								}
-							);
-						});
-					}
-				}
-			);
-
-			var draggable = $(setClass(markerClass));
-
-	        // binding methods mousedown and mousemove
-	        $(draggable).bind('mousedown', function (e) {
-
-	        	e.stopPropagation();
-
-				if(e.which != 1) return;
-
-                var markerInstance = e.currentTarget;
-
-	            $(parentElement).bind('mousemove', function (e) {
-
-	            	var parentElement = $(markerInstance).parent();
-	            	var markerContainer = $(markerInstance);
-
-	            	var targetImage = $('img.easypin-target', parentElement)
-	            	var markerWidthHalf = (markerWidth/2);
-	            	var markerHeightHalf = (markerHeight/2);
-	            	liveY = e.pageY-targetImage.offset().top;
-	            	liveX = e.pageX-targetImage.offset().left;
-
-	            	var relY = liveY;
-	            	var relX = liveX;
-
-	            	if(liveY - markerHeightHalf < 0) {
-	            		var relY = markerHeightHalf;
-	            	}
-	            	else if(liveY + markerHeightHalf > imageHeight) {
-	            		var relY = imageHeight-markerHeightHalf;
-	            	}
-
-	            	if(liveX - markerWidthHalf < 0) {
-	            		var relX = markerWidthHalf;
-	            	}
-	            	else if(liveX + markerWidthHalf > imageWidth) {
-	            		var relX = imageWidth-markerWidthHalf;
-	            	}
-
-	            	var absX = relX.toFixed(3)-markerWidthHalf;
-	            	var absY = parseInt(relY.toFixed(3))+markerHeightHalf;
-
-					// on move marker then check tool container position
-					checkToolsPosition(absY, imageHeight, markerContainer)
-
-	            	// drag event
-					$.fn.easypin.defaults.drag(absX, absY, markerContainer);
-
-	                $(markerContainer).css({
-	                	position: 'absolute',
-	                	top: setPx(relY),
-	                	left: setPx(relX),
-	                	marginTop: -(markerHeight/2),
-	                	marginLeft: -(markerWidth/2),
-	               	})
-	               	.attr($.fn.easypin.config('xAttribute'), absX)
-					.attr($.fn.easypin.config('yAttribute'), absY);
-	            });
-	        });
-
-	        // unbinding the events and removing
-	        $(draggable).bind('mouseup', function () {
-	            $(parentElement).unbind('mousemove');
-	        });
-
-		});
-
-        // object instance add to container
-        $.fn.easypin.di('instance', $.fn.easypin);
+        });
 
 		return this;
 	};
@@ -681,7 +708,6 @@
 			.css({
 				'background-color': '#fff',
 				'width': $.fn.easypin.defaults.modalWidth,
-				'height': 'auto',
 				'opacity': '0',
 				'position': 'absolute',
 				'padding': '10px',
@@ -696,24 +722,39 @@
 			.append($(modalContent).show())
 			.appendTo(modalParent); // modal body append to modal parent element
 
+        // modal parent element append to parent element
+        $('.popupOpacityLayer', parentElement).after(modalParent);
 
-		var modalHeight = $(modalContext).height();
+		var modalHeight = $('.modalContext').height()
 		var modalWidth = $(modalContext).width();
 
         var parentLeft = $(elem.target).closest(setClass($.fn.easypin.defaults.parentClass)).offset().left;
         var markerLeft = $(elem.target).offset().left;
-        var clickPos = (markerLeft - parentLeft);
+        var clickPosLeft = (markerLeft - parentLeft);
+
+        var parentTop = $(elem.target).closest(setClass($.fn.easypin.defaults.parentClass)).offset().top;
+        var markerTop = $(elem.target).offset().top;
+        var clickPosTop = (markerTop - parentTop);
 
         // modal position process
         if($(modalContent).attr('modal-position') == 'free') {
 
-            if((clickPos-100) < modalWidth) {
-                var modalLeftPosition = clickPos+$(markerContainer).width()+50;
+            // calculate free left position
+            if((clickPosLeft-100) < modalWidth) {
+                var modalLeftPosition = clickPosLeft+$(markerContainer).width()+50;
             }else{
-                var modalLeftPosition = clickPos-modalWidth-100;
+                var modalLeftPosition = clickPosLeft-modalWidth-100;
+            }
+
+            // calculate free top position
+            if((height-clickPosTop) < modalHeight) {
+                var modalTopPosition = height - (modalHeight+100);
+            }else{
+                var modalTopPosition = clickPosTop-(modalHeight/2);
             }
         }else{
             var modalLeftPosition = (width/2)-(modalWidth/2)-10;
+            var modalTopPosition = (height/2)-($(modalContext).height()/2)-10;
         }
 
 		// modal body hide by position
@@ -721,8 +762,7 @@
 			.css('top', -(modalHeight+5)+'px')
 			.css('left', modalLeftPosition+'px');
 
-		// modal parent element append to parent element
-		$('.popupOpacityLayer', parentElement).after(modalParent);
+
 
         // without onhover action (close modal)
         keyBinder(27, function() {
@@ -746,7 +786,7 @@
 		// animate modal body
 		$(modalContext).animate(
 				{
-					'top': (height/2)-($(modalContext).height()/2)-10+'px',
+					'top': modalTopPosition+'px',
 					'opacity': '1'
 				},
 				{

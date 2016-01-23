@@ -44,17 +44,24 @@
     <div class="xx"></div>
     <div class="xx"></div>
     <div class="xx"></div>
+
+
+    <img src="http://www.intrawallpaper.com/static/images/colourful-dice-cubes.jpg" class="pin" />
     <img src="11495.jpg" class="pin" />
 
         <div style="position:relative;left:50px;">
             <br />
        <div style="width:1px;height:80px;">&nbsp;</div>
+
+<img src="http://www.besthdwallpapersfit.com/wp-content/uploads/2015/10/desktop-_best_wallpaper-_hd-_big-_size.jpg" class="pin" width="2000" />
         <img src="world-map.gif" class="pin" width="800" />
         <br />
         <img src="29f60576ed3144249580c0fcb67771e2.png" class="pin" width="800" />
         <br />
         <img src="11495.jpg" class="pin" width="800" />
         <br />
+
+        <img src="http://allwallpapersnew.com/wp-content/gallery/natural-green-wallpaper/green-natural-329594.jpg" class="pin" width="1200" />
 
         </div>
 
@@ -121,38 +128,40 @@
 <script type="text/javascript">
     $(document).ready(function(){
 
-        var $easyInstance = $('.pin').easypin({
-            popover: ['firstname'],
-            limit: 0,
-            exceeded: function(type) {
-                console.log(type);
-            },
-            drop: function(x, y, element) {
-                //console.log(x,y, element);
-            },
-            drag: function(x, y, element) {
-                //console.log(x, y, element);
-            },
-            done: function(element) {
 
-                //console.log(element);
-                return true;
-            }
-        });
+            var $easyInstance = $('.pin').easypin({
+                popover: '{firstname} {lastname}',
+                limit: 0,
+                exceeded: function(type) {
+                    console.log(type);
+                },
+                drop: function(x, y, element) {
+                    //console.log(x,y, element);
+                },
+                drag: function(x, y, element) {
+                    //console.log(x, y, element);
+                },
+                done: function(element) {
 
-        $easyInstance.easypin.event( "get.coordinates", function($instance, data, params ) {
-
-            $instance.clear();
-
-            console.log( data, params);
-
-        });
-
-        $( ".test" ).click(function( event ) {
-            $easyInstance.easypin.fire( "get.coordinates", {t:1, r:2, y:3}, function(data) {
-                return JSON.stringify(data);
+                    //console.log(element);
+                    return true;
+                }
             });
-        });
+
+            $easyInstance.easypin.event( "get.coordinates", function($instance, data, params ) {
+
+                $instance.clear();
+
+                console.log( data, params);
+
+            });
+
+            $( ".test" ).click(function( event ) {
+                $easyInstance.easypin.fire( "get.coordinates", {t:1, r:2, y:3}, function(data) {
+                    return JSON.stringify(data);
+                });
+            });
+
 
     });
 </script>
