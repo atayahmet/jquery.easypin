@@ -46,14 +46,14 @@
     <div class="xx"></div>
 
 
-    <img src="http://www.intrawallpaper.com/static/images/colourful-dice-cubes.jpg" class="pin" />
+
+    <div style="width:400px;"><img src="http://www.intrawallpaper.com/static/images/colourful-dice-cubes.jpg" class="pin" style="width:100%;" /></div>
     <img src="11495.jpg" class="pin" />
 
         <div style="position:relative;left:50px;">
             <br />
        <div style="width:1px;height:80px;">&nbsp;</div>
 
-<img src="http://www.besthdwallpapersfit.com/wp-content/uploads/2015/10/desktop-_best_wallpaper-_hd-_big-_size.jpg" class="pin" width="2000" />
         <img src="world-map.gif" class="pin" width="800" />
         <br />
         <img src="29f60576ed3144249580c0fcb67771e2.png" class="pin" width="800" />
@@ -74,16 +74,6 @@
         </div>
 
 
-    </div>
-
-    <div class="epShow" style="display:none;">
-        <div id="#ep0">{{ep0}}</div>
-        <div id="#ep1">{{ep1}}</div>
-        <div id="#ep2">{{ep2}}</div>
-        <div id="#ep3">{{ep3}}</div>
-        <div id="#ep4">{{ep4}}</div>
-        <div id="#ep5">{{ep5}}</div>
-        <div id="#ep6">{{ep6}}</div>
     </div>
 
     <div class="easy-modal" style="display:none;" modal-position="free">
@@ -122,15 +112,35 @@
         </form>
     </div>
     <input class="test" type="button" value="Click" />
+
+    <div style="display:none;" popover>
+        <span>{[firstname]}</span>
+        <br />
+        <span>{[city]}</span>
+        <br />
+        <span>{[gender]}</span>
+        <br />
+        <span></span>
+    </div>
+
     </body>
 </html>
 
 <script type="text/javascript">
     $(document).ready(function(){
 
-
             var $easyInstance = $('.pin').easypin({
-                popover: '{firstname} {lastname}',
+                popover: {
+                    firstname: function(value, element) {
+
+                    },
+                    city: function(value, element) {
+
+                    },
+                    gender: function(value, element) {
+
+                    }
+                },
                 limit: 0,
                 exceeded: function(type) {
                     console.log(type);

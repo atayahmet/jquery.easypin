@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Laravel</title>
+
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+        <script type="text/javascript" src="jquery.easypin.js"></script>
+    </head>
+    <body>
+        <img src="29f60576ed3144249580c0fcb67771e2.png" class="pin" width="100%" />
+
+        <img src="29f60576ed3144249580c0fcb67771e2.png" class="pin" width="100%" />
+        test!
+        <img src="http://allwallpapersnew.com/wp-content/gallery/natural-green-wallpaper/green-natural-329594.jpg" class="pin" width="100%" />
+
+        <br />
+
+
+        <div style="display:none;">
+
+            <h3>Easy Pin!</h3>
+
+        </div>
+    </body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $(window).resize(function(e) {
+            //console.log(e);
+            $('.easypin').each(function() {
+                //console.log($(this).width(), $(this).height());
+            });
+        });
+
+        $('.pin').easypinShow({
+            pin: 'blaaaa.png',
+            data: '{"1":{"0":{"firstname":"Ahmet","surname":"ATAY","check1":"music","city":"istanbul","genre":"male","description":"açıklama","canvas":{"src":"11495.jpg","lat":"445","long":"113","width":"1920","height":"710"}},"1":{"firstname":"Arife","surname":"ATAY","check1":"music","check2":"cinema","city":"istanbul","genre":"female","description":"açıklama","canvas":{"src":"11495.jpg","lat":"415","long":"221","width":"1920","height":"710"}}}}',
+            animate: true,
+            animateType: 'easeOutElastic', // jquery easing
+            responsive: false,
+            each: function(index, data) {
+                return data;
+            },
+            error: function(e) {
+                console.log(e);
+            },
+            success: function() {
+                console.log('başarılı');
+            }
+        });
+
+
+    });
+</script>

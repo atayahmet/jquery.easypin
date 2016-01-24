@@ -31,7 +31,6 @@
         $(this).on('load', function() {
 
             loadedImgNum += 1;
-
             // show loaded image
             $(this).animate(
                 {
@@ -53,32 +52,32 @@
 
         			if(imageHeight > 0) {
 
-        			// create parent element and add than target image after
-        			var containerElement = $(this)
-        				.after(
-                            $('<div/>', {'class': parentClass})
-                                .attr('data-index', setIndex(setClass(parentClass), document.body))
-                        )
-        				.appendTo(setClass(parentClass)+':last')
-        				.css('position', 'absolute')
-        				.css('z-index', imageZindex);
+            			// create parent element and add than target image after
+            			var containerElement = $(this)
+            				.after(
+                                $('<div/>', {'class': parentClass})
+                                    .attr('data-index', setIndex(setClass(parentClass), document.body))
+                            )
+            				.appendTo(setClass(parentClass)+':last')
+            				.css('position', 'absolute')
+            				.css('z-index', imageZindex);
 
-        			// add class to target image
-        			$(this).addClass('easypin-target');
+            			// add class to target image
+            			$(this).addClass('easypin-target');
 
-        			// set target image sizes to parent container
-        			containerElement
-        				.parent()
-        				.attr($.fn.easypin.config('widthAttribute'), imageWidth)
-        				.attr($.fn.easypin.config('heightAttribute'), imageHeight)
-        				// and set style width, height and position
-        				.css({
-        					width: setPx(imageWidth),
-        					height: setPx(imageHeight),
-        					position: $.fn.easypin.config('parentPosition'),
-        					border: setPx(dashWidth)+' dashed #383838'
-        				});
-        			}
+            			// set target image sizes to parent container
+            			containerElement
+            				.parent()
+            				.attr($.fn.easypin.config('widthAttribute'), imageWidth)
+            				.attr($.fn.easypin.config('heightAttribute'), imageHeight)
+            				// and set style width, height and position
+            				.css({
+            					width: setPx(imageWidth),
+            					height: setPx(imageHeight),
+            					position: $.fn.easypin.config('parentPosition'),
+            					border: setPx(dashWidth)+' dashed #383838'
+            				});
+            		}
         		});
 
                 // hover event
@@ -494,7 +493,132 @@
                 break;
             default:
                 return null;
+        }
 
+    };
+
+    getByIndex = function(index, data) {
+
+        data = data || {};
+        index = parseInt(index);
+
+        if(typeof(data) == 'object') {
+
+            var j = 0;
+            for(var i in data) {
+
+                j++;
+                if(j == index) {
+                    return data[i];
+                }
+
+            }
+
+        }
+
+        return {};
+
+    };
+    $.fn.easypinShow = function(options) {
+
+        options = options || {};
+
+        try {
+
+            var responsive = options.responsive || false;
+            var pin = options.pin || 'blaaa.png';
+            var animate = options.animate || false;
+            var animateType = options.animateType || 'easeInQuad';
+            var data = options.data || {};
+            var error = typeof(options.error) != 'function' ? function(e) {} : options.error;
+            var each = typeof(options.each) != 'function' ? function(i, data) { return data;} : options.each;
+            var success = typeof(options.success) != 'function' ? function() {} : options.success;
+            var allCanvas = this;
+            var loadedImgNum = 0;
+            var total = $(this).length;
+
+            // hide all images
+            allCanvas.each(function(i) {
+                $(this).css('opacity', 0);
+            });
+
+            if(typeof(data) == 'string') {
+                data = JSON.parse(data);
+            }
+
+            $(this).on('load', function() {
+
+                loadedImgNum += 1;
+
+                // show loaded image
+                $(this).animate(
+                    {
+                        'opacity': '1'
+                    },
+                    {
+                        duration: 'fast',
+                        easing: 'easeInQuad'
+                    }
+                );
+
+                if (loadedImgNum == total) {
+
+                    allCanvas.each(function(i) {
+                        //console.log(i);
+
+                        var canvas = $(this).parent();
+                        var height = $(this).height();
+                        var width = $(this).width();
+
+                        if(responsive === true) {
+                            var absWidth = '100%';
+                            var absHeight = '100%';
+                        }else{
+                            var absWidth = setPx(width);
+                            var absHeight = setPx(height);
+                        }
+
+                        var pinContainer = $('<div/>')
+                            .css({
+                                'width': absWidth,
+                                'height': absHeight,
+                                'position': 'relative'
+                            })
+                            .addClass('easypin');
+
+                        $(this)
+                            .css('position', 'relative')
+                            .replaceWith(pinContainer);
+
+                        $(pinContainer).html(
+                            $('<div/>')
+                                .css('position', 'relative')
+                                .css('height', '100%')
+                                .append($(this))
+                        );
+
+                        var cData = getByIndex(i+1, data);
+
+                        for (var j in cData) {
+
+                            var args = new Array();
+                            args.push(i);
+                            args.push(cData[j]);
+                            var returnData = each.apply(null, args);
+
+                            $(pinContainer).append('<div style="position:absolute;top:0px;">'+returnData.firstname+'</div>');
+                        }
+                    });
+
+                    success.apply();
+                }
+
+            });
+        } catch (e) {
+            var args = new Array();
+            args.push(e.message);
+            args.push(e);
+            error.apply(null, args);
         }
 
     };
@@ -739,6 +863,7 @@
         // modal position process
         if($(modalContent).attr('modal-position') == 'free') {
 
+
             // calculate free left position
             if((clickPosLeft-100) < modalWidth) {
                 var modalLeftPosition = clickPosLeft+$(markerContainer).width()+50;
@@ -747,7 +872,10 @@
             }
 
             // calculate free top position
-            if((height-clickPosTop) < modalHeight) {
+            if(modalHeight > height) {
+                var modalTopPosition = parentTop;
+            }
+            else if((height-clickPosTop) < modalHeight) {
                 var modalTopPosition = height - (modalHeight+100);
             }else{
                 var modalTopPosition = clickPosTop-(modalHeight/2);
@@ -761,8 +889,6 @@
 		$(modalContext)
 			.css('top', -(modalHeight+5)+'px')
 			.css('left', modalLeftPosition+'px');
-
-
 
         // without onhover action (close modal)
         keyBinder(27, function() {
