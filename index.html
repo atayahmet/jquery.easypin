@@ -97,11 +97,11 @@
             <br />
             <br />
             <label>
-                <input type="radio" name="genre" value="male" /> Male
+                <input type="radio" name="gender" value="male" /> Male
             </label>
 
             <label>
-                <input type="radio" name="genre" value="female" /> Female
+                <input type="radio" name="gender" value="female" /> Female
             </label>
             <br />
             <br />
@@ -111,18 +111,18 @@
             <a class="easy-submit" href="javascript:;">Tamam</a>
         </form>
     </div>
-    <input class="test" type="button" value="Click" />
 
-    <div style="display:none;" popover>
-        <span>{[firstname]}</span>
-        <br />
+    <div style="display:none;" popover width="400" shadow="false">
+        <span>{[firstname]} {[surname]}</span>
         <span>{[city]}</span>
-        <br />
         <span>{[gender]}</span>
+        <span>{[check1]}</span>
+        <span>{[check2]}</span>
         <br />
-        <span></span>
+        <span>{[description]}</span>
     </div>
-
+    <br />
+    <input class="test" type="button" value="Click" />
     </body>
 </html>
 
@@ -130,15 +130,16 @@
     $(document).ready(function(){
 
             var $easyInstance = $('.pin').easypin({
+                init: {},
                 popover: {
-                    firstname: function(value, element) {
-
+                    firstname: function(value) {
+                        return value;
                     },
-                    city: function(value, element) {
-
+                    city: function(value) {
+                        return value;
                     },
-                    gender: function(value, element) {
-
+                    gender: function(value) {
+                        return value == 'male' ? 'Bay' : 'Bayan';
                     }
                 },
                 limit: 0,

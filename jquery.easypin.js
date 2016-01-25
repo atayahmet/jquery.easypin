@@ -523,6 +523,9 @@
 
         options = options || {};
 
+        // set default options values and became user side
+		$.extend($.fn.easypinShow.defaults, options );
+
         try {
 
             var responsive = options.responsive || false;
@@ -706,7 +709,9 @@
 
 	$.fn.easypin.defaults = {
 
+        init: {},
         limit: 0,
+        popover: {},
         exceeded: function() {},
        	drop: function() {},
        	drag: function() {},
@@ -738,6 +743,8 @@
 		downPoint: 10
 
 	};
+
+    $.fn.easypinShow.defaults = {};
 
 	$.fn.easypin.container = {};
 	$.fn.easypin.markerContainer = {};
@@ -1382,10 +1389,12 @@
             	'border-left': '10px solid transparent',
             	'border-right': '10px solid transparent',
             	'border-top': '10px solid #000',
+                'opacity': '.8',
                 position: 'absolute',
                 bottom: '-50px',
                 left: '58px'
             });
+
 
         var tooltipContainer = $('<div/>')
             .addClass('popover')
@@ -1393,23 +1402,104 @@
             .css('display','inline')
             .css('top', '-51px')
             .css('left', '-51px')
+            .css('opacity', '0');
+
+        var popoverHtml = $('[popover]:last').clone();
+        popoverHtml.removeAttr('popover');
+        var toHtml = popoverHtml.html();
+        var popoverUserWidth = popoverHtml.attr('width') ? popoverHtml.attr('width') : 150;
 
         var span = $('<span/>')
-            .text('Helloooo')
             .css({
                 position: 'absolute',
-                width:'140px',
+                width:setPx(popoverUserWidth),
                 color: '#FFFFFF',
                 background: '#000000',
-                height: '40px',
+                opacity: '.8',
+                height: 'auto',
                 'line-height': '40px',
-                'text-align': 'center',
-                //visibility: 'hidden',
-                'border-radius': '9px'
+                'border-radius': '5px',
+                cursor: 'context-menu'
             });
 
+        if(popoverHtml.attr('shadow') == 'true') {
+            $(span)
+                .css({
+                    '-webkit-box-shadow': '10px 13px 5px 0px rgba(0,0,0,0.75)',
+                    '-moz-box-shadow': '10px 13px 5px 0px rgba(0,0,0,0.75)',
+                    'box-shadow': '10px 13px 5px 0px rgba(0,0,0,0.75)'
+                });
+        }
+
+        // delete canvas parameters
+        delete formData['canvas'];
+
+        // check and set popover callbacks
+        var popoverCallBacks = sizeof($.fn.easypin.defaults.popover) > 0 ? $.fn.easypin.defaults.popover : false;
+
+        for(var i in formData) {
+
+            // callback check and run
+            if(popoverCallBacks && typeof(popoverCallBacks[i]) == 'function') {
+                var args = new Array();
+                args.push(formData[i]);
+                formData[i] = popoverCallBacks[i].apply(null, args);
+            }
+
+            var pattern = RegExp("\\{\\["+i+"\\]\\}", "g");
+            toHtml = toHtml.replace(pattern,formData[i]);
+
+        }
+
+        $(span).append(toHtml);
         $(tooltipContainer).append(span).append(arrow);
+
+        // remove previous popover
+        if($('div.popover', markerContainer).size() > 0) {
+            // animate modal body
+    		$('div.popover', markerContainer).animate(
+    				{
+    					'top': '-'+setPx((popoverHeight-15)),
+    					'opacity': '0'
+    				},
+    				{
+    					duration: 'slow',
+    					easing: 'easeOutElastic',
+    					complete: function() {
+    						$(this).remove();
+    					}
+    				}
+    			);
+        }
+
+        // popover element apend yo marker container
         $(markerContainer).prepend(tooltipContainer);
+
+        var popoverEl = $('div.popover > span:first', markerContainer);
+        var popoverHeight = popoverEl.height();
+        var popoverWidth = popoverEl.width();
+
+        // set popover container position
+        $(tooltipContainer)
+            .css('top', '-'+setPx((popoverHeight+12)-10))
+            .css('left', '-'+setPx((popoverWidth/2)-16));
+
+        // set arrow position
+        $(arrow, tooltipContainer)
+            .css('left', setPx((popoverWidth/2)-10))
+            .css('top', setPx(popoverHeight));
+
+        // animate modal body
+        $(tooltipContainer).animate(
+                {
+                    'top': '-'+setPx((popoverHeight+12)),
+                    'opacity': '1'
+                },
+                {
+                    duration: 'slow',
+                    easing: 'easeOutElastic'
+                }
+            );
     };
 
 }(jQuery));
