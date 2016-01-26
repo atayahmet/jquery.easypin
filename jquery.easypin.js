@@ -63,7 +63,15 @@
             				.css('z-index', imageZindex);
 
             			// add class to target image
-            			$(this).addClass('easypin-target');
+            			$(this).addClass('easypin-target')
+
+                        // creating random key for easypin-id
+                        if(! $(this).attr('easypin-id')) {
+                            var easypinId = createRandomId();
+                            $(this).attr('easypin-id', easypinId);
+                        }else{
+                            var easypinId = $(this).attr('easypin-id');
+                        }
 
             			// set target image sizes to parent container
             			containerElement
@@ -77,6 +85,8 @@
             					position: $.fn.easypin.config('parentPosition'),
             					border: setPx(dashWidth)+' dashed #383838'
             				});
+
+                        initPin(easypinId, $(this));
             		}
         		});
 
@@ -287,11 +297,12 @@
 
                     var markerIndex = $(markerContainer).attr('data-index');
                     var parentIndex = $(parentElement).attr('data-index');
+                    var parentId = $('.easypin-target', parentElement).attr('easypin-id');
 
                     // remove marker
         	        $(markerContainer).on('click', '.easy-delete', function(e) {
 
-                        dataRemove(parentIndex, markerIndex);
+                        dataRemove(parentId, markerIndex);
 
                         $(e.currentTarget).closest('.easy-marker').remove();
         	        });
@@ -302,7 +313,7 @@
         	        	var modalInstance = createPopup(e, markerContainer);
 
                         // data set to input fields
-                        setDataToFields(parentIndex, markerIndex, modalInstance);
+                        setDataToFields(parentId, markerIndex, modalInstance);
         	        });
 
         			// marker tools append to marker container
@@ -436,12 +447,13 @@
         	        $(draggable).bind('mouseup', function () {
         	            $(parentElement).unbind('mousemove');
         	        });
-
         		});
 
                 // object instance add to container
                 $.fn.easypin.di('instance', $.fn.easypin);
+
             }
+
         });
 
 		return this;
@@ -963,6 +975,7 @@
                 var ImgWidth = $(markerContainer).attr($.fn.easypin.defaults.widthAttribute);
                 var ImgHeight = $(markerContainer).attr($.fn.easypin.defaults.heightAttribute);
                 var markerIndex = $(markerContainer).attr('data-index');
+                var parentId = $('.easypin-target', parentElement).attr('easypin-id');
 
                 // check the form exists
                 var formExists = $('form', modalContext).size() > 0;
@@ -989,18 +1002,20 @@
 
                 var formData = getFormData(modalBody, function(data) {
 
-                    data['canvas'] = new Object();
+                    data['coords'] = new Object();
 
-                    data.canvas['src'] = $(targetImage).attr('src');
-                    data.canvas['lat'] = lat;
-                    data.canvas['long'] = long;
-                    data.canvas['width'] = ImgWidth;
-                    data.canvas['height'] = ImgHeight;
+                    data.coords['lat'] = lat;
+                    data.coords['long'] = long;
+
+                    data.coords['canvas'] = new Object();
+                    data.coords.canvas['src'] = $(targetImage).attr('src');
+                    data.coords.canvas['width'] = ImgWidth;
+                    data.coords.canvas['height'] = ImgHeight;
 
                     return data;
                 });
 
-                dataInsert(parentIndex, markerIndex, formData);
+                dataInsert(parentId, markerIndex, formData);
 
                 createPopover(markerContainer, formData);
 
@@ -1009,17 +1024,17 @@
             return modalContext;
 	};
 
-    var dataInsert = function(parentIndex, markerIndex, data) {
+    var dataInsert = function(parentId, markerIndex, data) {
 
         if(localStorage) {
-            storageInsert(parentIndex, markerIndex, data);
+            storageInsert(parentId, markerIndex, data);
         }else{
-            inputInsert(parentIndex, markerIndex, data);
+            inputInsert(parentId, markerIndex, data);
         }
     };
 
     // local storage
-    var storageInsert = function(parentIndex, markerIndex, data) {
+    var storageInsert = function(parentId, markerIndex, data) {
 
         var items = localStorage.getItem('easypin');
 
@@ -1033,15 +1048,21 @@
             }
         }
 
-        var items = setNestedObject(parentIndex, markerIndex, items);
+        var items = setNestedObject(parentId, markerIndex, items);
 
-        items[parentIndex][markerIndex] = data;
+        if(typeof(items[parentId]['canvas']) == 'undefined') {
+            items[parentId]['canvas'] = data.coords.canvas;
+        }
+
+        delete data.coords.canvas;
+
+        items[parentId][markerIndex] = data;
 
         localStorage.setItem('easypin', toJsonString(items));
     };
 
     // stores in hidden field
-    var inputInsert = function(parentIndex, markerIndex, data) {
+    var inputInsert = function(parentId, markerIndex, data) {
 
         var items = $('input[name="easypin-store"]').val();
 
@@ -1055,9 +1076,9 @@
             }
         }
 
-        var items = setNestedObject(parentIndex, markerIndex, items);
+        var items = setNestedObject(parentId, markerIndex, items);
 
-        items[parentIndex][markerIndex] = data;
+        items[parentId][markerIndex] = data;
 
         if($('input[name="easypin-store"]').size() < 1) {
             $(setClass($.fn.easypin.defaults.parentClass)+':first').before('<input type="hidden" name="easypin-store" value="'+encodeURIComponent(toJsonString(items))+'" />');
@@ -1072,12 +1093,12 @@
      * @param parentIndex int
      * @param markerIndex int
      */
-    var dataRemove = function(parentIndex, markerIndex) {
+    var dataRemove = function(parentId, markerIndex) {
 
         if(localStorage) {
-            removeFromStorage(parentIndex, markerIndex);
+            removeFromStorage(parentId, markerIndex);
         }else{
-            removeFromInput(parentIndex, markerIndex);
+            removeFromInput(parentId, markerIndex);
         }
 
     };
@@ -1088,18 +1109,17 @@
      * @param  {[int]} markerIndex [marker container index]
      * @return {[void]}
      */
-    var removeFromInput = function(parentIndex, markerIndex) {
+    var removeFromInput = function(parentId, markerIndex) {
 
         var items = $('input[name="easypin-store"]').val();
         if(items) {
-            console.log(items);
-
             try {
                 var items = JSON.parse(decodeURIComponent(items));
 
-                items = removeHelper(parentIndex, markerIndex, items)
+                items = removeHelper(parentId, markerIndex, items)
 
-                if($('input[name="easypin-store"]').size() < 1) {
+                var totalPin = $('input[name="easypin-store"]').size();
+                if(totalPin < 1) {
                     $(setClass($.fn.easypin.defaults.parentClass)+':first').before('<input type="hidden" name="easypin-store" value="'+encodeURIComponent(toJsonString(items))+'" />');
                 }else{
                     $('input[name="easypin-store"]').val(encodeURIComponent(toJsonString(items)));
@@ -1118,7 +1138,7 @@
      * @param markerIndex int
      * @return void
      */
-    var removeFromStorage = function(parentIndex, markerIndex) {
+    var removeFromStorage = function(parentId, markerIndex) {
 
         var items = localStorage.getItem('easypin');
 
@@ -1127,7 +1147,7 @@
             try {
                 var items = JSON.parse(items);
 
-                localStorage.setItem('easypin', toJsonString(removeHelper(parentIndex, markerIndex, items)));
+                localStorage.setItem('easypin', toJsonString(removeHelper(parentId, markerIndex, items)));
 
             }catch(e) {}
 
@@ -1143,23 +1163,23 @@
      * @param  {[object]} items       [data object]
      * @return {[object]}
      */
-    var removeHelper = function(parentIndex, markerIndex, items) {
+    var removeHelper = function(parentId, markerIndex, items) {
 
-        if(parentIndex && !markerIndex) {
+        if(parentId && !markerIndex) {
 
-            if(typeof(items[parentIndex]) != 'undefined') {
-                delete items[parentIndex];
+            if(typeof(items[parentId]) != 'undefined') {
+                delete items[parentId];
             }
 
         }
 
-        if(parentIndex && markerIndex) {
+        if(parentId && markerIndex) {
 
-            if(typeof(items[parentIndex][markerIndex]) != 'undefined') {
-                delete items[parentIndex][markerIndex];
+            if(typeof(items[parentId][markerIndex]) != 'undefined') {
+                delete items[parentId][markerIndex];
 
-                if(sizeof(items[parentIndex]) < 1) {
-                    delete items[parentIndex];
+                if(sizeof(items[parentId]) < 1 || (sizeof(items[parentId]) == 1 && typeof(items[parentId]['canvas']) != 'undefined')) {
+                    delete items[parentId];
                 }
             }
 
@@ -1176,14 +1196,14 @@
      * @param  int items       data object
      * @return object
      */
-    var setNestedObject = function(parentIndex, markerIndex, items) {
+    var setNestedObject = function(parentId, markerIndex, items) {
 
-        if(typeof(items[parentIndex]) == 'undefined') {
-            items[parentIndex] = new Object();
+        if(typeof(items[parentId]) == 'undefined') {
+            items[parentId] = new Object();
         }
 
-        if(typeof(items[parentIndex][markerIndex]) == 'undefined') {
-            items[parentIndex][markerIndex] = new Object();
+        if(typeof(items[parentId][markerIndex]) == 'undefined') {
+            items[parentId][markerIndex] = new Object();
         }
 
         return items;
@@ -1344,9 +1364,9 @@
      * @param  object modalInstance current modal instance
      * @return void
      */
-    var setDataToFields = function(parentIndex, markerIndex, modalInstance) {
+    var setDataToFields = function(parentId, markerIndex, modalInstance) {
 
-        var item = getItem(parentIndex, markerIndex);
+        var item = getItem(parentId, markerIndex);
 
         if(typeof(item) == 'object') {
 
@@ -1383,6 +1403,7 @@
     var createPopover = function(markerContainer, formData) {
 
         var arrow = $('<div/>')
+            .addClass('popover-arrow-down')
             .css({
                 width: 0,
             	height: 0,
@@ -1394,7 +1415,6 @@
                 bottom: '-50px',
                 left: '58px'
             });
-
 
         var tooltipContainer = $('<div/>')
             .addClass('popover')
@@ -1467,6 +1487,7 @@
     					easing: 'easeOutElastic',
     					complete: function() {
     						$(this).remove();
+                            $('.popover-arrow-down', markerContainer).remove();
     					}
     				}
     			);
@@ -1500,6 +1521,38 @@
                     easing: 'easeOutElastic'
                 }
             );
+    };
+
+    var initPin = function(imgIndex, element) {
+
+        var initData = $.fn.easypin.defaults.init;
+
+        if(typeof(initData) == 'string') {
+            initData = JSON.parse(initData)
+        }
+
+        if(sizeof(initData) > 0 && $(element).attr('easypin-init') != 'false') {
+            console.log(imgIndex);
+        }
+    };
+
+    var createRandomId = function() {
+        var length = 10;
+        var strings = 'abcdefghijklmnoprstuvyzABCDEFGHIJKLMNOPRSTUVYZ1234567890_';
+
+        var key = '';
+
+        for(var i = 1; i<=length; i++) {
+
+            var randNum = Math.floor(Math.random() * (strings.length - 1 + 1) + 1);
+
+            if(typeof(strings[randNum]) != 'undefined') {
+                key += strings[randNum];
+            }
+
+        }
+
+        return key;
     };
 
 }(jQuery));

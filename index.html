@@ -48,20 +48,20 @@
 
 
     <div style="width:400px;"><img src="http://www.intrawallpaper.com/static/images/colourful-dice-cubes.jpg" class="pin" style="width:100%;" /></div>
-    <img src="11495.jpg" class="pin" />
+    <img src="11495.jpg" class="pin" easypin-id="Vegyr8foSu" />
 
         <div style="position:relative;left:50px;">
             <br />
        <div style="width:1px;height:80px;">&nbsp;</div>
 
-        <img src="world-map.gif" class="pin" width="800" />
+        <img src="world-map.gif" class="pin" width="800" easypin-init="false" />
         <br />
         <img src="29f60576ed3144249580c0fcb67771e2.png" class="pin" width="800" />
         <br />
         <img src="11495.jpg" class="pin" width="800" />
         <br />
 
-        <img src="http://allwallpapersnew.com/wp-content/gallery/natural-green-wallpaper/green-natural-329594.jpg" class="pin" width="1200" />
+        <img src="http://allwallpapersnew.com/wp-content/gallery/natural-green-wallpaper/green-natural-329594.jpg" class="pin" width="1200" easypin-id="hdhgddhgd" />
 
         </div>
 
@@ -112,7 +112,7 @@
         </form>
     </div>
 
-    <div style="display:none;" popover width="400" shadow="false">
+    <div style="display:none;" popover width="400" shadow="true">
         <span>{[firstname]} {[surname]}</span>
         <span>{[city]}</span>
         <span>{[gender]}</span>
@@ -130,7 +130,7 @@
     $(document).ready(function(){
 
             var $easyInstance = $('.pin').easypin({
-                init: {},
+                init: '{"1":{"0":{"firstname":"ahmet","surname":"atay","check1":"music","city":"istanbul","gender":"male","description":"açıklama","canvas":{"src":"11495.jpg","lat":"379","long":"394","width":"1920","height":"710"}},"1":{"firstname":"arife","surname":"koç","check1":"music","check2":"cinema","city":"istanbul","description":"açıklama...","canvas":{"src":"11495.jpg","lat":"369","long":"539","width":"1920","height":"710"}}}}',
                 popover: {
                     firstname: function(value) {
                         return value;
