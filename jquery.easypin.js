@@ -400,8 +400,9 @@
                     else if(liveY + markerHeightHalf > depends.imageHeight) {
                         var relY = depends.imageHeight-markerHeightHalf;
                     }
-
+console.log(depends.imageWidth);
                     if(liveX - markerWidthHalf < 0) {
+                        console.log('x: '+0);
                         var relX = markerWidthHalf;
                     }
                     else if(liveX + markerWidthHalf > depends.imageWidth) {
@@ -416,7 +417,7 @@
 
                     // drag event
                     $.fn.easypin.defaults.drag(absX, absY, markerContainer);
-
+console.log(relX);
                     $(markerContainer).css({
                         position: 'absolute',
                         top: setPx(relY),
@@ -1573,7 +1574,6 @@
 
         if(sizeof(initData) > 0 && $(element).attr('easypin-init') != 'false') {
 
-
             // canvas border width
             var dashWidth = $.fn.easypin.defaults.dashWidth;
 
@@ -1592,6 +1592,8 @@
 
                 if(isNaN(i) === true) return;
 
+                var imageWidth = parseInt(initData[imgIndex].canvas.width);
+                var imageHeight = parseInt(initData[imgIndex].canvas.height);
                 var lat = parseInt(initData[imgIndex][i].coords.lat);
                 var long = parseInt(initData[imgIndex][i].coords.long);
                 // set cursor position coordinate
@@ -1611,15 +1613,15 @@
                 if(markerBorderX < 0) {
                     markerBorderX = 0;
                 }
-                else if(clickPosX+markerWidthHalf > config.imageWidth) {
-                    markerBorderX = config.imageWidth-config.markerWidth;
+                else if(clickPosX+markerWidthHalf > imageWidth) {
+                    markerBorderX = imageWidth-config.markerWidth;
                 }
 
                 if(markerBorderY < 0) {
                     markerBorderY = 0;
                 }
-                else if(clickPosY+markerHeightHalf > config.imageHeight) {
-                    markerBorderY = config.imageHeight-config.markerHeight;
+                else if(clickPosY+markerHeightHalf > imageHeight) {
+                    markerBorderY = imageHeight-config.markerHeight;
                 }
 
                 var absX = markerBorderX.toFixed(3)-markerWidthHalf;
@@ -1643,8 +1645,8 @@
                     markerContainerZindex: config.markerContainerZindex,
                     absX: absX,
                     absY: absY,
-                    imageWidth: config.imageWidth,
-                    imageHeight: config.imageHeight,
+                    imageWidth: imageWidth,
+                    imageHeight: imageHeight,
                     parentElement: parentElement,
                     src: config.src
                 });
