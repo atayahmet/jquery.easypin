@@ -400,7 +400,7 @@
                     else if(liveY + markerHeightHalf > depends.imageHeight) {
                         var relY = depends.imageHeight-markerHeightHalf;
                     }
-console.log(depends.imageWidth);
+
                     if(liveX - markerWidthHalf < 0) {
                         console.log('x: '+0);
                         var relX = markerWidthHalf;
@@ -417,7 +417,7 @@ console.log(depends.imageWidth);
 
                     // drag event
                     $.fn.easypin.defaults.drag(absX, absY, markerContainer);
-console.log(relX);
+
                     $(markerContainer).css({
                         position: 'absolute',
                         top: setPx(relY),
@@ -1570,7 +1570,7 @@ console.log(relX);
             initData = JSON.parse(initData)
         }
 
-        var parentElement = $(element).parents('.pinParent');
+        var parentElement = $(element).parents(setClass(config.parentClass));
 
         if(sizeof(initData) > 0 && $(element).attr('easypin-init') != 'false') {
 
@@ -1681,6 +1681,7 @@ console.log(relX);
             markerWidth: $.fn.easypin.defaults.markerWidth,
             markerHeight: $.fn.easypin.defaults.markerHeight == 'auto' ? $.fn.easypin.defaults.markerWidth : $.fn.easypin.defaults.markerHeight,
             markerClass: $.fn.easypin.defaults.markerClass,
+            parentClass: $.fn.easypin.defaults.parentClass,
             markerContainerZindex: $.fn.easypin.defaults.markerContainerZindex,
             // canvas border width
             dashWidth: $.fn.easypin.defaults.dashWidth,
