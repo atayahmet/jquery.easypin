@@ -8,6 +8,12 @@ Supported lowest jQuery version 1.8
 Quick Start
 ==============
 
+### Load libraries
+```html
+<script src="jquery.min.js"></script>
+<script src="jquery.easing.min.js"></script>
+<script src="jquery.easypin.min.js"></script>
+```
 ### Pin picture:
 ```html
 <img src="example.jpg" class="pin" width="800" easypin-id="example_image1" />
