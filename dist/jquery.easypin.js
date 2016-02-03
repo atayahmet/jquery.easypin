@@ -728,7 +728,7 @@
                                 $('.easypin-marker:last', pinContainer).click(function(e) {
 
                                     if(! $(e.target).is('div.easypin-marker')) return;
-                                    
+
                                     if(popover.animate === true) {
                                         $('.easypin-popover', this).toggle('fast');
                                     }else{
@@ -945,9 +945,9 @@
        	heightAttribute: 'data-height',
        	xAttribute: 'data-x',
        	yAttribute: 'data-y',
-		markerSrc: 'marker.png',
-		editSrc: 'edit.png',
-		deleteSrc: 'remove.png',
+		markerSrc: 'img/marker.png',
+		editSrc: 'img/edit.png',
+		deleteSrc: 'img/remove.png',
        	parentClass: 'pinParent',
 		markerClass: 'easy-marker',
 		hoverClass: 'hoverClass',
