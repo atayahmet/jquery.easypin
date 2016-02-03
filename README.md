@@ -8,15 +8,15 @@ Supported lowest jQuery version 1.8
 Quick Start
 ==============
 
-###Pin picture:
+### Pin picture:
 ```html
-<img src="example.jpg" class="pin" easypin-id="example_image1" />
+<img src="example.jpg" class="pin" width="800" easypin-id="example_image1" />
 ```
 > **class**: selector class of pictures
 
 > **easypin-id**: It will be the default value if not defined
 
-###dialog window for pin contents
+### Dialog window for pin contents
 ```html
 <div class="easy-modal" style="display:none;" modal-position="free">
     <form>
@@ -25,9 +25,16 @@ Quick Start
     </form>
 </div>
 ```
+
 > **easy-submit** class must be defined to close the dialog window
 
-###initialize the picture:
+### Popover
+```html
+<div style="display:none;" width="130" shadow="true" popover>
+    <div style="width:100%;text-align:center;">{[content]}</div>
+</div>
+```
+### Initialize the pictures:
 ```javascript
 // Back-end pin process
 $('.pin').easypin();
@@ -35,7 +42,11 @@ $('.pin').easypin();
 
 To access the coordinates after pinning:
 ```javascript
-var $instance = $('.pin').easypin();
+var $instance = $('.pin').easypin({
+    done: function(element) {
+        return true;
+    }
+});
 
 // set the 'get.coordinates' event
 $instance.easypin.event( "get.coordinates", function($instance, data, params ) {
@@ -45,7 +56,7 @@ $instance.easypin.event( "get.coordinates", function($instance, data, params ) {
 });
 ```
 
-then you can run this event with a button click event
+Then you can run this event with a button click event
 ```html
 <input class="coords" type="button" value="Get coordinates!" />
 ```
@@ -58,6 +69,10 @@ $( ".coords" ).click(function(e) {
 });
 ```
 
+We pass parameters when calling the above coordinate the event. Before the callback to run.
+
+Show pins to users
+==============
 
 ```javascript
 // Pin show process
@@ -65,21 +80,56 @@ $('.pin').easypinShow({
     data: {
         "example_image1":{
             "0":{
-                "title":"Hello World",
+                "content":"Captan America",
                 "coords":{
-                    "lat":"124",
-                    "long":"89"
+                    "lat":"530",
+                    "long":"179"
                 }
+            },
+            "1":{
+                "content":"Thor Odinson",
+                "coords":{
+                    "lat":"892",
+                    "long":"109"
+                }
+            },
+            "2":{
+                "content":"Hulk",
+                "coords":{
+                    "lat":"56",
+                    "long":"133"
+                }
+            },
+            "3":{
+                "content":"Black Widow",
+                "coords":{
+                    "lat":"717",
+                    "long":"242"
+                }
+            },
+            "4":{
+                "content":"Hawkeye",
+                "coords":{
+                    "lat":"173",
+                    "long":"221"
+                }
+            },
+            "5":{
+                "content":"Iron Man",
+                "coords":{
+                    "lat":"280",
+                    "long":"161"
+                }
+            },
+            "canvas":{
+                "src":"https://i.ytimg.com/vi/48fKIXlxaXk/maxresdefault.jpg","width":"1000","height":"562"
             }
-        },
-        "canvas":{
-            "src":"example.jpg","width":"800","height":"357"
         }
     },
     success: function() {
-        console.log('image pin succesfuly...');
+        console.log('image pin succesfully...');
     }
 });
 ```
 
-####then enjoy!
+#### then enjoy!
