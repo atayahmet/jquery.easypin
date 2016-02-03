@@ -608,9 +608,8 @@
 
             var responsive = options.responsive || false;
             var pin = options.pin || 'marker.png';
-            var animate = options.animate || false;
-            var animateType = options.animateType || 'easeInQuad';
             var data = options.data || {};
+            var popover = options.popover || {};
             var error = typeof(options.error) != 'function' ? function(e) {} : options.error;
             var each = typeof(options.each) != 'function' ? function(i, data) { return data;} : options.each;
             var success = typeof(options.success) != 'function' ? function() {} : options.success;
@@ -650,13 +649,13 @@
 
                     // for each all canvas
                     allCanvas.each(function(i) {
-                        //console.log(i);
 
+                        var offsetTop = $(this).offset().top;
+                        var offsetLeft = $(this).offset().left;
                         var canvas = $(this).parent();
                         var height = $(this).height();
                         var width = $(this).width();
                         var parentWidth = $(canvas).width();
-
 
                         if(responsive === true) {
                             var absWidth = '100%';
@@ -695,15 +694,50 @@
 
                                 var tpl = $('[easypin-tpl]').clone();
 
+                                // set current canvas_id and pin_id to di container
+                                $.fn.easypin.di('canvas_id', parentId);
+                                $.fn.easypin.di('pin_id', j);
+
                                 // run callback function
                                 var args = new Array();
                                 args.push(i);
                                 args.push(data[parentId][j]);
                                 var returnData = each.apply(null, args);
                                 var viewContainer = viewLocater(data[parentId], j, parentWidth, createView(returnData, tpl));
+
+                                $(viewContainer).css('opacity', 0);
+
+                                if(popover.show == true) {
+                                    $('.easypin-popover', pinContainer).show();
+                                }
+
                                 $(pinContainer).append(viewContainer);
-                                $('.easypin-marker:last', pinContainer).click(function() {
-                                    $('.easypin-popover', this).show();
+
+                                // marker
+                                $(viewContainer).animate(
+                    				{
+                    					'opacity': '1'
+                    				},
+                    				{
+                    					duration: 'slow',
+                    					easing: 'easeOutBack'
+                    				}
+                    			);
+
+                                // popover
+                                $('.easypin-marker:last', pinContainer).click(function(e) {
+
+                                    if(! $(e.target).is('div.easypin-marker')) return;
+                                    
+                                    if(popover.animate === true) {
+                                        $('.easypin-popover', this).toggle('fast');
+                                    }else{
+                                        if ( $('.easypin-popover', this).css('display') == 'none' ){
+                                            $('.easypin-popover', this).show();
+                                        }else{
+                                            $('.easypin-popover', this).hide();
+                                        }
+                                    }
                                 });
                             }
                         }
@@ -740,14 +774,20 @@
                 'position': 'absolute'
             });
 
+        var markerBorderWidth = $(marker).children(':first').css('border-width').replace('px', '');
+        markerBorderWidth = markerBorderWidth != '' ? parseInt(markerBorderWidth) : 0;
         var markerWidth = $(marker).children(':first').width();
         var markerHeight = $(marker).children(':first').height();
         var popoverHeight = $(popover).children(':first').height();
 
-        $(popover).children(':first').css('bottom', setPx(markerHeight));
+        $(popover)
+            .children(':first')
+            .css('bottom', setPx(markerHeight+markerBorderWidth))
+            .css('cursor', 'default');
+
         $(marker)
             .children(':first')
-            .append($(popover).html())
+            .append(tplHandler(data, $(popover).html()))
             .css('cursor', 'pointer');
 
         return $(marker).html();
@@ -770,6 +810,38 @@
             .css('top', pinTop+'%')
 
         return markerContainer;
+    };
+
+    var tplHandler = function(data, tpl) {
+
+        if(typeof(data) == 'object') {
+
+            var callbackVars = $.fn.easypinShow.defaults.variables;
+
+            for(var i in data) {
+
+                var content = data[i];
+
+                if(typeof(callbackVars) != 'undefined' && typeof(callbackVars[i]) == 'function') {
+
+                    var args = new Array();
+
+                    // current canvas id
+                    args.push($.fn.easypin.container['canvas_id']);
+
+                    // current pin id
+                    args.push($.fn.easypin.container['pin_id']);
+                    args.push(data[i]);
+                    content = callbackVars[i].apply(null, args)
+
+                }
+
+                var pattern = RegExp("\\{\\["+i+"\\]\\}", "g");
+                tpl = tpl.replace(pattern,content);
+            }
+        }
+
+        return tpl;
     };
 
     var calculatePinRate = function(data, pinWidth, markerWidth, pinHeight, markerHeight) {
