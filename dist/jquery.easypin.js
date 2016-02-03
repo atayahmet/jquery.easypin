@@ -1200,17 +1200,20 @@
                 }
 
                 // run callback function
-                var result = $.fn.easypin.defaults.done(modalBody);
+                if(typeof($.fn.easypin.defaults.done) == 'function') {
+                    
+                    var result = $.fn.easypin.defaults.done(modalBody);
 
-                if(typeof(result) == 'boolean') {
+                    if(typeof(result) == 'boolean') {
 
-                    if(result == true) {
+                        if(result == true) {
 
+                            closePopup(parentElement);
+                        }
+
+                    }else{
                         closePopup(parentElement);
                     }
-
-                }else{
-                    closePopup(parentElement);
                 }
 
                 var formData = getFormData(modalBody, function(data) {
