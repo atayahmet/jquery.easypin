@@ -9,6 +9,8 @@ Quick Start
 ==============
 
 ### Load libraries
+
+First, include the jQuery and jQuery easing plugin javascript files.
 ```html
 <script src="jquery.min.js"></script>
 <script src="jquery.easing.min.js"></script>
@@ -80,18 +82,124 @@ We pass parameters when calling the above coordinate the event. Before the callb
 .easypin({}) options
 =================
 
-|      option       | type                    | description                           |
-| ----------------- | ----------------------- | ------------------------------------- |
-| init              | `object or json string` | initialize the pin coordinates        |
-| popover           | `functions into object` | set callback all template variables   |
-| popoverStyle      | `object`                | popover styles (it just pass to jquery .css() method of the object)        |
-| limit             | `integer`               | limited pin (default 0)               |
-| exceeded          | `function`              | limit exceeded event                  |
-| drop              | `function`              | pin dropped event                     |
-| drag              | `function`              | pin dragging event                    |
-| done              | `function`              | closing of the dialog window is depend to this function      |
+|      option                  | type                    | description                                                                |
+| ---------------------------- | ----------------------- | -------------------------------------------------------------------------- |
+| [init](#init)                | `object or json string` | initialize the pin coordinates                                             |
+| [popover](#popover)          | `functions into object` | set callback all template variables                                        |
+| [popoverStyle](#popoverStyle)| `object`                | popover styles (it just pass to jquery .css() method of the object)        |
+| [limit](#limit)              | `integer`               | limited pin (default 0)                                                    |
+| [exceeded](#exceeded)        | `function`              | limit exceeded event                                                       |
+| [drop](#drop)                | `function`              | pin dropped event                                                          |
+| [drag](#drag)                | `function`              | pin dragging event                                                         |
+| [done](#done)                | `function`              | closing of the dialog window is depend to this function                    |
 
 
+#### init
+Initialize the pin coordinates.
+```javascript
+$('.pin').easypin({
+    init: {
+        "example_image1":{
+            "0":{
+                "content":"Captan America",
+                "coords":{
+                    "lat":"530",
+                    "long":"179"
+                }
+            },
+            "canvas":{
+                "src":"example.jpg","width":"1000","height":"562"
+            }
+        }
+    }
+});
+```
+
+#### popover
+Set callback all template variables
+```javascript
+$('.pin').easypin({
+    popover: {
+        content: function(value) {
+            return value.replace(/\s+/g, ' ');
+        }
+    }
+});
+```
+> It **content** variable is form input name
+
+#### popoverStyle
+Popover styles (it just pass to jquery .css() method)
+```javascript
+$('.pin').easypin({
+    popover: {
+        content: function(value) {
+            return value.replace(/\s+/g, ' ');
+        }
+    },
+    popoverStyle: {
+        'background-color': 'orange',
+        'color': 'black'
+    }
+});
+```
+
+#### limit
+Limited pin (default 0) 0 for limitless
+```javascript
+$('.pin').easypin({
+    limit: 2
+});
+```
+> Set 0 for limitless pin
+
+#### exceeded()
+Limit exceeded event
+```javascript
+$('.pin').easypin({
+    limit: 2,
+    exceeded: function(type) {
+        // do samething...
+    }
+});
+```
+
+#### drop()
+Pin dropped event
+
+```javascript
+$('.pin').easypin({
+    drop: function(x, y, element) {
+        console.log(x, y, element);
+    }
+});
+```
+
+#### drag()
+Pin dragging event
+```javascript
+$('.pin').easypin({
+    drop: function(x, y, element) {
+        console.log(x, y, element);
+    },
+    drag: function(x, y, element) {
+        console.log(x, y, element);
+    }
+});
+```
+
+#### done()
+Closing of the dialog window is depend to this function. Return true if the result dialog window will be closed
+```javascript
+$('.pin').easypin({
+    done: function(element) {
+
+        return true;
+
+    }
+});
+```
+> Will return the form objects if the dialog box contains the form objects. Otherwise the dialog box will return the objects
 
 Show pins to users
 ==============
