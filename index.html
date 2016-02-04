@@ -19,165 +19,205 @@
     </section>
 
     <section class="main-content">
-     jQuery easypin
-===================
+      <h1>
+<a id="jquery-easypin" class="anchor" href="#jquery-easypin" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>jQuery easypin</h1>
 
-Simple and fast image pinning plugin. There are dependencies with the library jQuery easing plugin.
-Supported lowest jQuery version 1.8
+<p>Simple and fast image pinning plugin. There are dependencies with the library jQuery easing plugin.
+Supported lowest jQuery version 1.8</p>
 
+<h1>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Start</h1>
 
-Quick Start
-==============
+<h3>
+<a id="load-libraries" class="anchor" href="#load-libraries" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Load libraries</h3>
 
-### Load libraries
+<p>First, include the jQuery and masked input javascript files.</p>
 
-First, include the jQuery and masked input javascript files.
-```html
-<script src="jquery.min.js"></script>
-<script src="jquery.easing.min.js"></script>
-<script src="jquery.easypin.min.js"></script>
-```
-### Pin picture:
-```html
-<img src="example.jpg" class="pin" width="800" easypin-id="example_image1" />
-```
-> **class**: selector class of pictures
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>jquery.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>jquery.easing.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>jquery.easypin.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
 
-> **easypin-id**: It will be the default value if not defined
+<h3>
+<a id="pin-picture" class="anchor" href="#pin-picture" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pin picture:</h3>
 
-### Dialog window for pin contents
-```html
-<div class="easy-modal" style="display:none;" modal-position="free">
-    <form>
-        type something: <input name="content" type="text">
-        <input type="button" value="save pin!" class="easy-submit">
-    </form>
-</div>
-```
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>example.jpg<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>pin<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>800<span class="pl-pds">"</span></span> <span class="pl-e">easypin-id</span>=<span class="pl-s"><span class="pl-pds">"</span>example_image1<span class="pl-pds">"</span></span> /&gt;</pre></div>
 
-> **easy-submit** class must be defined to close the dialog window
+<blockquote>
+<p><strong>class</strong>: selector class of pictures</p>
 
-### Popover
-```html
-<div style="display:none;" width="130" shadow="true" popover>
-    <div style="width:100%;text-align:center;">{[content]}</div>
-</div>
-```
-### Initialize the pictures:
-```javascript
-// Back-end pin process
-$('.pin').easypin();
-```
+<p><strong>easypin-id</strong>: It will be the default value if not defined</p>
+</blockquote>
 
-To access the coordinates after pinning:
-```javascript
-var $instance = $('.pin').easypin({
-    done: function(element) {
-        return true;
+<h3>
+<a id="dialog-window-for-pin-contents" class="anchor" href="#dialog-window-for-pin-contents" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dialog window for pin contents</h3>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>easy-modal<span class="pl-pds">"</span></span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>display:none;<span class="pl-pds">"</span></span> <span class="pl-e">modal-position</span>=<span class="pl-s"><span class="pl-pds">"</span>free<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">form</span>&gt;
+        type something: &lt;<span class="pl-ent">input</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>&gt;
+        &lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>button<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>save pin!<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>easy-submit<span class="pl-pds">"</span></span>&gt;
+    &lt;/<span class="pl-ent">form</span>&gt;
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<blockquote>
+<p><strong>easy-submit</strong> class must be defined to close the dialog window</p>
+</blockquote>
+
+<h3>
+<a id="popover" class="anchor" href="#popover" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Popover</h3>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>display:none;<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>130<span class="pl-pds">"</span></span> <span class="pl-e">shadow</span>=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span> <span class="pl-e">popover</span>&gt;
+    &lt;<span class="pl-ent">div</span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>width:100%;text-align:center;<span class="pl-pds">"</span></span>&gt;{[content]}&lt;/<span class="pl-ent">div</span>&gt;
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<h3>
+<a id="initialize-the-pictures" class="anchor" href="#initialize-the-pictures" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Initialize the pictures:</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">// Back-end pin process</span>
+<span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>();</pre></div>
+
+<p>To access the coordinates after pinning:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> $instance <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
+    <span class="pl-en">done</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">element</span>) {
+        <span class="pl-k">return</span> <span class="pl-c1">true</span>;
     }
 });
 
-// set the 'get.coordinates' event
-$instance.easypin.event( "get.coordinates", function($instance, data, params ) {
+<span class="pl-c">// set the 'get.coordinates' event</span>
+<span class="pl-smi">$instance</span>.<span class="pl-smi">easypin</span>.<span class="pl-c1">event</span>( <span class="pl-s"><span class="pl-pds">"</span>get.coordinates<span class="pl-pds">"</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">$instance</span>, <span class="pl-smi">data</span>, <span class="pl-smi">params</span> ) {
 
-    console.log(data, params);
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(data, params);
 
-});
-```
+});</pre></div>
 
-Then you can run this event with a button click event
-```html
-<input class="coords" type="button" value="Get coordinates!" />
-```
+<p>Then you can run this event with a button click event</p>
 
-```javascript
-$( ".coords" ).click(function(e) {
-    $instance.easypin.fire( "get.coordinates", {param1: 1, param2: 2, param3: 3}, function(data) {
-        return JSON.stringify(data);
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">input</span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>button<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>Get coordinates!<span class="pl-pds">"</span></span> /&gt;</pre></div>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>( <span class="pl-s"><span class="pl-pds">"</span>.coords<span class="pl-pds">"</span></span> ).<span class="pl-c1">click</span>(<span class="pl-k">function</span>(<span class="pl-smi">e</span>) {
+    <span class="pl-smi">$instance</span>.<span class="pl-smi">easypin</span>.<span class="pl-en">fire</span>( <span class="pl-s"><span class="pl-pds">"</span>get.coordinates<span class="pl-pds">"</span></span>, {param1<span class="pl-k">:</span> <span class="pl-c1">1</span>, param2<span class="pl-k">:</span> <span class="pl-c1">2</span>, param3<span class="pl-k">:</span> <span class="pl-c1">3</span>}, <span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
+        <span class="pl-k">return</span> <span class="pl-smi">JSON</span>.<span class="pl-en">stringify</span>(data);
     });
-});
-```
+});</pre></div>
 
-We pass parameters when calling the above coordinate the event. Before the callback to run.
+<p>We pass parameters when calling the above coordinate the event. Before the callback to run.</p>
 
-.easypin({}) options
-=================
+<h1>
+<a id="easypin-options" class="anchor" href="#easypin-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>.easypin({}) options</h1>
 
-|      option       | type                    | description                           |
-| ----------------- | ----------------------- | ------------------------------------- |
-| init              | `object or json string` | initialize the pin coordinates        |
-| popover           | `functions into object` | set callback all template variables   |
-| popoverStyle      | `object`                | popover styles (it just pass to jquery .css() method of the object)        |
-| limit             | `integer`               | limited pin (default 0)               |
-| exceeded          | `function`              | limit exceeded event                  |
-| drop              | `function`              | pin dropped event                     |
-| drag              | `function`              | pin dragging event                    |
-| done              | `function`              | closing of the dialog window is depend to this function      |
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>init</td>
+<td><code>object or json string</code></td>
+<td>initialize the pin coordinates</td>
+</tr>
+<tr>
+<td>popover</td>
+<td><code>functions into object</code></td>
+<td>set callback all template variables</td>
+</tr>
+<tr>
+<td>popoverStyle</td>
+<td><code>object</code></td>
+<td>popover styles (it just pass to jquery .css() method of the object)</td>
+</tr>
+<tr>
+<td>limit</td>
+<td><code>integer</code></td>
+<td>limited pin (default 0)</td>
+</tr>
+<tr>
+<td>exceeded</td>
+<td><code>function</code></td>
+<td>limit exceeded event</td>
+</tr>
+<tr>
+<td>drop</td>
+<td><code>function</code></td>
+<td>pin dropped event</td>
+</tr>
+<tr>
+<td>drag</td>
+<td><code>function</code></td>
+<td>pin dragging event</td>
+</tr>
+<tr>
+<td>done</td>
+<td><code>function</code></td>
+<td>closing of the dialog window is depend to this function</td>
+</tr>
+</tbody>
+</table>
 
+<h1>
+<a id="show-pins-to-users" class="anchor" href="#show-pins-to-users" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show pins to users</h1>
 
-
-Show pins to users
-==============
-
-```javascript
-// Pin show process
-$('.pin').easypinShow({
-    data: {
-        "example_image1":{
-            "0":{
-                "content":"Captan America",
-                "coords":{
-                    "lat":"530",
-                    "long":"179"
+<div class="highlight highlight-source-js"><pre><span class="pl-c">// Pin show process</span>
+<span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypinShow</span>({
+    data<span class="pl-k">:</span> {
+        <span class="pl-s"><span class="pl-pds">"</span>example_image1<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+            <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Captan America<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>530<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>179<span class="pl-pds">"</span></span>
                 }
             },
-            "1":{
-                "content":"Thor Odinson",
-                "coords":{
-                    "lat":"892",
-                    "long":"109"
+            <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Thor Odinson<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>892<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>109<span class="pl-pds">"</span></span>
                 }
             },
-            "2":{
-                "content":"Hulk",
-                "coords":{
-                    "lat":"56",
-                    "long":"133"
+            <span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Hulk<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>56<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>133<span class="pl-pds">"</span></span>
                 }
             },
-            "3":{
-                "content":"Black Widow",
-                "coords":{
-                    "lat":"717",
-                    "long":"242"
+            <span class="pl-s"><span class="pl-pds">"</span>3<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Black Widow<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>717<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>242<span class="pl-pds">"</span></span>
                 }
             },
-            "4":{
-                "content":"Hawkeye",
-                "coords":{
-                    "lat":"173",
-                    "long":"221"
+            <span class="pl-s"><span class="pl-pds">"</span>4<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Hawkeye<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>173<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>221<span class="pl-pds">"</span></span>
                 }
             },
-            "5":{
-                "content":"Iron Man",
-                "coords":{
-                    "lat":"280",
-                    "long":"161"˜
+            <span class="pl-s"><span class="pl-pds">"</span>5<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Iron Man<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>280<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>161<span class="pl-pds">"</span></span>˜
                 }
             },
-            "canvas":{
-                "src":"https://i.ytimg.com/vi/48fKIXlxaXk/maxresdefault.jpg","width":"1000","height":"562"
+            <span class="pl-s"><span class="pl-pds">"</span>canvas<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>src<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>https://i.ytimg.com/vi/48fKIXlxaXk/maxresdefault.jpg<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>width<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>1000<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>height<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>562<span class="pl-pds">"</span></span>
             }
         }
     },
-    success: function() {
-        console.log('image pin succesfully...');
+    <span class="pl-en">success</span><span class="pl-k">:</span> <span class="pl-k">function</span>() {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>image pin succesfully...<span class="pl-pds">'</span></span>);
     }
-});
-```
+});</pre></div>
 
-#### then enjoy!
+<h4>
+<a id="then-enjoy" class="anchor" href="#then-enjoy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>then enjoy!</h4>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/atayahmet/jquery.easypin">jquery.easypin</a> is maintained by <a href="https://github.com/atayahmet">atayahmet</a>.</span>
