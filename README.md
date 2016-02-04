@@ -77,6 +77,22 @@ $( ".coords" ).click(function(e) {
 
 We pass parameters when calling the above coordinate the event. Before the callback to run.
 
+.easypin({}) options
+=================
+
+|      option       | type                    | description                           |
+| ----------------- | ----------------------- | ------------------------------------- |
+| init              | `object or json string` | initialize the pin coordinates        |
+| popover           | `functions into object` | set callback all template variables   |
+| popoverStyle      | `object`                | popover styles (it just pass to jquery .css() method of the object)        |
+| limit             | `integer`               | limited pin (default 0)               |
+| exceeded          | `function`              | limit exceeded event                  |
+| drop              | `function`              | pin dropped event                     |
+| drag              | `function`              | pin dragging event                    |
+| done              | `function`              | closing of the dialog window is depend to this function      |
+
+
+
 Show pins to users
 ==============
 
@@ -124,7 +140,7 @@ $('.pin').easypinShow({
                 "content":"Iron Man",
                 "coords":{
                     "lat":"280",
-                    "long":"161"
+                    "long":"161"˜
                 }
             },
             "canvas":{
