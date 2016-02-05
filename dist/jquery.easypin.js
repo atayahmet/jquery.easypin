@@ -1201,7 +1201,7 @@
 
                 // run callback function
                 if(typeof($.fn.easypin.defaults.done) == 'function') {
-                    
+
                     var result = $.fn.easypin.defaults.done(modalBody);
 
                     if(typeof(result) == 'boolean') {
@@ -1535,7 +1535,9 @@
                 }
             }
             else{
-                elements[elementName] = $(this).val();
+                if(typeof($(this).val()) != 'undefined') {
+                    elements[elementName] = $(this).val();
+                }
             }
 
         });
