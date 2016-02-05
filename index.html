@@ -29,9 +29,14 @@ Supported lowest jQuery version 1.8</p>
 <a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Start</h1>
 
 <h3>
+<a id="bower-install" class="anchor" href="#bower-install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>bower install</h3>
+
+<div class="highlight highlight-source-shell"><pre>bower install jquery.easypin</pre></div>
+
+<h3>
 <a id="load-libraries" class="anchor" href="#load-libraries" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Load libraries</h3>
 
-<p>First, include the jQuery and masked input javascript files.</p>
+<p>First, include the jQuery and jQuery easing plugin javascript files.</p>
 
 <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>jquery.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
 &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>jquery.easing.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
@@ -42,11 +47,22 @@ Supported lowest jQuery version 1.8</p>
 
 <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>example.jpg<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>pin<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>800<span class="pl-pds">"</span></span> <span class="pl-e">easypin-id</span>=<span class="pl-s"><span class="pl-pds">"</span>example_image1<span class="pl-pds">"</span></span> /&gt;</pre></div>
 
-<blockquote>
-<p><strong>class</strong>: selector class of pictures</p>
-
-<p><strong>easypin-id</strong>: It will be the default value if not defined</p>
-</blockquote>
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>easypin-id</td>
+<td><code>attribute</code></td>
+<td>It will be the default value if not defined</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="dialog-window-for-pin-contents" class="anchor" href="#dialog-window-for-pin-contents" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dialog window for pin contents</h3>
@@ -58,9 +74,27 @@ Supported lowest jQuery version 1.8</p>
     &lt;/<span class="pl-ent">form</span>&gt;
 &lt;/<span class="pl-ent">div</span>&gt;</pre></div>
 
-<blockquote>
-<p><strong>easy-submit</strong> class must be defined to close the dialog window</p>
-</blockquote>
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>easy-submit</td>
+<td><code>class</code></td>
+<td>Class must be defined to close the dialog window</td>
+</tr>
+<tr>
+<td>modal-position</td>
+<td><code>attribute</code></td>
+<td>Dialog window free position (default: none)</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="popover" class="anchor" href="#popover" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Popover</h3>
@@ -68,6 +102,33 @@ Supported lowest jQuery version 1.8</p>
 <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>display:none;<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>130<span class="pl-pds">"</span></span> <span class="pl-e">shadow</span>=<span class="pl-s"><span class="pl-pds">"</span>true<span class="pl-pds">"</span></span> <span class="pl-e">popover</span>&gt;
     &lt;<span class="pl-ent">div</span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>width:100%;text-align:center;<span class="pl-pds">"</span></span>&gt;{[content]}&lt;/<span class="pl-ent">div</span>&gt;
 &lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>popover</td>
+<td><code>attribute</code></td>
+<td>Popover initializer attribute (MUST)</td>
+</tr>
+<tr>
+<td>width</td>
+<td><code>attribute</code></td>
+<td>Popover width size (default: 200px)</td>
+</tr>
+<tr>
+<td>shadow</td>
+<td><code>attribute</code></td>
+<td>Popover show style (default: false)</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="initialize-the-pictures" class="anchor" href="#initialize-the-pictures" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Initialize the pictures:</h3>
@@ -102,6 +163,83 @@ Supported lowest jQuery version 1.8</p>
 
 <p>We pass parameters when calling the above coordinate the event. Before the callback to run.</p>
 
+<p><a href="#easypin-options">Click for .easypin({}) options</a></p>
+
+<h1>
+<a id="easypinshow" class="anchor" href="#easypinshow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>.easypinShow()</h1>
+
+<p>We do first pin on the picture, now we show these pins to users on user interface.</p>
+
+<p><strong>Pin image:</strong></p>
+
+<div class="highlight highlight-text-html-basic"><pre> &lt;<span class="pl-ent">img</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>example.jpg<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>pin<span class="pl-pds">"</span></span> <span class="pl-e">width</span>=<span class="pl-s"><span class="pl-pds">"</span>800<span class="pl-pds">"</span></span> <span class="pl-e">easypin-id</span>=<span class="pl-s"><span class="pl-pds">"</span>example_image1<span class="pl-pds">"</span></span> /&gt;</pre></div>
+
+<blockquote>
+<p><strong>Note:</strong> If you want to get the width of the parent element's do not need define</p>
+</blockquote>
+
+<p><strong>Pin container and popover template:</strong></p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>display:none;<span class="pl-pds">"</span></span> <span class="pl-e">easypin-tpl</span>&gt;
+    &lt;<span class="pl-ent">popover</span>&gt;
+        &lt;<span class="pl-ent">div</span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>width:140px;height:auto;background-color:orange;<span class="pl-pds">"</span></span>&gt;
+            {[content]}
+        &lt;/<span class="pl-ent">div</span>&gt;
+    &lt;/<span class="pl-ent">popover</span>&gt;
+
+    &lt;<span class="pl-ent">marker</span>&gt;
+        &lt;<span class="pl-ent">div</span> <span class="pl-e">style</span>=<span class="pl-s"><span class="pl-pds">"</span>border:solid 1px #000;width:20px;height:20px;background-color:red;<span class="pl-pds">"</span></span>&gt;<span class="pl-c1">&amp;nbsp;</span>&lt;/<span class="pl-ent">div</span>&gt;
+    &lt;/<span class="pl-ent">marker</span>&gt;
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>easypin-tpl</td>
+<td><code>attribute</code></td>
+<td>Marker and Popover container element</td>
+</tr>
+<tr>
+<td>popover</td>
+<td><code>html tag</code></td>
+<td>Popover container element</td>
+</tr>
+<tr>
+<td>marker</td>
+<td><code>html tag</code></td>
+<td>Marker container element</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>and run the .easypinShow() method:</strong></p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypinShow</span>({
+    data<span class="pl-k">:</span> {
+            <span class="pl-s"><span class="pl-pds">"</span>example_image1<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+            <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Hello World!<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>530<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>179<span class="pl-pds">"</span></span>
+                }
+            },
+            <span class="pl-s"><span class="pl-pds">"</span>canvas<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>src<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>example.jpg<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>width<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>800<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>height<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>562<span class="pl-pds">"</span></span>
+            }
+        }
+    }
+});</pre></div>
+
+<p>That's it!</p>
+
 <h1>
 <a id="easypin-options" class="anchor" href="#easypin-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>.easypin({}) options</h1>
 
@@ -115,54 +253,55 @@ Supported lowest jQuery version 1.8</p>
 </thead>
 <tbody>
 <tr>
-<td>init</td>
+<td><a href="#init">init</a></td>
 <td><code>object or json string</code></td>
 <td>initialize the pin coordinates</td>
 </tr>
 <tr>
-<td>popover</td>
+<td><a href="#popover">popover</a></td>
 <td><code>functions into object</code></td>
 <td>set callback all template variables</td>
 </tr>
 <tr>
-<td>popoverStyle</td>
+<td><a href="#popoverStyle">popoverStyle</a></td>
 <td><code>object</code></td>
 <td>popover styles (it just pass to jquery .css() method of the object)</td>
 </tr>
 <tr>
-<td>limit</td>
+<td><a href="#limit">limit</a></td>
 <td><code>integer</code></td>
 <td>limited pin (default 0)</td>
 </tr>
 <tr>
-<td>exceeded</td>
+<td><a href="#exceeded">exceeded</a></td>
 <td><code>function</code></td>
 <td>limit exceeded event</td>
 </tr>
 <tr>
-<td>drop</td>
+<td><a href="#drop">drop</a></td>
 <td><code>function</code></td>
 <td>pin dropped event</td>
 </tr>
 <tr>
-<td>drag</td>
+<td><a href="#drag">drag</a></td>
 <td><code>function</code></td>
 <td>pin dragging event</td>
 </tr>
 <tr>
-<td>done</td>
+<td><a href="#done">done</a></td>
 <td><code>function</code></td>
 <td>closing of the dialog window is depend to this function</td>
 </tr>
 </tbody>
 </table>
 
-<h1>
-<a id="show-pins-to-users" class="anchor" href="#show-pins-to-users" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Show pins to users</h1>
+<h4>
+<a id="init" class="anchor" href="#init" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>init</h4>
 
-<div class="highlight highlight-source-js"><pre><span class="pl-c">// Pin show process</span>
-<span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypinShow</span>({
-    data<span class="pl-k">:</span> {
+<p>Initialize the pin coordinates.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
+    init<span class="pl-k">:</span> {
         <span class="pl-s"><span class="pl-pds">"</span>example_image1<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
             <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
                 <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Captan America<span class="pl-pds">"</span></span>,
@@ -171,53 +310,332 @@ Supported lowest jQuery version 1.8</p>
                     <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>179<span class="pl-pds">"</span></span>
                 }
             },
-            <span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Thor Odinson<span class="pl-pds">"</span></span>,
-                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>892<span class="pl-pds">"</span></span>,
-                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>109<span class="pl-pds">"</span></span>
-                }
-            },
-            <span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Hulk<span class="pl-pds">"</span></span>,
-                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>56<span class="pl-pds">"</span></span>,
-                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>133<span class="pl-pds">"</span></span>
-                }
-            },
-            <span class="pl-s"><span class="pl-pds">"</span>3<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Black Widow<span class="pl-pds">"</span></span>,
-                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>717<span class="pl-pds">"</span></span>,
-                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>242<span class="pl-pds">"</span></span>
-                }
-            },
-            <span class="pl-s"><span class="pl-pds">"</span>4<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Hawkeye<span class="pl-pds">"</span></span>,
-                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>173<span class="pl-pds">"</span></span>,
-                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>221<span class="pl-pds">"</span></span>
-                }
-            },
-            <span class="pl-s"><span class="pl-pds">"</span>5<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Iron Man<span class="pl-pds">"</span></span>,
-                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>280<span class="pl-pds">"</span></span>,
-                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>161<span class="pl-pds">"</span></span>˜
-                }
-            },
             <span class="pl-s"><span class="pl-pds">"</span>canvas<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
-                <span class="pl-s"><span class="pl-pds">"</span>src<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>https://i.ytimg.com/vi/48fKIXlxaXk/maxresdefault.jpg<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>width<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>1000<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>height<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>562<span class="pl-pds">"</span></span>
+                <span class="pl-s"><span class="pl-pds">"</span>src<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>example.jpg<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>width<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>1000<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>height<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>562<span class="pl-pds">"</span></span>
             }
         }
-    },
-    <span class="pl-en">success</span><span class="pl-k">:</span> <span class="pl-k">function</span>() {
-        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>image pin succesfully...<span class="pl-pds">'</span></span>);
     }
 });</pre></div>
 
 <h4>
-<a id="then-enjoy" class="anchor" href="#then-enjoy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>then enjoy!</h4>
+<a id="popover-1" class="anchor" href="#popover-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>popover</h4>
+
+<p>Set callback all template variables</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
+    popover<span class="pl-k">:</span> {
+        <span class="pl-en">content</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">value</span>) {
+            <span class="pl-k">return</span> <span class="pl-smi">value</span>.<span class="pl-c1">replace</span>(<span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">\s</span><span class="pl-k">+</span><span class="pl-pds">/</span>g</span>, <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span>);
+        }
+    }
+});</pre></div>
+
+<blockquote>
+<p>It <strong>content</strong> variable is form input name</p>
+</blockquote>
+
+<h4>
+<a id="popoverstyle" class="anchor" href="#popoverstyle" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>popoverStyle</h4>
+
+<p>Popover styles (it just pass to jquery .css() method)</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
+    popover<span class="pl-k">:</span> {
+        <span class="pl-en">content</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">value</span>) {
+            <span class="pl-k">return</span> <span class="pl-smi">value</span>.<span class="pl-c1">replace</span>(<span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">\s</span><span class="pl-k">+</span><span class="pl-pds">/</span>g</span>, <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span>);
+        }
+    },
+    popoverStyle<span class="pl-k">:</span> {
+        <span class="pl-s"><span class="pl-pds">'</span>background-color<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>orange<span class="pl-pds">'</span></span>,
+        <span class="pl-s"><span class="pl-pds">'</span>color<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>black<span class="pl-pds">'</span></span>
+    }
+});</pre></div>
+
+<h4>
+<a id="limit" class="anchor" href="#limit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>limit</h4>
+
+<p>Limited pin (default 0) 0 for limitless</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
+    limit<span class="pl-k">:</span> <span class="pl-c1">2</span>
+});</pre></div>
+
+<blockquote>
+<p>Set 0 for limitless pin</p>
+</blockquote>
+
+<h4>
+<a id="exceeded" class="anchor" href="#exceeded" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>exceeded()</h4>
+
+<p>Limit exceeded event</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
+    limit<span class="pl-k">:</span> <span class="pl-c1">2</span>,
+    <span class="pl-en">exceeded</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">type</span>) {
+        <span class="pl-c">// do samething...</span>
+    }
+});</pre></div>
+
+<h4>
+<a id="drop" class="anchor" href="#drop" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>drop()</h4>
+
+<p>Pin dropped event</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
+    <span class="pl-en">drop</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">x</span>, <span class="pl-smi">y</span>, <span class="pl-smi">element</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(x, y, element);
+    }
+});</pre></div>
+
+<h4>
+<a id="drag" class="anchor" href="#drag" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>drag()</h4>
+
+<p>Pin dragging event</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
+    <span class="pl-en">drop</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">x</span>, <span class="pl-smi">y</span>, <span class="pl-smi">element</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(x, y, element);
+    },
+    <span class="pl-en">drag</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">x</span>, <span class="pl-smi">y</span>, <span class="pl-smi">element</span>) {
+        <span class="pl-en">console</span>.<span class="pl-c1">log</span>(x, y, element);
+    }
+});</pre></div>
+
+<h4>
+<a id="done" class="anchor" href="#done" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>done()</h4>
+
+<p>Closing of the dialog window is depend to this function. Return true if the result dialog window will be closed</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
+    <span class="pl-en">done</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">element</span>) {
+
+        <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+
+    }
+});</pre></div>
+
+<blockquote>
+<p>Will return the form objects if the dialog box contains the form objects. Otherwise the dialog box will return the objects</p>
+</blockquote>
+
+<h1>
+<a id="easypinshow-options" class="anchor" href="#easypinshow-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>.easypinShow({}) options</h1>
+
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#data">data</a></td>
+<td><code>object or json string</code></td>
+<td>Pin data and coordinates</td>
+</tr>
+<tr>
+<td><a href="#responsive">responsive</a></td>
+<td><code>boolean (default: false)</code></td>
+<td>Reponsive canvas for mobile</td>
+</tr>
+<tr>
+<td><a href="#variables">variables</a></td>
+<td><code>functions into object</code></td>
+<td>Set callback all template variables</td>
+</tr>
+<tr>
+<td><a href="#popover">popover</a></td>
+<td><code>object</code></td>
+<td>There is two child element. show/animate (default: false)</td>
+</tr>
+<tr>
+<td><a href="#each">each</a></td>
+<td><code>function</code></td>
+<td>Each element works before replacing</td>
+</tr>
+<tr>
+<td><a href="#error">error</a></td>
+<td><code>function</code></td>
+<td>Process error event</td>
+</tr>
+<tr>
+<td><a href="#success">success</a></td>
+<td><code>function</code></td>
+<td>Process success event</td>
+</tr>
+</tbody>
+</table>
+
+<h4>
+<a id="data" class="anchor" href="#data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>data</h4>
+
+<p>Pin data and coordinates</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypinShow</span>({
+    data<span class="pl-k">:</span> {
+        <span class="pl-s"><span class="pl-pds">"</span>example_image1<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+            <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>content<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>Hello World!<span class="pl-pds">"</span></span>,
+                <span class="pl-s"><span class="pl-pds">"</span>coords<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                    <span class="pl-s"><span class="pl-pds">"</span>lat<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>530<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>long<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>179<span class="pl-pds">"</span></span>
+                }
+            },
+            <span class="pl-s"><span class="pl-pds">"</span>canvas<span class="pl-pds">"</span></span><span class="pl-k">:</span>{
+                <span class="pl-s"><span class="pl-pds">"</span>src<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>example.jpg<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>width<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>800<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>height<span class="pl-pds">"</span></span><span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>562<span class="pl-pds">"</span></span>
+            }
+        }
+    }
+});</pre></div>
+
+<h3>
+<a id="responsive" class="anchor" href="#responsive" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>responsive</h3>
+
+<p>Reponsive canvas for mobile (dfault: false)</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypinShow</span>({
+    data<span class="pl-k">:</span> {<span class="pl-c">/*json object*/</span>},
+    responsive<span class="pl-k">:</span> <span class="pl-c1">true</span>
+});</pre></div>
+
+<h3>
+<a id="variables" class="anchor" href="#variables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>variables</h3>
+
+<p>Reponsive canvas for mobile</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypinShow</span>({
+    data<span class="pl-k">:</span> {<span class="pl-c">/*json object*/</span>},
+    responsive<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    variables<span class="pl-k">:</span> {
+        <span class="pl-en">content</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">canvas_id</span>, <span class="pl-smi">pin_id</span>, <span class="pl-smi">data</span>) {
+
+            <span class="pl-c">// do something...</span>
+            <span class="pl-c">// and return</span>
+            <span class="pl-k">return</span> data;
+        }
+    }
+});</pre></div>
+
+<blockquote>
+<p><strong>content</strong> is a template variable.</p>
+</blockquote>
+
+<h3>
+<a id="popover-2" class="anchor" href="#popover-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>popover</h3>
+
+<p>There is two child element. show/animate (default: false)</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypinShow</span>({
+    data<span class="pl-k">:</span> {<span class="pl-c">/*json object*/</span>},
+    responsive<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    variables<span class="pl-k">:</span> {
+        <span class="pl-en">content</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">canvas_id</span>, <span class="pl-smi">pin_id</span>, <span class="pl-smi">data</span>) {
+
+            <span class="pl-c">// do something...</span>
+            <span class="pl-c">// and return</span>
+            <span class="pl-k">return</span> data;
+        }
+    },
+    popover<span class="pl-k">:</span> {
+        show<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+        animate<span class="pl-k">:</span> <span class="pl-c1">true</span>
+    }
+});</pre></div>
+
+<h3>
+<a id="each" class="anchor" href="#each" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>each()</h3>
+
+<p>Each element works before replacing.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypinShow</span>({
+    data<span class="pl-k">:</span> {<span class="pl-c">/*json object*/</span>},
+    responsive<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    variables<span class="pl-k">:</span> {
+        <span class="pl-en">content</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">canvas_id</span>, <span class="pl-smi">pin_id</span>, <span class="pl-smi">data</span>) {
+
+            <span class="pl-c">// do something...</span>
+            <span class="pl-c">// and return</span>
+            <span class="pl-k">return</span> data;
+        }
+    },
+    popover<span class="pl-k">:</span> {
+        show<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+        animate<span class="pl-k">:</span> <span class="pl-c1">true</span>
+    },
+    <span class="pl-en">each</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">index</span>, <span class="pl-smi">data</span>) {
+
+        <span class="pl-c">// do something</span>
+        <span class="pl-c">// and return</span>
+        <span class="pl-k">return</span> data;
+    }
+});</pre></div>
+
+<h3>
+<a id="error" class="anchor" href="#error" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> error()</h3>
+
+<p>Process error event</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypinShow</span>({
+    data<span class="pl-k">:</span> {<span class="pl-c">/*json object*/</span>},
+    responsive<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    variables<span class="pl-k">:</span> {
+        <span class="pl-en">content</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">canvas_id</span>, <span class="pl-smi">pin_id</span>, <span class="pl-smi">data</span>) {
+
+            <span class="pl-c">// do something...</span>
+            <span class="pl-c">// and return</span>
+            <span class="pl-k">return</span> data;
+        }
+    },
+    popover<span class="pl-k">:</span> {
+        show<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+        animate<span class="pl-k">:</span> <span class="pl-c1">true</span>
+    },
+    <span class="pl-en">each</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">index</span>, <span class="pl-smi">data</span>) {
+
+        <span class="pl-c">// do something</span>
+        <span class="pl-c">// and return</span>
+        <span class="pl-k">return</span> data;
+    },
+    <span class="pl-en">error</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">e</span>) {
+        <span class="pl-c">// do something...</span>
+    }
+});</pre></div>
+
+<h3>
+<a id="success" class="anchor" href="#success" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a> success()</h3>
+
+<p>Process success event</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypinShow</span>({
+    data<span class="pl-k">:</span> {<span class="pl-c">/*json object*/</span>},
+    responsive<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+    variables<span class="pl-k">:</span> {
+        <span class="pl-en">content</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">canvas_id</span>, <span class="pl-smi">pin_id</span>, <span class="pl-smi">data</span>) {
+
+            <span class="pl-c">// do something...</span>
+            <span class="pl-c">// and return</span>
+            <span class="pl-k">return</span> data;
+        }
+    },
+    popover<span class="pl-k">:</span> {
+        show<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+        animate<span class="pl-k">:</span> <span class="pl-c1">true</span>
+    },
+    <span class="pl-en">each</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">index</span>, <span class="pl-smi">data</span>) {
+
+        <span class="pl-c">// do something</span>
+        <span class="pl-c">// and return</span>
+        <span class="pl-k">return</span> data;
+    },
+    <span class="pl-en">error</span><span class="pl-k">:</span> <span class="pl-k">function</span>(<span class="pl-smi">e</span>) {
+        <span class="pl-c">// do something...</span>
+    },
+    <span class="pl-en">success</span><span class="pl-k">:</span> <span class="pl-k">function</span>() {
+
+    }
+});</pre></div>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/atayahmet/jquery.easypin">jquery.easypin</a> is maintained by <a href="https://github.com/atayahmet">atayahmet</a>.</span>
