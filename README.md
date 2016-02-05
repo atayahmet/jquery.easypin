@@ -147,6 +147,7 @@ $('.pin').easypinShow({
 
 That's it!
 
+
 .easypin({}) options
 =================
 
@@ -269,65 +270,175 @@ $('.pin').easypin({
 ```
 > Will return the form objects if the dialog box contains the form objects. Otherwise the dialog box will return the objects
 
-Show pins to users
-==============
 
+.easypinShow({}) options
+=================
+
+|      option                  | type                      | description                                                                |
+| ---------------------------- | ------------------------- | -------------------------------------------------------------------------- |
+| [data](#data)                | `object or json string`   | Pin data and coordinates                                                   |
+| [responsive](#responsive)    | `boolean (default: false)`| Reponsive canvas for mobile                                                |
+| [variables](#variables)      | `functions into object`   | Set callback all template variables                                        |
+| [popover](#popover)          | `object`                  | There is two child element. show/animate (default: false)                  |
+| [each](#each)                | `function`                | Each element works before replacing                                        |
+| [error](#error)              | `function`                | Process error event                                                        |
+| [success](#success)          | `function`                | Process success event                                                      |
+
+#### data
+Pin data and coordinates
 ```javascript
-// Pin show process
 $('.pin').easypinShow({
     data: {
         "example_image1":{
             "0":{
-                "content":"Captan America",
+                "content":"Hello World!",
                 "coords":{
                     "lat":"530",
                     "long":"179"
                 }
             },
-            "1":{
-                "content":"Thor Odinson",
-                "coords":{
-                    "lat":"892",
-                    "long":"109"
-                }
-            },
-            "2":{
-                "content":"Hulk",
-                "coords":{
-                    "lat":"56",
-                    "long":"133"
-                }
-            },
-            "3":{
-                "content":"Black Widow",
-                "coords":{
-                    "lat":"717",
-                    "long":"242"
-                }
-            },
-            "4":{
-                "content":"Hawkeye",
-                "coords":{
-                    "lat":"173",
-                    "long":"221"
-                }
-            },
-            "5":{
-                "content":"Iron Man",
-                "coords":{
-                    "lat":"280",
-                    "long":"161"˜
-                }
-            },
             "canvas":{
-                "src":"https://i.ytimg.com/vi/48fKIXlxaXk/maxresdefault.jpg","width":"1000","height":"562"
+                "src":"example.jpg","width":"800","height":"562"
             }
         }
-    },
-    success: function() {
-        console.log('image pin succesfully...');
     }
 });
 ```
 
-#### then enjoy!
+### responsive
+Reponsive canvas for mobile (dfault: false)
+```javascript
+$('.pin').easypinShow({
+    data: {/*json object*/},
+    responsive: true
+});
+```
+
+### variables
+Reponsive canvas for mobile
+```javascript
+$('.pin').easypinShow({
+    data: {/*json object*/},
+    responsive: true,
+    variables: {
+        content: function(canvas_id, pin_id, data) {
+
+            // do something...
+            // and return
+            return data;
+        }
+    }
+});
+```
+> **content** is a template variable.
+
+### popover
+There is two child element. show/animate (default: false)
+```javascript
+$('.pin').easypinShow({
+    data: {/*json object*/},
+    responsive: true,
+    variables: {
+        content: function(canvas_id, pin_id, data) {
+
+            // do something...
+            // and return
+            return data;
+        }
+    },
+    popover: {
+        show: true,
+        animate: true
+    }
+});
+```
+
+### each()
+Each element works before replacing.
+```javascript
+$('.pin').easypinShow({
+    data: {/*json object*/},
+    responsive: true,
+    variables: {
+        content: function(canvas_id, pin_id, data) {
+
+            // do something...
+            // and return
+            return data;
+        }
+    },
+    popover: {
+        show: true,
+        animate: true
+    },
+    each: function(index, data) {
+
+        // do something
+        // and return
+        return data;
+    }
+});
+```
+
+### error()
+Process error event
+```javascript
+$('.pin').easypinShow({
+    data: {/*json object*/},
+    responsive: true,
+    variables: {
+        content: function(canvas_id, pin_id, data) {
+
+            // do something...
+            // and return
+            return data;
+        }
+    },
+    popover: {
+        show: true,
+        animate: true
+    },
+    each: function(index, data) {
+
+        // do something
+        // and return
+        return data;
+    },
+    error: function(e) {
+        // do something...
+    }
+});
+```
+
+### success()
+Process success event
+```javascript
+$('.pin').easypinShow({
+    data: {/*json object*/},
+    responsive: true,
+    variables: {
+        content: function(canvas_id, pin_id, data) {
+
+            // do something...
+            // and return
+            return data;
+        }
+    },
+    popover: {
+        show: true,
+        animate: true
+    },
+    each: function(index, data) {
+
+        // do something
+        // and return
+        return data;
+    },
+    error: function(e) {
+        // do something...
+    },
+    success: function() {
+        
+    }
+});
+```
