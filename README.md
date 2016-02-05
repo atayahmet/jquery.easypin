@@ -20,9 +20,11 @@ First, include the jQuery and jQuery easing plugin javascript files.
 ```html
 <img src="example.jpg" class="pin" width="800" easypin-id="example_image1" />
 ```
-> **class**: selector class of pictures
 
-> **easypin-id**: It will be the default value if not defined
+
+|      option                  | type                    | description                                   |
+| ---------------------------- | ----------------------- | --------------------------------------------- |
+| easypin-id                   | `attribute`             | It will be the default value if not defined   |                                    
 
 ### Dialog window for pin contents
 ```html
@@ -34,7 +36,11 @@ First, include the jQuery and jQuery easing plugin javascript files.
 </div>
 ```
 
-> **easy-submit** class must be defined to close the dialog window
+|      option                  | type                    | description                                      |
+| ---------------------------- | ----------------------- | ------------------------------------------------ |
+| easy-submit                  | `class`                 | Class must be defined to close the dialog window |    
+| modal-position               | `attribute`             | Dialog window free position (default: none)      |    
+
 
 ### Popover
 ```html
@@ -42,6 +48,13 @@ First, include the jQuery and jQuery easing plugin javascript files.
     <div style="width:100%;text-align:center;">{[content]}</div>
 </div>
 ```
+
+|      option                  | type                    | description                          |
+| ---------------------------- | ----------------------- | ------------------------------------ |
+| popover                      | `attribute`             | Popover initializer attribute (MUST) |    
+| width                        | `attribute`             | Popover width size (default: 200px)  |  
+| shadow                       | `attribute`             | Popover show style (default: false)  |
+
 ### Initialize the pictures:
 ```javascript
 // Back-end pin process
@@ -78,6 +91,61 @@ $( ".coords" ).click(function(e) {
 ```
 
 We pass parameters when calling the above coordinate the event. Before the callback to run.
+
+[Click for .easypin({}) options](#easypin-options)
+
+.easypinShow()
+=============
+ We do first pin on the picture, now we show these pins to users on user interface.
+
+**Pin image:**
+ ```html
+ <img src="example.jpg" class="pin" width="800" easypin-id="example_image1" />
+ ```
+> **Note:** If you want to get the width of the parent element's do not need define
+
+**Pin container and popover template:**
+```html
+<div style="display:none;" easypin-tpl>
+    <popover>
+        <div style="width:140px;height:auto;background-color:orange;">
+            {[content]}
+        </div>
+    </popover>
+
+    <marker>
+        <div style="border:solid 1px #000;width:20px;height:20px;background-color:red;">&nbsp;</div>
+    </marker>
+</div>
+```
+
+|      option                  | type                    | description                          |
+| ---------------------------- | ----------------------- | ------------------------------------ |
+| easypin-tpl                  | `attribute`             | Marker and Popover container element |    
+| popover                      | `html tag`              | Popover container element            |
+| marker                       | `html tag`              | Marker container element             |
+
+**and run the .easypinShow() method:**
+```javascript
+$('.pin').easypinShow({
+    data: {
+            "example_image1":{
+            "0":{
+                "content":"Hello World!",
+                "coords":{
+                    "lat":"530",
+                    "long":"179"
+                }
+            },
+            "canvas":{
+                "src":"example.jpg","width":"800","height":"562"
+            }
+        }
+    }
+});
+```
+
+That's it!
 
 .easypin({}) options
 =================
