@@ -8,6 +8,11 @@ Supported lowest jQuery version 1.8
 Quick Start
 ==============
 
+### bower install
+```sh
+bower install jquery.easypin
+```
+
 ### Load libraries
 
 First, include the jQuery and jQuery easing plugin javascript files.
@@ -438,7 +443,7 @@ $('.pin').easypinShow({
         // do something...
     },
     success: function() {
-        
+
     }
 });
 ```
