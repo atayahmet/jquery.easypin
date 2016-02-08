@@ -159,6 +159,9 @@ That's it!
 |      option                  | type                    | description                                                                |
 | ---------------------------- | ----------------------- | -------------------------------------------------------------------------- |
 | [init](#init)                | `object or json string` | initialize the pin coordinates                                             |
+| [markerSrc](#markerSrc)      | `string`                | Change the default marker image                                             |
+| [editSrc](#editSrc)          | `string`                | Change the default edit button image                                             |
+| [deleteSrc](#deleteSrc)      | `string`                | Change the default delete button image                                             |
 | [popover](#popover)          | `functions into object` | set callback all template variables                                        |
 | [popoverStyle](#popoverStyle)| `object`                | popover styles (it just pass to jquery .css() method of the object)        |
 | [limit](#limit)              | `integer`               | limited pin (default 0)                                                    |
@@ -186,6 +189,30 @@ $('.pin').easypin({
             }
         }
     }
+});
+```
+
+#### markerSrc
+Change the default marker image
+```javascript
+$('.pin').easypin({
+    markerSrc: 'path/or/url/example-marker.jpg'
+});
+```
+
+#### editSrc
+Change the default edit button image
+```javascript
+$('.pin').easypin({
+    editSrc: 'path/or/url/example-edit.jpg'
+});
+```
+
+#### deleteSrc
+Change the default delete button image
+```javascript
+$('.pin').easypin({
+    deleteSrc: 'path/or/url/example-delete.jpg'
 });
 ```
 
