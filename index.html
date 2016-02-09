@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>easypin | jQuery image pin!</title>
+    <title>jquery.easypin by atayahmet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -11,8 +11,8 @@
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name">jQuery easypin</h1>
-      <h2 class="project-tagline">Simply pinning objects in images</h2>
+      <h1 class="project-name">jquery.easypin</h1>
+      <h2 class="project-tagline">Simply pinning objects in pictures</h2>
       <a href="https://github.com/atayahmet/jquery.easypin" class="btn">View on GitHub</a>
       <a href="https://github.com/atayahmet/jquery.easypin/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/atayahmet/jquery.easypin/tarball/master" class="btn">Download .tar.gz</a>
@@ -21,9 +21,14 @@
     <section class="main-content">
       <h1>
 <a id="jquery-easypin" class="anchor" href="#jquery-easypin" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>jQuery easypin</h1>
-<a href="demo.html">DEMO!</a>
+
 <p>Simple and fast image pinning plugin. There are dependencies with the library jQuery easing plugin.
 Supported lowest jQuery version 1.8</p>
+
+<h1>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DEMO</h1>
+
+<p><a href="http://atayahmet.github.io/jquery.easypin/demo.html">Click For Demo Page</a></p>
 
 <h1>
 <a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Start</h1>
@@ -263,6 +268,11 @@ Supported lowest jQuery version 1.8</p>
 <td>Change the default marker image</td>
 </tr>
 <tr>
+<td><a href="#markerWidth">markerWidth</a></td>
+<td><code>numeric</code></td>
+<td>Change the default marker width</td>
+</tr>
+<tr>
 <td><a href="#editSrc">editSrc</a></td>
 <td><code>string</code></td>
 <td>Change the default edit button image</td>
@@ -339,6 +349,15 @@ Supported lowest jQuery version 1.8</p>
 
 <div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
     markerSrc<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>path/or/url/example-marker.jpg<span class="pl-pds">'</span></span>
+});</pre></div>
+
+<h4>
+<a id="markerwidth" class="anchor" href="#markerwidth" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>markerWidth</h4>
+
+<p>Change the default marker width</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>.pin<span class="pl-pds">'</span></span>).<span class="pl-en">easypin</span>({
+    markerWidth<span class="pl-k">:</span> <span class="pl-c1">250</span>
 });</pre></div>
 
 <h4>
