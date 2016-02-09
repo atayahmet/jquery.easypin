@@ -83,7 +83,10 @@
             					width: setPx(imageWidth),
             					height: setPx(imageHeight),
             					position: $.fn.easypin.config('parentPosition'),
-            					border: setPx(dashWidth)+' dashed #383838'
+            					border: setPx(dashWidth)+' dashed #383838',
+                                'box-sizing': 'content-box',
+                                'webkit-box-sizing': 'content-box',
+                                '-moz-box-sizing': 'content-box'
             				});
 
                         initPin(easypinId, $(this));
@@ -1850,7 +1853,7 @@
                 // set cursor position coordinate
                 var imagePositionY = targetImage.offset().top - (config.dashWidth-posYBalance);
                 var imagePositionX = targetImage.offset().left - (config.dashWidth-posXBalance);
-                //console.log((targetImage.offset().top));
+
                 var clickPosX = lat;//(lat-imagePositionX);
                 var clickPosY = long;//(long-imagePositionY);
                 // get marker half size (width/height)
