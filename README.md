@@ -4,6 +4,9 @@ jQuery easypin
 Simple and fast image pinning plugin. There are dependencies with the library jQuery easing plugin.
 Supported lowest jQuery version 1.8
 
+DEMO
+========
+[Click For Demo Page](http://atayahmet.github.io/jquery.easypin/demo.html)
 
 Quick Start
 ==============
@@ -160,6 +163,7 @@ That's it!
 | ---------------------------- | ----------------------- | -------------------------------------------------------------------------- |
 | [init](#init)                | `object or json string` | initialize the pin coordinates                                             |
 | [markerSrc](#markerSrc)      | `string`                | Change the default marker image                                             |
+| [markerWidth](#markerWidth)  | `numeric`                | Change the default marker width                                             |
 | [editSrc](#editSrc)          | `string`                | Change the default edit button image                                             |
 | [deleteSrc](#deleteSrc)      | `string`                | Change the default delete button image                                             |
 | [popover](#popover)          | `functions into object` | set callback all template variables                                        |
@@ -197,6 +201,14 @@ Change the default marker image
 ```javascript
 $('.pin').easypin({
     markerSrc: 'path/or/url/example-marker.jpg'
+});
+```
+
+#### markerWidth
+Change the default marker width
+```javascript
+$('.pin').easypin({
+    markerWidth: 250
 });
 ```
 
