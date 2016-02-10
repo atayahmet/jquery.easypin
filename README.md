@@ -163,7 +163,7 @@ That's it!
 | ---------------------------- | ----------------------- | -------------------------------------------------------------------------- |
 | [init](#init)                | `object or json string` | initialize the pin coordinates                                             |
 | [markerSrc](#markerSrc)      | `string`                | Change the default marker image                                             |
-| [markerWidth](#markerWidth)  | `numeric`                | Change the default marker width                                             |
+| [modalWidth](#modalWidth)  | `string/numeric`          | Change the default modal width (default: 200px)                                         |
 | [editSrc](#editSrc)          | `string`                | Change the default edit button image                                             |
 | [deleteSrc](#deleteSrc)      | `string`                | Change the default delete button image                                             |
 | [popover](#popover)          | `functions into object` | set callback all template variables                                        |
@@ -204,11 +204,11 @@ $('.pin').easypin({
 });
 ```
 
-#### markerWidth
-Change the default marker width
+#### modalWidth
+Change the default modal width
 ```javascript
 $('.pin').easypin({
-    markerWidth: 250
+    modalWidth: 300
 });
 ```
 
