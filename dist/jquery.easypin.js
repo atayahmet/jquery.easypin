@@ -1212,6 +1212,8 @@
                         if(result == true) {
 
                             closePopup(parentElement);
+                        }else{
+                            return;
                         }
 
                     }else{
