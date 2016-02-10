@@ -1781,7 +1781,6 @@
     					easing: 'easeOutElastic',
     					complete: function() {
     						$(this).remove();
-                            $('.popover-arrow-down', markerContainer).remove();
     					}
     				}
     			);
