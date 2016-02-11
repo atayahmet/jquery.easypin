@@ -16,6 +16,11 @@ Quick Start
 bower install jquery.easypin
 ```
 
+### npm install
+```sh
+npm install jquery.easypin
+```
+
 ### Load libraries
 
 First, include the jQuery and jQuery easing plugin javascript files.
