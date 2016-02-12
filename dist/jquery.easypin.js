@@ -730,7 +730,7 @@
                                 // popover
                                 $('.easypin-marker:last', pinContainer).click(function(e) {
 
-                                    if(! $(e.target).is('div.easypin-marker')) return;
+                                    if(! $(e.target).is('div.easypin-marker') && !$(e.target).parent().is('div.easypin-marker')) return;
 
                                     if(popover.animate === true) {
                                         $('.easypin-popover', this).toggle('fast');
