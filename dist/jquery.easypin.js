@@ -708,6 +708,8 @@
                                 var returnData = each.apply(null, args);
                                 var viewContainer = viewLocater(data[parentId], j, parentWidth, createView(returnData, tpl));
 
+                                var opacity = getCssPropertyValue('opacity', $(viewContainer).clone());
+
                                 $(viewContainer).css('opacity', 0);
                                 $(pinContainer).append(viewContainer);
 
@@ -718,7 +720,7 @@
                                 // marker
                                 $(viewContainer).animate(
                                     {
-                                        'opacity': '1'
+                                        'opacity': opacity
                                     },
                                     {
                                         duration: 'slow',
