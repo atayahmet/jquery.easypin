@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>easypin | jQuery image pin!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" media="screen">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="jquery.easypin.min.js"></script>
+    <style type="text/css">
+        .exPopoverContainer {width:300px;height:200px;position: relative;color:#ccc;bottom:51px!important;left:-16px;}
+        .borderRadius {-webkit-border-radius: 7px;-moz-border-radius: 7px;border-radius: 7px;}
+        .popBg {background-color:#000;opacity: 0.8;width:100%;height:100%;position:absolute;}
+        .popBody {width:100%;height:100%;position: relative;padding:10px;}
+        .popBody h1 {padding-bottom:5px;margin:0px;font-size:18px;}
+        .popHeadLine {clear:both;width:100%;height:1px;background-color:#383737;margin:auto;}
+        .popContentLeft {width:169px;float: left;font-size:11px;text-align:justify;margin-top: 10px;}
+        .popContentRight {width:100px;float: right;margin-top: 10px;text-align: center;}
+        .arrow-down {position: absolute;width: 0; height: 0; border-left: 20px solid transparent;border-right: 20px solid transparent;border-top: 20px solid #000;opacity: 0.8;}
+    </style>
+</head>
+<body>
+    <section class="page-header" style="margin:0px;padding:0px;border-bottom:solid 3px #158D64;">
+          <br />
+          <h1>jQuery easypin demo page</h1>
+          <h2>Please click on the picture</h2>
+          <a class="btn btn-default" href="index.html">Go to home page</a>
+          <br />
+          <br />
+    </section>
+
+    <br />
+    <br />
+    <h1 align="center">Istanbul Panoramic</h1>
+    <h3 align="center">(responsive)</h3>
+    <img src="img/istanbul-wide-cropped.jpg" class="pin" width="100%" easypin-id="demo_image_1" />
+
+    <div style="display:none;" easypin-tpl>
+        <popover>
+            <div class="exPopoverContainer">
+                <div class="popBg borderRadius"></div>
+                <div class="popBody">
+                    <div class="arrow-down" style="top: 200px;left: 13px;"></div>
+                    <h1>{[title]}</h1>
+                    <div class="popHeadLine"></div>
+                    <div class="popContentLeft">{[description]}</div>
+                    <div class="popContentRight"><img src="{[image_url]}" border="0" width="100px" /></div>
+                </div>
+            </div>
+        </popover>
+
+        <marker>
+            <div style="width:32px;height:30px;">
+                <img src="img/1455306438_pin.png" width="32">
+            </div>
+        </marker>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $('.pin').easypinShow({
+                data: '{"demo_image_1":{"0":{"title":"Galata Tower","description":"This article is about the currently standing Galata Tower built by the Genoese in 1348. For the Megalos Pyrgos (Great Tower) built by the Byzantines at a nearby but different location (closer to the sea) and destroyed during the Sack of Constantinople by the Latin Crusaders in 1204, see Galata Tower (old).","image_url":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/The_Galata_tower.jpg/220px-The_Galata_tower.jpg","coords":{"lat":"506","long":"71"}},"1":{"title":"Ferries in Istanbul","description":"The city of Istanbul is at a geographic crossroads, straddling Europe and Asia Minor, and is divided by a sea lane called the Bosphorus Strait, which joins the Black Sea in the northeast and the Mediterranean Sea in the southwest. This strait has played a key role in the history of the city.","image_url":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Emin_Kul.jpg/250px-Emin_Kul.jpg","coords":{"lat":"372","long":"298"}},"canvas":{"src":"img/istanbul-wide-cropped.jpg","width":"1000","height":"359"}}}',
+                responsive: true,
+                variables: {
+                    firstname: function(canvas_id, pin_id, data) {
+                        //console.log(canvas_id, pin_id, data);
+                        return data;
+                    },
+                    surname: function(canvas_id, pin_id, data) {
+                        //console.log(canvas_id, pin_id, data);
+                        return data;
+                    }
+                },
+                popover: {
+                    show: false,
+                    animate: true
+                },
+                each: function(index, data) {
+                    return data;
+                },
+                error: function(e) {
+                    console.log(e);
+                },
+                success: function() {
+                    console.log('başarılı');
+                }
+            });
+        });
+    </script>
+
+
+
+  </body>
+</html>
