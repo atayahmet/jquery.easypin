@@ -709,23 +709,22 @@
                                 var viewContainer = viewLocater(data[parentId], j, parentWidth, createView(returnData, tpl));
 
                                 $(viewContainer).css('opacity', 0);
+                                $(pinContainer).append(viewContainer);
 
                                 if(popover.show == true) {
                                     $('.easypin-popover', pinContainer).show();
                                 }
 
-                                $(pinContainer).append(viewContainer);
-
                                 // marker
                                 $(viewContainer).animate(
-                    				{
-                    					'opacity': '1'
-                    				},
-                    				{
-                    					duration: 'slow',
-                    					easing: 'easeOutBack'
-                    				}
-                    			);
+                                    {
+                                        'opacity': '1'
+                                    },
+                                    {
+                                        duration: 'slow',
+                                        easing: 'easeOutBack'
+                                    }
+                                );
 
                                 // popover
                                 $('.easypin-marker:last', pinContainer).click(function(e) {
