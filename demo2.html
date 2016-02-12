@@ -10,20 +10,21 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" media="screen">
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.easing/1.3/jquery.easing.1.3.min.js"></script>
     <script type="text/javascript" src="jquery.easypin.min.js"></script>
     <style type="text/css">
-        .exPopoverContainer {width:300px;height:200px;position: relative;color:#ccc;bottom:51px!important;left:-21px;}
+        .exPopoverContainer {width:300px;height:150px;position: relative;color:#2F0200;bottom:51px!important;left:-21px;}
         .borderRadius {-webkit-border-radius: 7px;-moz-border-radius: 7px;border-radius: 7px;}
-        .popBg {background-color:#000;opacity: 0.8;width:100%;height:100%;position:absolute;}
+        .popBg {background-color:#F79994;width:100%;height:100%;position:absolute;}
         .popBody {width:100%;height:100%;position: relative;padding:10px;}
         .popBody h1 {padding-bottom:5px;margin:0px;font-size:18px;}
         .popHeadLine {clear:both;width:100%;height:1px;background-color:#383737;margin:auto;}
-        .popContentLeft {width:169px;float: left;font-size:11px;text-align:justify;margin-top: 10px;}
-        .popContentRight {width:100px;float: right;margin-top: 10px;text-align: center;}
-        .arrow-down {position: absolute;width: 0; height: 0; border-left: 20px solid transparent;border-right: 20px solid transparent;border-top: 20px solid #000;opacity: 0.8;}
-        .marker2 {width:25px;height:25px;background-color: #F44336;opacity: 0.7;font-size:16px;font-weight:bold;color:#fff;text-align: center;}
+        .popContentLeft {width:178px;float: left;font-size:11px;text-align:justify;margin-top: 10px;}
+        .popContentRight {width:100px;float: right;margin-top: 10px;text-align: center;font-size:40px;}
+        .arrow-down {position: absolute;width: 0; height: 0; border-left: 20px solid transparent;border-right: 20px solid transparent;border-top: 20px solid #F49F9A;opacity: 0.9;}
+        .marker2 {width:25px;height:25px;background-color: #F44336;opacity: 0.9;font-size:16px;font-weight:bold;color:#fff;text-align: center;}
         .marker2:hover {background-color: #CE473B;}
+        .c {clear:both;}
         .element-animation{
           animation: animationFrames linear 1s;
           animation-iteration-count: 3;
@@ -245,11 +246,16 @@
             <div class="exPopoverContainer">
                 <div class="popBg borderRadius"></div>
                 <div class="popBody">
-                    <div class="arrow-down" style="top: 200px;left: 13px;"></div>
+                    <div class="arrow-down" style="top: 150px;left: 13px;"></div>
                     <h1>{[name]}</h1>
                     <div class="popHeadLine"></div>
-                    <div class="popContentLeft">{[description]}</div>
+                    <div class="popContentLeft">
+                        {[description]}
+                        <br />
+                        <br />
+                    </div>
                     <div class="popContentRight">{[price]}</div>
+                    <div class="c"></div>
                 </div>
             </div>
         </popover>
@@ -262,7 +268,6 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
-
             $('.pin').easypinShow({
                 data: '{"demo_image_1":{"0":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$67","coords":{"lat":"800","long":"228"}},"1":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$98","coords":{"lat":"597","long":"357"}},"2":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$100","coords":{"lat":"241","long":"352"}},"3":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$54","coords":{"lat":"365","long":"283"}},"4":{"name":"Sweater","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$32","coords":{"lat":"713","long":"276"}},"5":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$123","coords":{"lat":"771","long":"510"}},"6":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$54","coords":{"lat":"496","long":"277"}},"canvas":{"src":"img/fashion-trends.jpg","width":"1000","height":"625"}}}',
                 responsive: false,
