@@ -783,9 +783,13 @@
         var markerHeight = $(marker).children(':first').height();
         var popoverHeight = $(popover).children(':first').height();
 
+        var popIns = $(popover).children(':first').clone();
+        var bottom = getCssPropertyValue('bottom', popover);
+        var newBottom = bottom == 'auto' ? setPx(markerHeight+markerBorderWidth) : bottom;
+
         $(popover)
             .children(':first')
-            .css('bottom', setPx(markerHeight+markerBorderWidth))
+            .css('bottom', newBottom)
             .css('cursor', 'default');
 
         $(marker)
