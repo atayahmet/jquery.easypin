@@ -1973,4 +1973,12 @@
 
       return obj1;
     }
+
+    var getCssPropertyValue = function(prop, el) {
+        var el = $(el).hide().appendTo('body');
+        var val = el.css(prop);
+        el.remove();
+
+        return val;
+    };
 }(jQuery));
