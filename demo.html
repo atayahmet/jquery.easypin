@@ -23,65 +23,59 @@
           <br />
     </section>
 
-    <br />
+    <img src="img/istanbul-wide-cropped.jpg" class="pin" width="100%" easypin-id="1TNz0G7H_7" />
 
-    <div style="position:relative;width:1000px;margin:auto;">
-        <img src="http://www.moviesallfree.com/wp-content/uploads/2015/06/the-avengers-2012-free-download.jpg" width="100%" class="pin" easypin-id="jizLvySUzI" />
-    </div>
-    <br />
-    <button type="button" class="btn btn-warning btn-lg center-block coords">Get Coordinates!</button>
-    <br />
-    <br />
+    <div style="display:none;" easypin-tpl>
+        <popover>
+            <div style="width:140px;height:auto;background-color:orange;">
+                <h3 style="padding:0px;margin:0px;">Member Info</h3>
+                {[firstname]} {[surname]}
+                <br />
+                {[gender]}
+                <br />
+                {[check2]}
+            </div>
+        </popover>
 
-    <div class="easy-modal" style="display:none;" modal-position="free">
-        <form>
-            <h3>type name of hero</h3>
-            <input type="text" class="form-control" name="content" placeholder="type" />
-            <br />
-            <button type="button" class="btn btn-primary easy-submit">Save Content</button>
-        </form>
-    </div>
-
-    <div style="display:none;" width="130" shadow="true" popover>
-        <div style="width:100%;text-align:center;">{[content]}</div>
+        <marker>
+            <div style="border:solid 1px #000;width:20px;height:20px;background-color:red;">&nbsp;</div>
+        </marker>
     </div>
 
     <script type="text/javascript">
-        var $instance = $('.pin').easypin({
-            init: '{"jizLvySUzI":{"0":{"content":"Captan America","coords":{"lat":"587","long":"154"}},"canvas":{"src":"http://www.moviesallfree.com/wp-content/uploads/2015/06/the-avengers-2012-free-download.jpg","width":"1000","height":"562"}}}',
-            modalWidth: 300,
-            done: function(element) {
-                if($('input[name="content"]', element).val() != '') {
-                    return true;
+        $(document).ready(function(){
+
+            $('.pin').easypinShow({
+                data: '{"Vegyr8foSu":{"0":{"firstname":"ahmet","surname":"atay","check2":"cinema","city":"bursa","gender":"male","description":"açıklama","coords":{"lat":"1048","long":"357"}},"1":{"firstname":"arife","surname":"koç","check1":"music","city":"ankara","gender":"female","description":"açıklamaa","coords":{"lat":"787","long":"548"}},"2":{"firstname":"veli","surname":"küçükf","check1":"music","check2":"cinema","city":"istanbul","gender":"male","description":"veliiii","coords":{"lat":"1617","long":"661"}},"3":{"firstname":"test 1","surname":"testtt 1","check2":"cinema","city":"istanbul","gender":"male","description":"test 1 açıklama","coords":{"lat":"481","long":"243"}},"4":{"firstname":"test 2","surname":"testttt 2","check1":"music","check2":"cinema","city":"izmir","gender":"male","description":"test 2 açıklama","coords":{"lat":"486","long":"627"}},"5":{"firstname":"test 3","surname":"testtttt 3","check1":"music","city":"ankara","gender":"female","description":"test 3 açıklama","coords":{"lat":"440","long":"462"}},"6":{"coords":{"lat":"829","long":"-5"}},"canvas":{"src":"11495.jpg","width":"1920","height":"710"}},"hdhgddhgd":{"0":{"firstname":"hello","surname":"","city":"istanbul","description":"","coords":{"lat":"577","long":"215"}},"canvas":{"src":"http://allwallpapersnew.com/wp-content/gallery/natural-green-wallpaper/green-natural-329594.jpg","width":"1200","height":"750"}},"E0MzZeBVhY":{"0":{"firstname":"captan america","surname":"","city":"istanbul","gender":"male","description":"","coords":{"lat":"1029","long":"335"}},"1":{"firstname":"hulk","surname":"","city":"istanbul","gender":"male","description":"angry man","coords":{"lat":"72","long":"294"}},"2":{"firstname":"thor","surname":"","city":"istanbul","gender":"male","description":"adama kor","coords":{"lat":"1685","long":"243"}},"3":{"firstname":"","surname":"","city":"istanbul","description":"","coords":{"lat":"552","long":"367"}},"canvas":{"src":"https://i.ytimg.com/vi/48fKIXlxaXk/maxresdefault.jpg","width":"1920","height":"1080"}},"1TNz0G7H_7":{"0":{"firstname":"zarrrr","surname":"","city":"istanbul","description":"","coords":{"lat":"197","long":"76"}},"canvas":{"src":"http://www.intrawallpaper.com/static/images/colourful-dice-cubes.jpg","width":"400","height":"250"}}}',
+                responsive: true,
+                variables: {
+                    firstname: function(canvas_id, pin_id, data) {
+                        //console.log(canvas_id, pin_id, data);
+                        return data;
+                    },
+                    surname: function(canvas_id, pin_id, data) {
+                        //console.log(canvas_id, pin_id, data);
+                        return data;
+                    }
+                },
+                popover: {
+                    show: false,
+                    animate: true
+                },
+                each: function(index, data) {
+                    return data;
+                },
+                error: function(e) {
+                    console.log(e);
+                },
+                success: function() {
+                    console.log('başarılı');
                 }
-                return false;
-            }
-        });
-
-        // set the 'get.coordinates' event
-        $instance.easypin.event( "get.coordinates", function($instance, data, params ) {
-
-            alert(data);
-
-        });
-
-        $( ".coords" ).click(function(e) {
-            $instance.easypin.fire( "get.coordinates", {param1: 1, param2: 2, param3: 3}, function(data) {
-                return JSON.stringify(data);
             });
         });
     </script>
 
-    <script type="text/javascript">
-        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-    </script>
 
-    <script type="text/javascript">
-        try {
-          var pageTracker = _gat._getTracker("UA-73375746-1");
-        pageTracker._trackPageview();
-        } catch(err) {}
-    </script>
+
   </body>
 </html>
