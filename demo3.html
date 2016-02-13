@@ -8,7 +8,6 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" media="screen">
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.easing/1.3/jquery.easing.1.3.min.js"></script>
     <script type="text/javascript" src="jquery.easypin.min.js"></script>
@@ -22,206 +21,126 @@
         .popContentLeft {width:178px;float: left;font-size:11px;text-align:justify;margin-top: 10px;}
         .popContentRight {width:100px;float: right;margin-top: 10px;text-align: center;font-size:40px;}
         .arrow-down {position: absolute;width: 0; height: 0; border-left: 20px solid transparent;border-right: 20px solid transparent;border-top: 20px solid #F49F9A;opacity: 0.9;}
-        .marker2 {width:25px;height:25px;background-color: #F44336;opacity: 0.9;font-size:16px;font-weight:bold;color:#fff;text-align: center;}
+        .marker2 {width:25px;height:25px;background-color: #000;opacity: 0.9;font-size:16px;font-weight:bold;color:#fff;text-align: center;}
         .marker2:hover {background-color: #CE473B;}
         .c {clear:both;}
         .element-animation{
-          animation: animationFrames linear 1s;
-          animation-iteration-count: 3;
-          transform-origin: 50% 50%;
-          -webkit-animation: animationFrames linear 1s;
-          -webkit-animation-iteration-count: 3;
-          -webkit-transform-origin: 50% 50%;
-          -moz-animation: animationFrames linear 1s;
-          -moz-animation-iteration-count: 3;
-          -moz-transform-origin: 50% 50%;
-          -o-animation: animationFrames linear 1s;
-          -o-animation-iteration-count: 3;
-          -o-transform-origin: 50% 50%;
-          -ms-animation: animationFrames linear 1s;
-          -ms-animation-iteration-count: 3;
-          -ms-transform-origin: 50% 50%;
-        }
+  animation: animationFrames ease-out 0.8s;
+  animation-iteration-count: 1;
+  transform-origin: 50% 50%;
+  animation-fill-mode:forwards; /*when the spec is finished*/
+  -webkit-animation: animationFrames ease-out 0.8s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-transform-origin: 50% 50%;
+  -webkit-animation-fill-mode:forwards; /*Chrome 16+, Safari 4+*/
+  -moz-animation: animationFrames ease-out 0.8s;
+  -moz-animation-iteration-count: 1;
+  -moz-transform-origin: 50% 50%;
+  -moz-animation-fill-mode:forwards; /*FF 5+*/
+  -o-animation: animationFrames ease-out 0.8s;
+  -o-animation-iteration-count: 1;
+  -o-transform-origin: 50% 50%;
+  -o-animation-fill-mode:forwards; /*Not implemented yet*/
+  -ms-animation: animationFrames ease-out 0.8s;
+  -ms-animation-iteration-count: 1;
+  -ms-transform-origin: 50% 50%;
+  -ms-animation-fill-mode:forwards; /*IE 10+*/
+}
 
-        @keyframes animationFrames{
-          0% {
-            transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
-          }
-          10% {
-            transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
-          }
-          20% {
-            transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
-          }
-          30% {
-            transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          40% {
-            transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          50% {
-            transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          60% {
-            transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          70% {
-            transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          80% {
-            transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          90% {
-            transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          100% {
-            transform:  rotate(0deg) scaleX(1.20) scaleY(1.20) ;
-          }
-        }
+@keyframes animationFrames{
+  0% {
+    opacity:0;
+    transform:  translate(300px,0px)  skewX(-30deg) ;
+  }
+  60% {
+    opacity:1;
+    transform:  translate(-40px,0px)  skewX(30deg) ;
+  }
+  80% {
+    opacity:1;
+    transform:  translate(0px,0px)  skewX(-15deg) ;
+  }
+  100% {
+    opacity:1;
+    transform:  translate(0px,0px)  skewX(0deg) ;
+  }
+}
 
-        @-moz-keyframes animationFrames{
-          0% {
-            -moz-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
-          }
-          10% {
-            -moz-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
-          }
-          20% {
-            -moz-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
-          }
-          30% {
-            -moz-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          40% {
-            -moz-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          50% {
-            -moz-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          60% {
-            -moz-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          70% {
-            -moz-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          80% {
-            -moz-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          90% {
-            -moz-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          100% {
-            -moz-transform:  rotate(0deg) scaleX(1.20) scaleY(1.20) ;
-          }
-        }
+@-moz-keyframes animationFrames{
+  0% {
+    opacity:0;
+    -moz-transform:  translate(300px,0px)  skewX(-30deg) ;
+  }
+  60% {
+    opacity:1;
+    -moz-transform:  translate(-40px,0px)  skewX(30deg) ;
+  }
+  80% {
+    opacity:1;
+    -moz-transform:  translate(0px,0px)  skewX(-15deg) ;
+  }
+  100% {
+    opacity:1;
+    -moz-transform:  translate(0px,0px)  skewX(0deg) ;
+  }
+}
 
-        @-webkit-keyframes animationFrames {
-          0% {
-            -webkit-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
-          }
-          10% {
-            -webkit-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
-          }
-          20% {
-            -webkit-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
-          }
-          30% {
-            -webkit-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          40% {
-            -webkit-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          50% {
-            -webkit-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          60% {
-            -webkit-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          70% {
-            -webkit-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          80% {
-            -webkit-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          90% {
-            -webkit-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          100% {
-            -webkit-transform:  rotate(0deg) scaleX(1.20) scaleY(1.20) ;
-          }
-        }
+@-webkit-keyframes animationFrames {
+  0% {
+    opacity:0;
+    -webkit-transform:  translate(300px,0px)  skewX(-30deg) ;
+  }
+  60% {
+    opacity:1;
+    -webkit-transform:  translate(-40px,0px)  skewX(30deg) ;
+  }
+  80% {
+    opacity:1;
+    -webkit-transform:  translate(0px,0px)  skewX(-15deg) ;
+  }
+  100% {
+    opacity:1;
+    -webkit-transform:  translate(0px,0px)  skewX(0deg) ;
+  }
+}
 
-        @-o-keyframes animationFrames {
-          0% {
-            -o-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
-          }
-          10% {
-            -o-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
-          }
-          20% {
-            -o-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
-          }
-          30% {
-            -o-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          40% {
-            -o-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          50% {
-            -o-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          60% {
-            -o-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          70% {
-            -o-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          80% {
-            -o-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          90% {
-            -o-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          100% {
-            -o-transform:  rotate(0deg) scaleX(1.20) scaleY(1.20) ;
-          }
-        }
+@-o-keyframes animationFrames {
+  0% {
+    opacity:0;
+    -o-transform:  translate(300px,0px)  skewX(-30deg) ;
+  }
+  60% {
+    opacity:1;
+    -o-transform:  translate(-40px,0px)  skewX(30deg) ;
+  }
+  80% {
+    opacity:1;
+    -o-transform:  translate(0px,0px)  skewX(-15deg) ;
+  }
+  100% {
+    opacity:1;
+    -o-transform:  translate(0px,0px)  skewX(0deg) ;
+  }
+}
 
-        @-ms-keyframes animationFrames {
-          0% {
-            -ms-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
-          }
-          10% {
-            -ms-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
-          }
-          20% {
-            -ms-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
-          }
-          30% {
-            -ms-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          40% {
-            -ms-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          50% {
-            -ms-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          60% {
-            -ms-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          70% {
-            -ms-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          80% {
-            -ms-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          90% {
-            -ms-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
-          }
-          100% {
-            -ms-transform:  rotate(0deg) scaleX(1.20) scaleY(1.20) ;
-          }
-        }
+@-ms-keyframes animationFrames {
+  0% {
+    opacity:0;
+    -ms-transform:  translate(300px,0px)  skewX(-30deg) ;
+  }
+  60% {
+    opacity:1;
+    -ms-transform:  translate(-40px,0px)  skewX(30deg) ;
+  }
+  80% {
+    opacity:1;
+    -ms-transform:  translate(0px,0px)  skewX(-15deg) ;
+  }
+  100% {
+    opacity:1;
+    -ms-transform:  translate(0px,0px)  skewX(0deg) ;
+  }
+}
     </style>
 </head>
 <body>
@@ -272,7 +191,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $('.pin').easypinShow({
-                data: '{"demo_image_1":{"0":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$67","coords":{"lat":"800","long":"228"}},"1":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$98","coords":{"lat":"597","long":"357"}},"2":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$100","coords":{"lat":"241","long":"352"}},"3":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$54","coords":{"lat":"365","long":"283"}},"4":{"name":"Sweater","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$32","coords":{"lat":"713","long":"276"}},"5":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$123","coords":{"lat":"771","long":"510"}},"6":{"name":"Pierre Cardin","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ","price":"$54","coords":{"lat":"496","long":"277"}},"canvas":{"src":"img/fashion-trends.jpg","width":"1000","height":"625"}}}',
+                data: '{"demo_image_1":{"0":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$32","coords":{"lat":"219","long":"233"}},"1":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$12","coords":{"lat":"277","long":"262"}},"2":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"28","coords":{"lat":"336","long":"276"}},"3":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$11","coords":{"lat":"414","long":"295"}},"4":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$33","coords":{"lat":"504","long":"321"}},"5":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$43","coords":{"lat":"596","long":"350"}},"6":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$112","coords":{"lat":"723","long":"389"}},"7":{"name":"Lorem ipsum","description":"Lorem ipsu...Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$21","coords":{"lat":"182","long":"306"}},"17":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$11","coords":{"lat":"215","long":"318"}},"18":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$43","coords":{"lat":"243","long":"342"}},"19":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$54","coords":{"lat":"284","long":"377"}},"20":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$23","coords":{"lat":"346","long":"403"}},"21":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$65","coords":{"lat":"416","long":"430"}},"22":{"name":"Lorem ipsum","description":"Lorem ipsum dolor sit amet, consectetur","price":"$43","coords":{"lat":"515","long":"462"}},"canvas":{"src":"img/Egyption-market.jpg","width":"1000","height":"665"}}}',
                 responsive: false,
                 variables: {
                     firstname: function(canvas_id, pin_id, data) {
