@@ -6,7 +6,9 @@ Supported lowest jQuery version 1.8
 
 DEMO
 ========
-[Click For Demo Page](http://atayahmet.github.io/jquery.easypin/demo.html)
+[Demo Page 1 (responsive)](http://atayahmet.github.io/jquery.easypin/demo1.html)
+[Demo Page 2 ](http://atayahmet.github.io/jquery.easypin/demo2.html)
+[Demo Page 3 ](http://atayahmet.github.io/jquery.easypin/demo3.html)
 
 Quick Start
 ==============

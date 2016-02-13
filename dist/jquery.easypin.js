@@ -609,28 +609,26 @@
 
         try {
 
-            var responsive = options.responsive || false;
-            var pin = options.pin || 'marker.png';
-            var data = options.data || {};
-            var popover = options.popover || {};
-            var error = typeof(options.error) != 'function' ? function(e) {} : options.error;
-            var each = typeof(options.each) != 'function' ? function(i, data) { return data;} : options.each;
-            var success = typeof(options.success) != 'function' ? function() {} : options.success;
-            var allCanvas = this;
+            var depends = {
+                responsive: options.responsive || false,
+                pin: options.pin || 'marker.png',
+                data: options.data || {},
+                popover: options.popover || {},
+                error: typeof(options.error) != 'function' ? function(e) {} : options.error,
+                each:  typeof(options.each) != 'function' ? function(i, data) { return data;} : options.each,
+                success: typeof(options.success) != 'function' ? function() {} : options.success,
+                allCanvas: this
+            };
+
             var loadedImgNum = 0;
             var total = $(this).length;
 
             // hide all images
-            allCanvas.each(function(i) {
+            depends.allCanvas.each(function(i) {
                 $(this).css('opacity', 0);
             });
 
-            if(typeof(data) == 'string') {
-                data = JSON.parse(data);
-            }
-
-            $(this).on('load', function() {
-
+            $(depends.allCanvas).one('load', function() {
                 loadedImgNum += 1;
 
                 // show loaded image
@@ -649,115 +647,149 @@
                     var markerWidth = $(this)[0].width;
                     var markerHeight = $(this)[0].height;
                     var markerImgInstance = $(this);
-
-                    // for each all canvas
-                    allCanvas.each(function(i) {
-
-                        var offsetTop = $(this).offset().top;
-                        var offsetLeft = $(this).offset().left;
-                        var canvas = $(this).parent();
-                        var height = $(this).height();
-                        var width = $(this).width();
-                        var parentWidth = $(canvas).width();
-
-                        if(responsive === true) {
-                            var absWidth = '100%';
-                            var absHeight = '100%';
-                        }else{
-                            var absWidth = setPx(width);
-                            var absHeight = setPx(height);
-                        }
-
-                        var pinContainer = $('<div/>')
-                            .css({
-                                'width': absWidth,
-                                'height': absHeight,
-                                'position': 'relative'
-                            })
-                            .addClass('easypin');
-
-                        $(this)
-                            .css('position', 'relative')
-                            .replaceWith(pinContainer);
-
-                        $(pinContainer).html(
-                            $('<div/>')
-                                .css('position', 'relative')
-                                .css('height', '100%')
-                                .append($(this))
-                        );
-
-                        var parentId = $(this).attr('easypin-id');
-
-                        if(typeof(data[parentId]) != 'undefined') {
-
-                            for (var j in data[parentId]) {
-
-                                if(j == 'canvas') return;
-
-                                var tpl = $('[easypin-tpl]').clone();
-
-                                // set current canvas_id and pin_id to di container
-                                $.fn.easypin.di('canvas_id', parentId);
-                                $.fn.easypin.di('pin_id', j);
-
-                                // run callback function
-                                var args = new Array();
-                                args.push(i);
-                                args.push(data[parentId][j]);
-                                var returnData = each.apply(null, args);
-                                var viewContainer = viewLocater(data[parentId], j, parentWidth, createView(returnData, tpl));
-
-                                var opacity = getCssPropertyValue('opacity', $(viewContainer).clone());
-
-                                $(viewContainer).css('opacity', 0);
-                                $(pinContainer).append(viewContainer);
-
-                                if(popover.show == true) {
-                                    $('.easypin-popover', pinContainer).show();
-                                }
-
-                                // marker
-                                $(viewContainer).animate(
-                                    {
-                                        'opacity': opacity
-                                    },
-                                    {
-                                        duration: 'slow',
-                                        easing: 'easeOutBack'
-                                    }
-                                );
-
-                                // popover
-                                $('.easypin-marker:last', pinContainer).click(function(e) {
-
-                                    if(! $(e.target).is('div.easypin-marker') && !$(e.target).parent().is('div.easypin-marker')) return;
-
-                                    if(popover.animate === true) {
-                                        $('.easypin-popover', this).toggle('fast');
-                                    }else{
-                                        if ( $('.easypin-popover', this).css('display') == 'none' ){
-                                            $('.easypin-popover', this).show();
-                                        }else{
-                                            $('.easypin-popover', this).hide();
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                    success.apply();
+                    pinLocate(depends);
+                    depends.success.apply();
                 }
-
+            }).each(function() {
+              if(this.complete) $(this).load();
             });
+
         } catch (e) {
             var args = new Array();
             args.push(e.message);
             args.push(e);
-            error.apply(null, args);
+            depends.error.apply(null, args);
         }
 
+    };
+
+    pinLocate = function(depends) {
+
+        // for each all canvas
+        $(depends.allCanvas).each(function(i) {
+
+            var offsetTop = $(this).offset().top;
+            var offsetLeft = $(this).offset().left;
+            var canvas = $(this).parent();
+            var height = $(this).height();
+            var width = $(this).width();
+            var parentWidth = $(canvas).width();
+
+            if(depends.responsive === true) {
+                var absWidth = '100%';
+                var absHeight = '100%';
+            }else{
+                var absWidth = setPx(width);
+                var absHeight = setPx(height);
+            }
+
+            var pinContainer = $('<div/>')
+                .css({
+                    'width': absWidth,
+                    'height': absHeight,
+                    'position': 'relative'
+                })
+                .addClass('easypin');
+
+            $(this)
+                .css('position', 'relative')
+                .replaceWith(pinContainer);
+
+            $(pinContainer).html(
+                $('<div/>')
+                    .css('position', 'relative')
+                    .css('height', '100%')
+                    .append($(this))
+            );
+
+            var parentId = $(this).attr('easypin-id');
+
+            if(typeof(depends.data) == 'string') {
+                depends.data = JSON.parse(depends.data);
+            }
+
+            if(typeof(depends.data[parentId]) != 'undefined') {
+
+                for (var j in depends.data[parentId]) {
+                    if(j == 'canvas') return;
+
+                    var tpl = $('[easypin-tpl]').clone();
+
+                    // set current canvas_id and pin_id to di container
+                    $.fn.easypin.di('canvas_id', parentId);
+                    $.fn.easypin.di('pin_id', j);
+
+                    // run callback function
+                    var args = new Array();
+                    args.push(i);
+                    args.push(depends.data[parentId][j]);
+                    var returnData = depends.each.apply(null, args);
+                    var viewContainer = viewLocater(depends.data[parentId], j, parentWidth, createView(returnData, tpl));
+
+                    var opacity = getCssPropertyValue('opacity', $(viewContainer).clone());
+
+                    $(viewContainer).css('opacity', 0);
+                    $(pinContainer).append(viewContainer);
+
+                    if(depends.popover.show == true) {
+                        $('.easypin-popover', pinContainer).show();
+                    }
+
+                    // marker
+                    $(viewContainer).animate(
+                        {
+                            'opacity': opacity
+                        },
+                        {
+                            duration: 'slow',
+                            easing: 'easeOutBack'
+                        }
+                    );
+
+                    // popover
+                    $('.easypin-marker:last', pinContainer).click(function(e) {
+
+                        if(! $(e.target).is('div.easypin-marker') &&
+                            !$(e.target).parent().is('div.easypin-marker')) return;
+
+                        // set 0 to z-index all marker
+                        $('.easypin-marker', pinContainer).css('z-index', 0);
+
+                        // set 1 to z-index current marker
+                        $(this).css('z-index', 1);
+
+                        var ins = this;
+                        var clickedMarkerIndex = $(ins).index();
+
+                        if(depends.popover.animate === true) {
+
+                            // hide all content
+                            $('.easypin-popover', pinContainer).each(function() {
+                                if($(this).css('display') == 'block' && clickedMarkerIndex != $(this).closest('.easypin-marker').index()) {
+                                    $(this).toggle('fast');
+                                }
+                            });
+
+                            $('.easypin-popover', ins).toggle('fast');
+
+                        }else{
+                            // hide all content
+                            $('.easypin-popover', pinContainer).each(function() {
+                                if($(this).css('display') == 'block' && clickedMarkerIndex != $(this).closest('.easypin-marker').index()) {
+                                    $(this).hide();
+                                }
+                            });
+
+                            if ( $('.easypin-popover', this).css('display') == 'none' ){
+                                $('.easypin-popover', this).show();
+                            }else{
+                                $('.easypin-popover', this).hide();
+                            }
+                        }
+                    });
+                }
+            }
+        });
     };
 
     var createView = function(data, tplInstance) {
@@ -857,6 +889,14 @@
             left: (parseInt(data.coords.lat)/pinWidth)*100,
             top: ((parseInt(data.coords.long)-(markerHeight))/pinHeight)*100,
         };
+    };
+
+    var getCssPropertyValue = function(prop, el) {
+        var el = $(el).hide().appendTo('body');
+        var val = el.css(prop);
+        el.remove();
+
+        return val;
     };
 
     $.fn.easypin.clear = function() {
@@ -1978,12 +2018,4 @@
 
       return obj1;
     }
-
-    var getCssPropertyValue = function(prop, el) {
-        var el = $(el).hide().appendTo('body');
-        var val = el.css(prop);
-        el.remove();
-
-        return val;
-    };
 }(jQuery));
