@@ -1,0 +1,105 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'publish' ]
+2 info using npm@3.3.6
+3 info using node@v5.0.0
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/home/vagrant/Code/Gladark/jquery.easypin',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /home/vagrant/.npm/jquery.easypin/1.0.8/package.tgz not in flight; packing
+9 info lifecycle jquery.easypin@1.0.8~prepublish: jquery.easypin@1.0.8
+10 silly lifecycle jquery.easypin@1.0.8~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ '/home/vagrant/.npm/jquery.easypin/1.0.8/package.tgz',
+11 verbose tar pack   '/home/vagrant/Code/Gladark/jquery.easypin' ]
+12 verbose tarball /home/vagrant/.npm/jquery.easypin/1.0.8/package.tgz
+13 verbose folder /home/vagrant/Code/Gladark/jquery.easypin
+14 verbose addLocalTarball adding from inside cache /home/vagrant/.npm/jquery.easypin/1.0.8/package.tgz
+15 silly cache afterAdd jquery.easypin@1.0.8
+16 verbose afterAdd /home/vagrant/.npm/jquery.easypin/1.0.8/package/package.json not in flight; writing
+17 verbose afterAdd /home/vagrant/.npm/jquery.easypin/1.0.8/package/package.json written
+18 silly publish { name: 'jquery.easypin',
+18 silly publish   version: '1.0.8',
+18 silly publish   description: 'Simply pinning objects on pictures',
+18 silly publish   author:
+18 silly publish    { name: 'Ahmet ATAY',
+18 silly publish      email: 'ahmet.atay@hotmail.com',
+18 silly publish      url: 'http://www.atayahmet.com' },
+18 silly publish   main: 'dist/jquery.easypinjs',
+18 silly publish   homepage: 'http://atayahmet.github.io/jquery.easypin',
+18 silly publish   repository:
+18 silly publish    { type: 'git',
+18 silly publish      url: 'git+https://github.com/atayahmet/jquery.easypin.git' },
+18 silly publish   bugs: { url: 'https://github.com/atayahmet/jquery.easypin/issues' },
+18 silly publish   keywords: [ 'pin', 'image pin', 'marker', 'tag' ],
+18 silly publish   dependencies: { jquery: '^2.2.0', 'jquery.easing': '^1.3.2' },
+18 silly publish   devDependencies:
+18 silly publish    { gulp: '^3.9.0',
+18 silly publish      'gulp-concat': '^2.6.0',
+18 silly publish      'gulp-minify-css': '^1.2.3',
+18 silly publish      'gulp-replace': '^0.5.4',
+18 silly publish      'gulp-uglify': '^1.5.1',
+18 silly publish      'gulp-uglifyjs': '^0.6.2',
+18 silly publish      'laravel-elixir': '*' },
+18 silly publish   license: 'MIT',
+18 silly publish   readme: 'jQuery easypin\n===================\n\nSimple and fast image pinning plugin. There are dependencies with the library jQuery easing plugin.\nSupported lowest jQuery version 1.8\n\nDEMO\n========\n[Demo Page 1 (responsive)](http://atayahmet.github.io/jquery.easypin/demo1.html)\n\n[Demo Page 2 ](http://atayahmet.github.io/jquery.easypin/demo2.html)\n\n[Demo Page 3 ](http://atayahmet.github.io/jquery.easypin/demo3.html)\n\nQuick Start\n==============\n\n### bower install\n```sh\nbower install jquery.easypin\n```\n\n### npm install\n```sh\nnpm install jquery.easypin\n```\n\n### Load libraries\n\nFirst, include the jQuery and jQuery easing plugin javascript files.\n```html\n<script src="jquery.min.js"></script>\n<script src="jquery.easing.min.js"></script>\n<script src="jquery.easypin.min.js"></script>\n```\n### Pin picture:\n```html\n<img src="example.jpg" class="pin" width="800" easypin-id="example_image1" />\n```\n\n\n|      option                  | type                    | description                                   |\n| ---------------------------- | ----------------------- | --------------------------------------------- |\n| easypin-id                   | `attribute`             | It will be the default value if not defined   |                                    \n\n### Dialog window for pin contents\n```html\n<div class="easy-modal" style="display:none;" modal-position="free">\n    <form>\n        type something: <input name="content" type="text">\n        <input type="button" value="save pin!" class="easy-submit">\n    </form>\n</div>\n```\n\n|      option                  | type                    | description                                      |\n| ---------------------------- | ----------------------- | ------------------------------------------------ |\n| easy-submit                  | `class`                 | Class must be defined to close the dialog window |    \n| modal-position               | `attribute`             | Dialog window free position (default: none)      |    \n\n\n### Popover\n```html\n<div style="display:none;" width="130" shadow="true" popover>\n    <div style="width:100%;text-align:center;">{[content]}</div>\n</div>\n```\n\n|      option                  | type                    | description                          |\n| ---------------------------- | ----------------------- | ------------------------------------ |\n| popover                      | `attribute`             | Popover initializer attribute (MUST) |    \n| width                        | `attribute`             | Popover width size (default: 200px)  |  \n| shadow                       | `attribute`             | Popover show style (default: false)  |\n\n### Initialize the pictures:\n```javascript\n// Back-end pin process\n$(\'.pin\').easypin();\n```\n\nTo access the coordinates after pinning:\n```javascript\nvar $instance = $(\'.pin\').easypin({\n    done: function(element) {\n        return true;\n    }\n});\n\n// set the \'get.coordinates\' event\n$instance.easypin.event( "get.coordinates", function($instance, data, params ) {\n\n    console.log(data, params);\n\n});\n```\n\nThen you can run this event with a button click event\n```html\n<input class="coords" type="button" value="Get coordinates!" />\n```\n\n```javascript\n$( ".coords" ).click(function(e) {\n    $instance.easypin.fire( "get.coordinates", {param1: 1, param2: 2, param3: 3}, function(data) {\n        return JSON.stringify(data);\n    });\n});\n```\n\nWe pass parameters when calling the above coordinate the event. Before the callback to run.\n\n[Click for .easypin({}) options](#easypin-options)\n\n.easypinShow()\n=============\n We do first pin on the picture, now we show these pins to users on user interface.\n\n**Pin image:**\n ```html\n <img src="example.jpg" class="pin" width="800" easypin-id="example_image1" />\n ```\n> **Note:** If you want to get the width of the parent element\'s do not need define\n\n**Pin container and popover template:**\n```html\n<div style="display:none;" easypin-tpl>\n    <popover>\n        <div style="width:140px;height:auto;background-color:orange;">\n            {[content]}\n        </div>\n    </popover>\n\n    <marker>\n        <div style="border:solid 1px #000;width:20px;height:20px;background-color:red;">&nbsp;</div>\n    </marker>\n</div>\n```\n\n|      option                  | type                    | description                          |\n| ---------------------------- | ----------------------- | ------------------------------------ |\n| easypin-tpl                  | `attribute`             | Marker and Popover container element |    \n| popover                      | `html tag`              | Popover container element            |\n| marker                       | `html tag`              | Marker container element             |\n\n**and run the .easypinShow() method:**\n```javascript\n$(\'.pin\').easypinShow({\n    data: {\n            "example_image1":{\n            "0":{\n                "content":"Hello World!",\n                "coords":{\n                    "lat":"530",\n                    "long":"179"\n                }\n            },\n            "canvas":{\n                "src":"example.jpg","width":"800","height":"562"\n            }\n        }\n    }\n});\n```\n\nThat\'s it!\n\n\n.easypin({}) options\n=================\n\n|      option                  | type                    | description                                                                |\n| ---------------------------- | ----------------------- | -------------------------------------------------------------------------- |\n| [init](#init)                | `object or json string` | initialize the pin coordinates                                             |\n| [markerSrc](#markerSrc)      | `string`                | Change the default marker image                                             |\n| [modalWidth](#modalWidth)  | `string/numeric`          | Change the default modal width (default: 200px)                                         |\n| [editSrc](#editSrc)          | `string`                | Change the default edit button image                                             |\n| [deleteSrc](#deleteSrc)      | `string`                | Change the default delete button image                                             |\n| [popover](#popover)          | `functions into object` | set callback all template variables                                        |\n| [popoverStyle](#popoverStyle)| `object`                | popover styles (it just pass to jquery .css() method of the object)        |\n| [limit](#limit)              | `integer`               | limited pin (default 0)                                                    |\n| [exceeded](#exceeded)        | `function`              | limit exceeded event                                                       |\n| [drop](#drop)                | `function`              | pin dropped event                                                          |\n| [drag](#drag)                | `function`              | pin dragging event                                                         |\n| [done](#done)                | `function`              | closing of the dialog window is depend to this function                    |\n\n\n#### init\nInitialize the pin coordinates.\n```javascript\n$(\'.pin\').easypin({\n    init: {\n        "example_image1":{\n            "0":{\n                "content":"Captan America",\n                "coords":{\n                    "lat":"530",\n                    "long":"179"\n                }\n            },\n            "canvas":{\n                "src":"example.jpg","width":"1000","height":"562"\n            }\n        }\n    }\n});\n```\n\n#### markerSrc\nChange the default marker image\n```javascript\n$(\'.pin\').easypin({\n    markerSrc: \'path/or/url/example-marker.jpg\'\n});\n```\n\n#### modalWidth\nChange the default modal width\n```javascript\n$(\'.pin\').easypin({\n    modalWidth: 300\n});\n```\n\n#### editSrc\nChange the default edit button image\n```javascript\n$(\'.pin\').easypin({\n    editSrc: \'path/or/url/example-edit.jpg\'\n});\n```\n\n#### deleteSrc\nChange the default delete button image\n```javascript\n$(\'.pin\').easypin({\n    deleteSrc: \'path/or/url/example-delete.jpg\'\n});\n```\n\n#### popover\nSet callback all template variables\n```javascript\n$(\'.pin\').easypin({\n    popover: {\n        content: function(value) {\n            return value.replace(/\\s+/g, \' \');\n        }\n    }\n});\n```\n> It **content** variable is form input name\n\n#### popoverStyle\nPopover styles (it just pass to jquery .css() method)\n```javascript\n$(\'.pin\').easypin({\n    popover: {\n        content: function(value) {\n            return value.replace(/\\s+/g, \' \');\n        }\n    },\n    popoverStyle: {\n        \'background-color\': \'orange\',\n        \'color\': \'black\'\n    }\n});\n```\n\n#### limit\nLimited pin (default 0) 0 for limitless\n```javascript\n$(\'.pin\').easypin({\n    limit: 2\n});\n```\n> Set 0 for limitless pin\n\n#### exceeded()\nLimit exceeded event\n```javascript\n$(\'.pin\').easypin({\n    limit: 2,\n    exceeded: function(type) {\n        // do samething...\n    }\n});\n```\n\n#### drop()\nPin dropped event\n\n```javascript\n$(\'.pin\').easypin({\n    drop: function(x, y, element) {\n        console.log(x, y, element);\n    }\n});\n```\n\n#### drag()\nPin dragging event\n```javascript\n$(\'.pin\').easypin({\n    drop: function(x, y, element) {\n        console.log(x, y, element);\n    },\n    drag: function(x, y, element) {\n        console.log(x, y, element);\n    }\n});\n```\n\n#### done()\nClosing of the dialog window is depend to this function. Return true if the result dialog window will be closed\n```javascript\n$(\'.pin\').easypin({\n    done: function(element) {\n\n        return true;\n\n    }\n});\n```\n> Will return the form objects if the dialog box contains the form objects. Otherwise the dialog box will return the objects\n\n\n.easypinShow({}) options\n=================\n\n|      option                  | type                      | description                                                                |\n| ---------------------------- | ------------------------- | -------------------------------------------------------------------------- |\n| [data](#data)                | `object or json string`   | Pin data and coordinates                                                   |\n| [responsive](#responsive)    | `boolean (default: false)`| Reponsive canvas for mobile                                                |\n| [variables](#variables)      | `functions into object`   | Set callback all template variables                                        |\n| [popover](#popover)          | `object`                  | There is two child element. show/animate (default: false)                  |\n| [each](#each)                | `function`                | Each element works before replacing                                        |\n| [error](#error)              | `function`                | Process error event                                                        |\n| [success](#success)          | `function`                | Process success event                                                      |\n\n#### data\nPin data and coordinates\n```javascript\n$(\'.pin\').easypinShow({\n    data: {\n        "example_image1":{\n            "0":{\n                "content":"Hello World!",\n                "coords":{\n                    "lat":"530",\n                    "long":"179"\n                }\n            },\n            "canvas":{\n                "src":"example.jpg","width":"800","height":"562"\n            }\n        }\n    }\n});\n```\n\n### responsive\nReponsive canvas for mobile (dfault: false)\n```javascript\n$(\'.pin\').easypinShow({\n    data: {/*json object*/},\n    responsive: true\n});\n```\n\n### variables\nReponsive canvas for mobile\n```javascript\n$(\'.pin\').easypinShow({\n    data: {/*json object*/},\n    responsive: true,\n    variables: {\n        content: function(canvas_id, pin_id, data) {\n\n            // do something...\n            // and return\n            return data;\n        }\n    }\n});\n```\n> **content** is a template variable.\n\n### popover\nThere is two child element. show/animate (default: false)\n```javascript\n$(\'.pin\').easypinShow({\n    data: {/*json object*/},\n    responsive: true,\n    variables: {\n        content: function(canvas_id, pin_id, data) {\n\n            // do something...\n            // and return\n            return data;\n        }\n    },\n    popover: {\n        show: true,\n        animate: true\n    }\n});\n```\n\n### each()\nEach element works before replacing.\n```javascript\n$(\'.pin\').easypinShow({\n    data: {/*json object*/},\n    responsive: true,\n    variables: {\n        content: function(canvas_id, pin_id, data) {\n\n            // do something...\n            // and return\n            return data;\n        }\n    },\n    popover: {\n        show: true,\n        animate: true\n    },\n    each: function(index, data) {\n\n        // do something\n        // and return\n        return data;\n    }\n});\n```\n\n### error()\nProcess error event\n```javascript\n$(\'.pin\').easypinShow({\n    data: {/*json object*/},\n    responsive: true,\n    variables: {\n        content: function(canvas_id, pin_id, data) {\n\n            // do something...\n            // and return\n            return data;\n        }\n    },\n    popover: {\n        show: true,\n        animate: true\n    },\n    each: function(index, data) {\n\n        // do something\n        // and return\n        return data;\n    },\n    error: function(e) {\n        // do something...\n    }\n});\n```\n\n### success()\nProcess success event\n```javascript\n$(\'.pin\').easypinShow({\n    data: {/*json object*/},\n    responsive: true,\n    variables: {\n        content: function(canvas_id, pin_id, data) {\n\n            // do something...\n            // and return\n            return data;\n        }\n    },\n    popover: {\n        show: true,\n        animate: true\n    },\n    each: function(index, data) {\n\n        // do something\n        // and return\n        return data;\n    },\n    error: function(e) {\n        // do something...\n    },\n    success: function() {\n\n    }\n});\n```\n',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   _id: 'jquery.easypin@1.0.8',
+18 silly publish   scripts: {},
+18 silly publish   _shasum: 'e0ffb0649ab81aceb6377d6af4c2a1a6380f6949',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name jquery.easypin
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/jquery.easypin
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading /home/vagrant/.npm/jquery.easypin/1.0.8/package.tgz
+26 verbose request uri https://registry.npmjs.org/jquery.easypin
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 10:09:21 AM
+29 verbose request using bearer token for auth
+30 verbose request id c06b6e8e23c23d2f
+31 http request PUT https://registry.npmjs.org/jquery.easypin
+32 http 403 https://registry.npmjs.org/jquery.easypin
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=300',
+33 verbose headers   'content-length': '95',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Mon, 15 Feb 2016 10:09:23 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-fra1227-FRA',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1455530962.124413,VS0,VE1243' }
+34 verbose request invalidating /home/vagrant/.npm/registry.npmjs.org/jquery.easypin on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: "You cannot publish over the previously published version 1.0.8." : jquery.easypin
+36 verbose stack     at makeError (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+36 verbose stack     at Request._callback (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+36 verbose stack     at Request.self.callback (/usr/lib/node_modules/npm/node_modules/request/request.js:198:22)
+36 verbose stack     at emitTwo (events.js:87:13)
+36 verbose stack     at Request.emit (events.js:172:7)
+36 verbose stack     at Request.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1063:14)
+36 verbose stack     at emitOne (events.js:82:20)
+36 verbose stack     at Request.emit (events.js:169:7)
+36 verbose stack     at IncomingMessage.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid jquery.easypin
+39 verbose cwd /home/vagrant/Code/Gladark/jquery.easypin
+40 error Linux 3.19.0-25-generic
+41 error argv "/usr/bin/nodejs" "/usr/bin/npm" "publish"
+42 error node v5.0.0
+43 error npm  v3.3.6
+44 error code E403
+45 error "You cannot publish over the previously published version 1.0.8." : jquery.easypin
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]

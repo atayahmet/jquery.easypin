@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>easypin | jQuery image pin!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.easing/1.3/jquery.easing.1.3.min.js"></script>
+    <script type="text/javascript" src="jquery.easypin.min.js"></script>
+    <style type="text/css">
+        .exPopoverContainer {width:300px;height:170px;position: relative;color:#2F0200;bottom:51px!important;left:-21px;}
+        .borderRadius {-webkit-border-radius: 7px;-moz-border-radius: 7px;border-radius: 7px;}
+        .popBg {background-color:#F79994;width:100%;height:100%;position:absolute;}
+        .popBody {width:100%;height:100%;position: relative;padding:10px;}
+        .popBody h1 {padding-bottom:5px;margin:0px;font-size:18px;}
+        .popHeadLine {clear:both;width:100%;height:1px;background-color:#383737;margin:auto;}
+        .popContentLeft {width:178px;float: left;font-size:11px;text-align:justify;margin-top: 10px;}
+        .popContentRight {width:100px;float: right;margin-top: 10px;text-align: center;font-size:40px;}
+        .arrow-down {position: absolute;width: 0; height: 0; border-left: 20px solid transparent;border-right: 20px solid transparent;border-top: 20px solid #F49F9A;opacity: 0.9;}
+        .marker2 {width:25px;height:25px;background-color: #F44336;opacity: 0.9;font-size:16px;font-weight:bold;color:#fff;text-align: center;}
+        .marker2:hover {background-color: #CE473B;}
+        .c {clear:both;}
+        .element-animation{
+          animation: animationFrames linear 1s;
+          animation-iteration-count: 3;
+          transform-origin: 50% 50%;
+          -webkit-animation: animationFrames linear 1s;
+          -webkit-animation-iteration-count: 3;
+          -webkit-transform-origin: 50% 50%;
+          -moz-animation: animationFrames linear 1s;
+          -moz-animation-iteration-count: 3;
+          -moz-transform-origin: 50% 50%;
+          -o-animation: animationFrames linear 1s;
+          -o-animation-iteration-count: 3;
+          -o-transform-origin: 50% 50%;
+          -ms-animation: animationFrames linear 1s;
+          -ms-animation-iteration-count: 3;
+          -ms-transform-origin: 50% 50%;
+        }
+
+        @keyframes animationFrames{
+          0% {
+            transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
+          }
+          10% {
+            transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
+          }
+          20% {
+            transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
+          }
+          30% {
+            transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          40% {
+            transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          50% {
+            transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          60% {
+            transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          70% {
+            transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          80% {
+            transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          90% {
+            transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          100% {
+            transform:  rotate(0deg) scaleX(1.20) scaleY(1.20) ;
+          }
+        }
+
+        @-moz-keyframes animationFrames{
+          0% {
+            -moz-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
+          }
+          10% {
+            -moz-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
+          }
+          20% {
+            -moz-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
+          }
+          30% {
+            -moz-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          40% {
+            -moz-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          50% {
+            -moz-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          60% {
+            -moz-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          70% {
+            -moz-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          80% {
+            -moz-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          90% {
+            -moz-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          100% {
+            -moz-transform:  rotate(0deg) scaleX(1.20) scaleY(1.20) ;
+          }
+        }
+
+        @-webkit-keyframes animationFrames {
+          0% {
+            -webkit-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
+          }
+          10% {
+            -webkit-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
+          }
+          20% {
+            -webkit-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
+          }
+          30% {
+            -webkit-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          40% {
+            -webkit-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          50% {
+            -webkit-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          60% {
+            -webkit-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          70% {
+            -webkit-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          80% {
+            -webkit-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          90% {
+            -webkit-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          100% {
+            -webkit-transform:  rotate(0deg) scaleX(1.20) scaleY(1.20) ;
+          }
+        }
+
+        @-o-keyframes animationFrames {
+          0% {
+            -o-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
+          }
+          10% {
+            -o-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
+          }
+          20% {
+            -o-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
+          }
+          30% {
+            -o-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          40% {
+            -o-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          50% {
+            -o-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          60% {
+            -o-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          70% {
+            -o-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          80% {
+            -o-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          90% {
+            -o-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          100% {
+            -o-transform:  rotate(0deg) scaleX(1.20) scaleY(1.20) ;
+          }
+        }
+
+        @-ms-keyframes animationFrames {
+          0% {
+            -ms-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
+          }
+          10% {
+            -ms-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
+          }
+          20% {
+            -ms-transform:  rotate(-3deg) scaleX(0.80) scaleY(0.80) ;
+          }
+          30% {
+            -ms-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          40% {
+            -ms-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          50% {
+            -ms-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          60% {
+            -ms-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          70% {
+            -ms-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          80% {
+            -ms-transform:  rotate(-3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          90% {
+            -ms-transform:  rotate(3deg) scaleX(1.20) scaleY(1.20) ;
+          }
+          100% {
+            -ms-transform:  rotate(0deg) scaleX(1.20) scaleY(1.20) ;
+          }
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <div style="width:100%;margin:auto;">
+    <img src="img/cover.jpg" class="pin" width="100%" easypin-id="demo_image_1" />
+    </div>
+    <div style="display:none;" easypin-tpl>
+        <popover>
+            <div class="exPopoverContainer" style="width:100px;height:128px;">
+                <div class="popBg borderRadius"></div>
+                <div class="popBody">
+                    <div class="arrow-down" style="top: 128px;left: 13px;"></div>
+                    <h1>{[name]}</h1>
+                    <div class="popHeadLine"></div>
+                    <div class="popContentLeft">
+                        {[image]}
+                        <br />
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </popover>
+
+        <marker>
+            <div class="marker2 element-animation">
+                +
+            </div>
+        </marker>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.pin').easypinShow({
+                data: '{"demo_image_1":{"0":{"name":"Eray","description":"","image":"http://tr.mumincelik.com/wp-content/uploads/2012/02/donation.jpg","coords":{"lat":"104.5","long":"407"}},"1":{"name":"Sinem","description":"","image":"http://tr.mumincelik.com/wp-content/uploads/2012/02/donation.jpg","coords":{"lat":"282.5","long":"467"}},"2":{"name":"Canan","description":"","image":"http://tr.mumincelik.com/wp-content/uploads/2012/02/donation.jpg","coords":{"lat":"381.5","long":"523"}},"3":{"name":"Zeynep","description":"","image":"http://tr.mumincelik.com/wp-content/uploads/2012/02/donation.jpg","coords":{"lat":"437.5","long":"414"}},"4":{"name":"Ahmet","description":"","image":"http://tr.mumincelik.com/wp-content/uploads/2012/02/donation.jpg","coords":{"lat":"656.5","long":"413"}},"5":{"name":"Erkin","description":"","image":"http://carsbase.com/photo/Setra-S_417_mp610_pic_35354.jpg","coords":{"lat":"837.5","long":"404"}},"6":{"name":"Serdar","description":"","image":"http://tr.mumincelik.com/wp-content/uploads/2012/02/donation.jpg","coords":{"lat":"220.5","long":"638"}},"7":{"name":"Selen","description":"","image":"http://tr.mumincelik.com/wp-content/uploads/2012/02/donation.jpg","coords":{"lat":"564.5","long":"315"}},"canvas":{"src":"img/cover.jpg","width":"1000","height":"750"}}}',
+                responsive: true,
+                variables: {
+                    image: function(canvas_id, pin_id, data) {
+                        //console.log(canvas_id, pin_id, data);
+                        return '<div style="height:49px;overflow:hidden;"><img src="'+data+'" border="0" width="82"></div>';
+                    },
+                    surname: function(canvas_id, pin_id, data) {
+                        //console.log(canvas_id, pin_id, data);
+                        return data;
+                    }
+                },
+                popover: {
+                    show: false,
+                    animate: true
+                },
+                each: function(index, data) {
+                    return data;
+                },
+                error: function(e) {
+                    console.log(e);
+                },
+                success: function() {
+                    console.log('başarılı');
+                }
+            });
+        });
+    </script>
+  </body>
+</html>

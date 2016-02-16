@@ -26,7 +26,7 @@
     <br />
 
     <div style="position:relative;width:1000px;margin:auto;">
-        <img src="img/Egyption-market.jpg" width="100%" class="pin" easypin-id="demo_image_1" />
+        <img src="img/cover.jpg" width="100%" class="pin" easypin-id="demo_image_1" />
     </div>
     <br />
     <button type="button" class="btn btn-warning btn-lg center-block coords">Get Coordinates!</button>
@@ -40,21 +40,21 @@
             <br />
             <textarea name="description" class="form-control" placeholder="description"></textarea>
             <br />
-            <input type="text" class="form-control" name="price" placeholder="image about content" />
+            <input type="text" class="form-control" name="image" placeholder="image about content" />
             <br />
             <button type="button" class="btn btn-primary easy-submit">Save</button>
         </form>
     </div>
 
     <div style="display:none;" width="130" shadow="true" popover>
-        <div style="width:100%;text-align:center;">{[title]}</div>
+        <div style="width:100%;text-align:center;">{[name]}</div>
         <div style="width:100%;text-align:center;">{[description]}</div>
-        <div style="width:100%;text-align:center;">{[price]}</div>
+        <div style="width:100%;text-align:center;">{[image]}</div>
     </div>
 
     <script type="text/javascript">
         var $instance = $('.pin').easypin({
-            //init: '{"jizLvySUzI":{"0":{"content":"Captan America","coords":{"lat":"587","long":"154"}},"canvas":{"src":"http://www.moviesallfree.com/wp-content/uploads/2015/06/the-avengers-2012-free-download.jpg","width":"1000","height":"562"}}}',
+            init: '{"demo_image_1":{"0":{"name":"Eray","description":"","image":"","coords":{"lat":"164.5","long":"225"}},"1":{"name":"Sinem","description":"","image":"","coords":{"lat":"283.5","long":"312"}},"2":{"name":"Canan","description":"","image":"","coords":{"lat":"371.5","long":"323"}},"3":{"name":"Zeynep","description":"","image":"","coords":{"lat":"442.5","long":"306"}},"4":{"name":"Ahmet","description":"","image":"","coords":{"lat":"609.5","long":"182"}},"5":{"name":"Erkin","description":"","image":"http://carsbase.com/photo/Setra-S_417_mp610_pic_35354.jpg","coords":{"lat":"783.5","long":"230"}},"6":{"name":"Serdar","description":"","image":"","coords":{"lat":"234.5","long":"470"}},"7":{"name":"Selen","description":"","image":"","coords":{"lat":"580.5","long":"198"}},"canvas":{"src":"img/cover.jpg","width":"1000","height":"750"}}}',
             modalWidth: 300,
             done: function(element) {
                 if($('input[name="content"]', element).val() != '') {
