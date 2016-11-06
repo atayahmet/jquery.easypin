@@ -7,7 +7,7 @@
     "email": "ahmet.atay@hotmail.com",
     "url": "http://www.atayahmet.com"
   },
-  "main": "dist/jquery.easypinjs",
+  "main": "dist/jquery.easypin.js",
   "homepage": "http://atayahmet.github.io/jquery.easypin",
   "repository": {
     "type": "git",
